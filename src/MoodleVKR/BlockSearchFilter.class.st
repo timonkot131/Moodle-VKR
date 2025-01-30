@@ -10,13 +10,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-BlockSearchFilter class >> block: arg1 model: arg2 selectedValue: arg3 [
-	| tmp2 |
-	tmp2 := self new.
-	tmp2
-		block: arg1;
-		model: arg2.
-	^ tmp2 selectedValue: arg3
+BlockSearchFilter class >> block: aBlock model: aModel selectedValue: anObject [
+	^self new
+		block: aBlock;
+		model: aModel;
+	    selectedValue: anObject.
 ]
 
 { #category : #accessing }
@@ -25,8 +23,8 @@ BlockSearchFilter >> block [
 ]
 
 { #category : #accessing }
-BlockSearchFilter >> block: arg1 [
-	block := arg1
+BlockSearchFilter >> block: aBlock [
+	block := aBlock
 ]
 
 { #category : #'as yet unclassified' }
@@ -35,10 +33,10 @@ BlockSearchFilter >> hash [
 ]
 
 { #category : #'as yet unclassified' }
-BlockSearchFilter >> matches: arg1 [
+BlockSearchFilter >> matches: anObject [
 	^ block
 		cull: selectedValue
-		cull: arg1
+		cull: anObject
 		cull: model
 ]
 
@@ -48,8 +46,8 @@ BlockSearchFilter >> model [
 ]
 
 { #category : #accessing }
-BlockSearchFilter >> model: arg1 [
-	model := arg1
+BlockSearchFilter >> model: anObject [
+	model := anObject
 ]
 
 { #category : #accessing }
@@ -58,6 +56,6 @@ BlockSearchFilter >> selectedValue [
 ]
 
 { #category : #accessing }
-BlockSearchFilter >> selectedValue: arg1 [
-	selectedValue := arg1
+BlockSearchFilter >> selectedValue: anObject [
+	selectedValue := anObject
 ]
