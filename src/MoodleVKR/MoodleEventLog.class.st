@@ -3,7 +3,26 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'id',
-		'eventname'
+		'eventname',
+		'component',
+		'action',
+		'target',
+		'objecttable',
+		'objectid',
+		'crud',
+		'edulevel',
+		'contextid',
+		'contextlevel',
+		'contextinstanceid',
+		'userid',
+		'courseid',
+		'relateduserid',
+		'anonymous',
+		'other',
+		'timecreated',
+		'origin',
+		'ip',
+		'realuserid'
 	],
 	#category : #'MoodleVKR-Database  '
 }
@@ -17,6 +36,11 @@ MoodleEventLog class >> reStoreDefinition [
 ]
 
 { #category : #'as yet unclassified' }
+MoodleEventLog >> <= aMoodleEventLog [ 
+^self eventName <= aMoodleEventLog eventName.
+]
+
+{ #category : #'as yet unclassified' }
 MoodleEventLog >> eventName [ 
 ^ eventname.
 ]
@@ -24,4 +48,10 @@ MoodleEventLog >> eventName [
 { #category : #'as yet unclassified' }
 MoodleEventLog >> eventName: aString [
 eventname:= aString
+]
+
+{ #category : #printing }
+MoodleEventLog >> printOn: aStream [
+	aStream << eventname.
+	^aStream.
 ]
