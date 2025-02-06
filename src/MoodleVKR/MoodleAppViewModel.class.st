@@ -18,7 +18,7 @@ MoodleAppViewModel >> announcer [
 
 { #category : #'as yet unclassified' }
 MoodleAppViewModel >> initialize [ 
-self initialize.
+super initialize.
 announcer := Announcer new.
 self repository: LogRepository new.
 ]
