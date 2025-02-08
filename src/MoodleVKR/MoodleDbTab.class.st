@@ -2,18 +2,38 @@ Class {
 	#name : #MoodleDbTab,
 	#superclass : #BrTab,
 	#instVars : [
-		'viewModel',
-		'magritteViewModel'
+		'magritteViewModel',
+		'mainFrame',
+		'editFrame',
+		'tabViewModel'
 	],
 	#category : #'MoodleVKR-MoodleApp'
 }
 
 { #category : #'as yet unclassified' }
-MoodleDbTab >> initialize [ 
-self aptitude: BrGlamorousTabAptitude; 
-	label: 'Хранилище'.
-	
+MoodleDbTab >> initialize [
+	super initialize.
+	mainFrame := BlElement new
+			layout: BlFrameLayout new;
+			constraintsDo: [ :c | 
+				c horizontal fitContent.
+				c vertical fitContent ].
 
+	editFrame := BlElement new
+			layout: BlFrameLayout new;
+			constraintsDo: [ :c | 
+			
+				c horizontal fitContent.
+				c vertical fitContent ].
+	
+ 
+	
+	
+	
+	self
+		aptitude: BrGlamorousTabAptitude;
+		label: 'Хранилище';
+		stencil: [editFrame]
 ]
 
 { #category : #'as yet unclassified' }
@@ -24,20 +44,33 @@ MoodleDbTab >> magritteViewModel: aGtMagritteViewModel [
 	magritteViewModel == aGtMagritteViewModel ifTrue: [ ^ self ].	"Удаление колбэков на на проверку соединения"
 	magritteViewModel
 		ifNotNil: [ :vm | 
+			editFrame removeChildren.
 			(vm asElement userData at: vm gtMementoSymbol) magritteActions third
 				onSuccessCallbacks removeAll ].	
 	"Инициация формы с её Мементо, временным объектом для записи"
 	element := aGtMagritteViewModel asElement.
 	memento := aGtMagritteViewModel mementoBlock value.
 	element userData at: GtMagritteViewModel gtMementoSymbol put: memento.
+	editFrame addChild: element.
 	magritteViewModel := aGtMagritteViewModel.
-	magritteViewModel memento magritteActions third
+	memento magritteActions third
 			onSuccessCallback: [ :arg | self tryConnect: arg ]
 ]
 
 { #category : #'as yet unclassified' }
 MoodleDbTab >> subscribeToViewModel [
 
+]
+
+{ #category : #'api - style' }
+MoodleDbTab >> tabViewModel: aViewModel [
+	tabViewModel == aViewModel ifTrue: [^self].
+	tabViewModel ifNotNil: [
+		tabViewModel unsubscribe: self.
+	]. 
+	tabViewModel := aViewModel.
+
+self subscribeToViewModel.
 ]
 
 { #category : #'as yet unclassified' }
@@ -50,15 +83,4 @@ MoodleDbTab >> tryConnect: spec [
 			str messageText = 'Success'
 				ifTrue: [ 'connection successful' traceCr ]
 				ifFalse: [ 'connection error' traceCr ] ]
-]
-
-{ #category : #'as yet unclassified' }
-MoodleDbTab >> viewModel: aViewModel [
-	viewModel == aViewModel ifTrue: [^self].
-	viewModel ifNotNil: [
-		viewModel unsubscribe: self.
-	].
-	viewModel := aViewModel.
-
-self subscribeToViewModel.
 ]

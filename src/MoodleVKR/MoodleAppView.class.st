@@ -8,16 +8,37 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MoodleAppView >> appViewModel [ 
+^viewModel
+]
+
+{ #category : #'as yet unclassified' }
+MoodleAppView >> appViewModel: aViewModel [
+	viewModel == aViewModel ifTrue: [^self].
+	viewModel ifNotNil: [
+		viewModel unsubscribe: self.
+	].
+	viewModel := aViewModel. 
+
+self subscribeToViewModel.
+]
+
+{ #category : #'as yet unclassified' }
 MoodleAppView >> initialize [
-	| aTabGroup |
+	| aTabGroup moodleTab |
 	super initialize.
 	aTabGroup := BrTabGroup new.
 	aTabGroup
-		aptitude: BrGlamorousTabGroupAptitude + 
-		(BrMaterialRoundedAptitude new cornerRadius: 20).
-	aTabGroup size: 150 @ 150.
+		aptitude: BrGlamorousTabGroupAptitude.
+	aTabGroup size: 300 @ 250.
 	aTabGroup border: (BlBorder paint: Color lightGray width: 1).
-	self layout: BlFrameLayout new
+	moodleTab := MoodleDbTab new magritteViewModel: MySQLDriverSpec new asGtMagritteViewModel.
+	aTabGroup addTab: moodleTab.
+	self layout: BlFrameLayout new;
+	constraintsDo: [:c | 
+		c vertical fitContent .
+		c horizontal fitContent.];
+	addChild: aTabGroup
 ]
 
 { #category : #'as yet unclassified' }
@@ -34,20 +55,4 @@ aSpace show
 MoodleAppView >> subscribeToViewModel [
 	self viewModel weak
 	when: MoodleAppEvent do: [:arg | arg traceCr]
-]
-
-{ #category : #'as yet unclassified' }
-MoodleAppView >> viewModel [ 
-^viewModel
-]
-
-{ #category : #'as yet unclassified' }
-MoodleAppView >> viewModel: aViewModel [
-	viewModel == aViewModel ifTrue: [^self].
-	viewModel ifNotNil: [
-		viewModel unsubscribe: self.
-	].
-	viewModel := aViewModel. 
-
-self subscribeToViewModel.
 ]
