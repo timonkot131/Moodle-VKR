@@ -25,15 +25,14 @@ self subscribeToViewModel.
 
 { #category : #'as yet unclassified' }
 MoodleAppView >> initialize [
-	| aTabGroup moodleTab |
+	| aTabGroup |
 	super initialize.
-	aTabGroup := BrTabGroup new.
-	aTabGroup
-		aptitude: BrGlamorousTabGroupAptitude.
-	aTabGroup size: 300 @ 250.
-	aTabGroup border: (BlBorder paint: Color lightGray width: 1).
-	moodleTab := MoodleDbTab new magritteViewModel: MySQLDriverSpec new asGtMagritteViewModel.
-	aTabGroup addTab: moodleTab.
+	aTabGroup := BrTabGroup new
+		aptitude: BrGlamorousTabGroupAptitude;
+		size: 400 @ 300;
+	    border: (BlBorder paint: Color lightGray width: 1);
+	    addTab: (MoodleDbTab new magritteViewModel: MySQLDriverSpec new asGtMagritteViewModel).
+	    
 	self layout: BlFrameLayout new;
 	constraintsDo: [:c | 
 		c vertical fitContent .
