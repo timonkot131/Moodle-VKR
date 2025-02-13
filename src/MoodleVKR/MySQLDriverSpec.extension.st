@@ -39,6 +39,7 @@ MySQLDriverSpec >> portDescription [
 <magritteDescription>
 ^ MANumberDescription new 
 		label: 'Port';
+		beInteger;
 		priority: 2;
 		accessor: #port;
 		editorAptitude:  [ BrGlamorousRegularEditorAptitude new glamorousFormEditorCodeFontAndSize ];

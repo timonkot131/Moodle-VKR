@@ -6,7 +6,8 @@ Class {
 		'mainFrame',
 		'editFrame',
 		'tabViewModel',
-		'magElement'
+		'magElement',
+		'accordion'
 	],
 	#category : #'MoodleVKR-MoodleApp'
 }
@@ -15,25 +16,36 @@ Class {
 MoodleDbTab >> initialize [
 	super initialize.
 	mainFrame := BlElement new
-		
-			layout: BlFrameLayout new;
+			layout: BlLinearLayout vertical;
+			padding: (BlInsets all: 10);
 			constraintsDo: [ :c | 
 				c horizontal fitContent.
 				c vertical fitContent ].
-	
+
+	accordion := BrAccordion new
+ 		  hMatchParent;
+ 		  		
+			aptitude: BrGlamorousAccordionAptitude new;
+			header: [ BrLabel new
+					aptitude: BrGlamorousAccordionHeaderAptitude;
+					text: 'Настройка соединения' ].
+
 
 	editFrame := BlElement new
 			layout: BlFrameLayout new;
 			padding: (BlInsets all: 10);
 			constraintsDo: [ :c | 
-			
 				c horizontal fitContent.
 				c vertical fitContent ].
+				
+	mainFrame addChild: accordion.
+	mainFrame addChild: editFrame.
+
 	self
 		aptitude: BrGlamorousTabAptitude;
-			padding: (BlInsets all: 10);
+		padding: (BlInsets all: 10);
 		label: 'Хранилище';
-		stencil: [editFrame]
+		stencil: [ mainFrame ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -60,6 +72,15 @@ MoodleDbTab >> magritteViewModel: aGtMagritteViewModel [
 ]
 
 { #category : #'as yet unclassified' }
+MoodleDbTab >> setAccordionText: aString withColor: aColor [
+	accordion aptitude headerBar background: aColor.
+	accordion
+		header: [ BrLabel new
+				aptitude: BrGlamorousAccordionHeaderAptitude;
+				text: aString ].
+]
+
+{ #category : #'as yet unclassified' }
 MoodleDbTab >> subscribeToViewModel [
 
 ]
@@ -80,13 +101,12 @@ MoodleDbTab >> tryConnect: spec [
 	[ ReStore
 		connection: (SSWMySQLConnection new connectionSpec: spec);
 		connect.
-		'connection successful' traceCr.
-		] 
-		on: MySQLNoConnectionError
+		 self setAccordionText: 'Соединение успешно' withColor: Color lightGreen .]
+		on: SocketError , MySQLNoConnectionError
 		do: [ :str | 
 			str messageText = 'Success'
-				ifTrue: [ 'connection successful' traceCr ]
-				ifFalse: [ 'connection error' traceCr ] ].
+				ifTrue: [ self setAccordionText: 'Соединение успешно' withColor: Color lightGreen ]
+				ifFalse: [ self setAccordionText: 'Ошибка соединения' withColor: Color red ] ]
 ]
 
 { #category : #'as yet unclassified' }
