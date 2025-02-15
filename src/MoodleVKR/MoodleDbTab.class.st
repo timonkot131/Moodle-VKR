@@ -6,8 +6,9 @@ Class {
 		'mainFrame',
 		'editFrame',
 		'tabViewModel',
-		'magElement',
-		'accordion'
+		'accordion',
+		'magritteElement',
+		'sourceViewModel'
 	],
 	#category : #'MoodleVKR-MoodleApp'
 }
@@ -51,7 +52,6 @@ MoodleDbTab >> initialize [
 { #category : #'as yet unclassified' }
 MoodleDbTab >> magritteViewModel: aGtMagritteViewModel [
 	"Магритовая вьюмодель, Сделана не очень, так как приходится самому возиться с моделью внутри него, внутри клиента. Я думаю нужно создать обертку для этой вьюмодели"
-
 	| element memento |
 	magritteViewModel == aGtMagritteViewModel ifTrue: [ ^ self ].	"Удаление колбэков на на проверку соединения"
 	self unsubscribeFromMagritte. 
@@ -59,13 +59,19 @@ MoodleDbTab >> magritteViewModel: aGtMagritteViewModel [
 	"Инициация формы с её Мементо, временным объектом для записи"
 	element := aGtMagritteViewModel asElement.
 	memento := aGtMagritteViewModel mementoFuture.
+
+	"Переопределяем whenSuccess у элемента"
 	element asyncFuture
 		future: memento;
 		whenSuccess: [ :theFrame :aMemento | 
-			aMemento magritteActions third
+			| actions |
+			actions := aMemento magritteActions.
+			actions first "Accept"
+				onSuccessCallback: [  ].
+			actions third "Проверка подключения"
 				onSuccessCallback: [ :arg | self tryConnect: arg ].
 			aGtMagritteViewModel initializeForm: theFrame forMemento: aMemento ].
-	magElement := element.
+	magritteElement := element.
 	editFrame addChild: element.
 	magritteViewModel := aGtMagritteViewModel	
 		
@@ -78,6 +84,16 @@ MoodleDbTab >> setAccordionText: aString withColor: aColor [
 		header: [ BrLabel new
 				aptitude: BrGlamorousAccordionHeaderAptitude;
 				text: aString ].
+]
+
+{ #category : #accessing }
+MoodleDbTab >> sourceViewModel [
+	^ sourceViewModel
+]
+
+{ #category : #accessing }
+MoodleDbTab >> sourceViewModel: anObject [
+	sourceViewModel := anObject
 ]
 
 { #category : #'as yet unclassified' }
@@ -98,14 +114,18 @@ self subscribeToViewModel.
 
 { #category : #'as yet unclassified' }
 MoodleDbTab >> tryConnect: spec [
-	[ ReStore
-		connection: (SSWMySQLConnection new connectionSpec: spec);
-		connect.
-		 self setAccordionText: 'Соединение успешно' withColor: Color lightGreen .]
+	| connection |
+	connection := ReStore connection: (SSWMySQLConnection new connectionSpec: spec).
+	[ connection connect.
+		 self setAccordionText: 'Соединение успешно' withColor: Color lightGreen .
+		 self sourceViewModel setModel: connection
+		 ]
 		on: SocketError , MySQLNoConnectionError
 		do: [ :str | 
 			str messageText = 'Success'
-				ifTrue: [ self setAccordionText: 'Соединение успешно' withColor: Color lightGreen ]
+				ifTrue: [ self setAccordionText: 'Соединение успешно' withColor: Color lightGreen .
+				 self sourceViewModel setModel: connection
+				]
 				ifFalse: [ self setAccordionText: 'Ошибка соединения' withColor: Color red ] ]
 ]
 
@@ -113,7 +133,10 @@ MoodleDbTab >> tryConnect: spec [
 MoodleDbTab >> unsubscribeFromMagritte [
 	magritteViewModel
 		ifNotNil: [ :aViewModel | 
-			(magElement userData at: aViewModel class gtMementoSymbol) magritteActions third
+			| actions |
+			actions := (magritteElement userData at: aViewModel class gtMementoSymbol) magritteActions.
+			actions first onSuccessCallbacks removeAll.
+			actions third
 				onSuccessCallbacks removeAll.
 			editFrame removeChildren ]
 ]

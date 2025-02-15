@@ -2,7 +2,8 @@ Class {
 	#name : #MoodleAppView,
 	#superclass : #BlElement,
 	#instVars : [
-		'viewModel'
+		'viewModel',
+		'aTabGroup'
 	],
 	#category : #'MoodleVKR-MoodleApp'
 }
@@ -25,19 +26,51 @@ self subscribeToViewModel.
 
 { #category : #'as yet unclassified' }
 MoodleAppView >> initialize [
-	| aTabGroup |
+	| magritteViewModel dbTab queryTab |
 	super initialize.
+
+	magritteViewModel := GtMagritteViewModel forMyObject: MySQLDriverSpec new.
+	self appViewModel: MoodleSourceViewModel new.
+
+	dbTab := MoodleDbTab new
+			magritteViewModel: magritteViewModel;
+			sourceViewModel: self appViewModel.
+
+	queryTab := MoodleQueryTab new.
+
 	aTabGroup := BrTabGroup new
-		aptitude: BrGlamorousTabGroupAptitude;
-		size: 400 @ 300;
-	    border: (BlBorder paint: Color lightGray width: 1);
-	    addTab: (MoodleDbTab new magritteViewModel: MySQLDriverSpec new asGtMagritteViewModel).
-	    
-	self layout: BlFrameLayout new;
-	constraintsDo: [:c | 
-		c vertical fitContent .
-		c horizontal fitContent.];
-	addChild: aTabGroup
+			aptitude: BrGlamorousTabGroupAptitude;
+			size: 400 @ 300;
+			border: (BlBorder paint: Color lightGray width: 1);
+			addTabs: {dbTab.
+					queryTab}.
+
+	aTabGroup
+		when: BrTabSelectedEvent
+		do: [:anEvent | self onQueryTabClick: anEvent].
+
+	self
+		layout: BlFrameLayout new;
+		constraintsDo: [ :c | 
+			c vertical fitContent.
+			c horizontal fitContent ];
+		addChild: aTabGroup
+]
+
+{ #category : #'as yet unclassified' }
+MoodleAppView >> onQueryTabClick: anEvent [
+	| tab queryViewModel queryTab |
+	tab := anEvent tab widget.
+	(tab isKindOf: MoodleQueryTab) ifFalse: [ ^self ].
+	tab queryViewModel ifNotNil: [ ^ self ].
+	queryViewModel := MoodleQueryViewModel new.
+	tab
+		queryViewModel: queryViewModel;
+		sourceViewModel: self appViewModel.	"Сначала Должна произойти подписка, напимер подписка на изменение названия вкладки"
+	queryViewModel title: 'Новый запрос'.
+	queryTab := MoodleQueryTab new.
+	aTabGroup addTab: queryTab.
+				
 ]
 
 { #category : #'as yet unclassified' }
@@ -52,6 +85,4 @@ aSpace show
 
 { #category : #'as yet unclassified' }
 MoodleAppView >> subscribeToViewModel [
-	self viewModel weak
-	when: MoodleAppEvent do: [:arg | arg traceCr]
 ]
