@@ -24,6 +24,8 @@ announcer := Announcer new.
 
 { #category : #'as yet unclassified' }
 MoodleQueryViewModel >> title: aString [ 
-	title := aString.
+	title = aString ifTrue: [^self].
+    title := aString.
 	self announce: (MoodleQueryTitleChangedEvent new title: title).
+	 
 ]

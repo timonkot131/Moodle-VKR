@@ -47,7 +47,8 @@ MoodleAppView >> initialize [
 
 	aTabGroup
 		when: BrTabSelectedEvent
-		do: [:anEvent | self onQueryTabClick: anEvent].
+		do: [:anEvent | 
+		self onQueryTabClick: anEvent].
 
 	self
 		layout: BlFrameLayout new;
@@ -59,7 +60,7 @@ MoodleAppView >> initialize [
 
 { #category : #'as yet unclassified' }
 MoodleAppView >> onQueryTabClick: anEvent [
-	| tab queryViewModel queryTab |
+	| tab queryViewModel newQueryTab |
 	tab := anEvent tab widget.
 	(tab isKindOf: MoodleQueryTab) ifFalse: [ ^self ].
 	tab queryViewModel ifNotNil: [ ^ self ].
@@ -68,8 +69,10 @@ MoodleAppView >> onQueryTabClick: anEvent [
 		queryViewModel: queryViewModel;
 		sourceViewModel: self appViewModel.	"Сначала Должна произойти подписка, напимер подписка на изменение названия вкладки"
 	queryViewModel title: 'Новый запрос'.
-	queryTab := MoodleQueryTab new.
-	aTabGroup addTab: queryTab.
+	tab focusTitleEditor.
+	newQueryTab := MoodleQueryTab new.
+	aTabGroup addTab: newQueryTab.
+	
 				
 ]
 
