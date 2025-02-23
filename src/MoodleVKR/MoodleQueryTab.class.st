@@ -51,6 +51,7 @@ MoodleQueryTab >> initialize [
 			id: 'Editor';
 			geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
 			border: (BlBorder paint: Color veryLightGray width: 1).
+			
 
 	titleEditor editor
 		when: BrTextEditorModifiedEvent

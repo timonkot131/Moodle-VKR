@@ -6,7 +6,7 @@ Class {
 		'selectedValue',
 		'model'
 	],
-	#category : #'MoodleVKR-Filters - searching'
+	#category : #'MoodleVKR-Filters - Model'
 }
 
 { #category : #'as yet unclassified' }

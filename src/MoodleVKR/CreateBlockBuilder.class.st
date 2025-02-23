@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'block'
 	],
-	#category : #'MoodleVKR-Filters - searching'
+	#category : #'MoodleVKR-Filters - Model'
 }
 
 { #category : #initalization }
