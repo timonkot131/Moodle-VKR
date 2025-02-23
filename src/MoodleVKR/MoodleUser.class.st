@@ -1,8 +1,6 @@
 Class {
 	#name : #MoodleUser,
 	#superclass : #Object,
-	#traits : 'TMEntity',
-	#classTraits : 'TMEntity classTrait',
 	#instVars : [
 		'email',
 		'fullname'
@@ -23,7 +21,4 @@ MoodleUser >> email [
 
 { #category : #'as yet unclassified' }
 MoodleUser >> fullName [
-<delegate: #DString>
-
-^fullname
 ]

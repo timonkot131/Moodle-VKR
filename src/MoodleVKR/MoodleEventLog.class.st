@@ -1,8 +1,6 @@
 Class {
 	#name : #MoodleEventLog,
 	#superclass : #Object,
-	#traits : 'TMEntity',
-	#classTraits : 'TMEntity classTrait',
 	#instVars : [
 		'id',
 		'eventname',
