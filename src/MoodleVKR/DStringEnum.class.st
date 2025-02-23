@@ -1,5 +1,5 @@
 Class {
-	#name : #DEventEnum,
+	#name : #DStringEnum,
 	#superclass : #Object,
 	#instVars : [
 		'delegatedMethod'
@@ -8,16 +8,16 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-DEventEnum >> accept: aVisior [
+DStringEnum >> accept: aVisior [
 aVisior visitStringEnum: self.
 ]
 
 { #category : #accessing }
-DEventEnum >> delegatedMethod [
+DStringEnum >> delegatedMethod [
 	^ delegatedMethod
 ]
 
 { #category : #accessing }
-DEventEnum >> delegatedMethod: anObject [
+DStringEnum >> delegatedMethod: anObject [
 	delegatedMethod := anObject
 ]
