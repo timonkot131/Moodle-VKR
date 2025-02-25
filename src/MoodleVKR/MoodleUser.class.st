@@ -14,7 +14,7 @@ MoodleUser >> delegatedMethod: aCompiledMethod [
 
 { #category : #'as yet unclassified' }
 MoodleUser >> email [
-<delegate: #DString>
+
 ^email 
 
 ]

@@ -4,6 +4,50 @@ Class {
 	#category : #'MoodleVKR-Model'
 }
 
+{ #category : #'as yet unclassified' }
+MoodleEventQuery class >> bindMethod: aCollection [
+| aSymbol |
+	aSymbol := aCollection at -2.
+]
+
+{ #category : #accessing }
+MoodleEventQuery class >> computeAssociations: arr [
+	| data |
+	data := arr
+		collect: [ :aCollection | 
+			| x |
+			x := {MoodleQuery} , aCollection.
+			x
+				at: (x indexOf: x last)
+					put: {(x last: 2) first.
+							x last};
+				yourself ].
+	^self flatConnection: data
+]
+
+{ #category : #accessing }
+MoodleEventQuery class >> flatConnection: arr [
+	| elems data |
+	"data := arr
+			collect: [ :aCollection | 
+				| x |
+				x := {MoodleQuery} , aCollection.
+				x
+					at: (x indexOf: x last)
+						put: {(x last: 2) first.
+								x last};
+					yourself ]."
+	elems := arr flatten asSet select: #isClass.
+	^ elems
+		flatCollect: [ :aClass | 
+			arr
+				select: [ :x | (x indexOf: aClass) ~= 0 ]
+				thenCollect: [ :x | 
+					| anIndex |
+					anIndex := x indexOf: aClass.
+					x sliceFrom: anIndex to: anIndex + 1 ] ]
+]
+
 { #category : #rules }
 MoodleEventQuery class >> parseRule: anArray [
 	| aSplitted |
@@ -23,9 +67,9 @@ MoodleEventQuery class >> ruleHierarchy [
 ^{
  {#eventname}.
  {MoodleUser. #fullName}.
- {MoodleUser. #enail},
+ {MoodleUser. #email}.
  {MoodleCourse. #fullName}.
  {MoodleCourse. MoodleQuiz. #name}.
  {MoodleCourse. MoodleQuiz. MoodleAttempt. #id}
-}
+} 
 ]
