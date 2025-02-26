@@ -4,7 +4,7 @@ Class {
 	#category : #'MoodleVKR-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MoodleEventQuery class >> bindMethod: aCollection [
 | aSymbol |
 	aSymbol := aCollection at -2.
@@ -27,16 +27,7 @@ MoodleEventQuery class >> computeAssociations: arr [
 
 { #category : #accessing }
 MoodleEventQuery class >> flatConnection: arr [
-	| elems data |
-	"data := arr
-			collect: [ :aCollection | 
-				| x |
-				x := {MoodleQuery} , aCollection.
-				x
-					at: (x indexOf: x last)
-						put: {(x last: 2) first.
-								x last};
-					yourself ]."
+	| elems |
 	elems := arr flatten asSet select: #isClass.
 	^ elems
 		flatCollect: [ :aClass | 
