@@ -22,44 +22,48 @@ QuerySelector class >> forAssociation: anArray sourceClass: aClass [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 QuerySelector >> = aQuerySelector [
-(aQuerySelector class = self class) ifTrue: [^self associtiation = aQuerySelector associtiation].
+(aQuerySelector class = self class) ifTrue: [^self association = aQuerySelector association].
 ^false
 ]
 
-{ #category : #acccessing }
-QuerySelector >> association: anArray [
-	associtation := anArray
-	
+{ #category : #'as yet unclassified' }
+QuerySelector >> asElement [
+| element |
+	element := coder asElement.
+element aptitude - BrMenuPinnableAptitude.
+^element.
 ]
 
-{ #category : #'as yet unclassified' }
-QuerySelector >> associtiation [
+{ #category : #accessor }
+QuerySelector >> association [
 	^associtation
 ]
 
-{ #category : #'as yet unclassified' }
-QuerySelector >> classCoder: aTMQueryBuilder [
-	| selector compiled |
-	selector := associtation second.
-	compiled := aTMQueryBuilder rules associations detect: [:x | x key includes: selector ].
-	GtPharoMethodCoderMenu new forMethod: compiled value
+{ #category : #accessor }
+QuerySelector >> association: anArray [
+	associtation := anArray
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessor }
 QuerySelector >> coder [
 	^coder
 ]
 
-{ #category : #acccessing }
+{ #category : #accessor }
 QuerySelector >> coder: aBrMenu [
 	coder := aBrMenu
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessor }
+QuerySelector >> first [ 
+	^associtation first
+]
+
+{ #category : #accessor }
 QuerySelector >> hash [ 
-	^self associtiation hash.
+	^self association hash.
 ]
 
 { #category : #creation }
@@ -78,7 +82,11 @@ QuerySelector >> newCoder: aClass [
 
 { #category : #printing }
 QuerySelector >> printOn: aStream [ 
-aStream << self associtiation asString
+aStream << self association asString
+]
+
+{ #category : #accessor }
+QuerySelector >> second [ ^associtation second
 ]
 
 { #category : #creation }
@@ -90,4 +98,9 @@ QuerySelector >> serializeRule [
 			reject: [ :x | x = MoodleQuery ]
 			thenCollect: [ :x | x isArray ifTrue: [ x second asString ] ifFalse: [ x asString ] ].
 	^ ruleString asString copyWithout: $'
+]
+
+{ #category : #accessor }
+QuerySelector >> size [
+^associtation size
 ]

@@ -10,11 +10,6 @@ Class {
 }
 
 { #category : #queries }
-ApiQueryBuilder >> courseExcuseMe: anObject [
-<rule: #(MoodleCourse wtf)>
-]
-
-{ #category : #queries }
 ApiQueryBuilder >> courseFullName: anItem [
 <rule: #(MoodleCourse fullName)>
 ^4
