@@ -9,15 +9,15 @@ Class {
 	#category : #'MoodleVKR-API'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #queries }
 ApiQueryBuilder >> courseExcuseMe: anObject [
 <rule: #(MoodleCourse wtf)>
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #queries }
 ApiQueryBuilder >> courseFullName: anItem [
 <rule: #(MoodleCourse fullName)>
-
+^4
 ]
 
 { #category : #rules }

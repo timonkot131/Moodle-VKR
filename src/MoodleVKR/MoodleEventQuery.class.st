@@ -5,24 +5,43 @@ Class {
 }
 
 { #category : #accessing }
-MoodleEventQuery class >> bindMethod: aCollection [
-| aSymbol |
-	aSymbol := aCollection at -2.
+MoodleEventQuery class >> bindMethod: anArray [
+	^ anArray
+		at: (anArray indexOf: anArray last)
+			put: {(anArray last: 2) first.
+					anArray last};
+		yourself.
 ]
 
 { #category : #accessing }
 MoodleEventQuery class >> computeAssociations: arr [
 	| data |
-	data := arr
+	data := self describe: arr.
+	data := data
+			collect: [ :x | 
+				(x sliceFrom: 1 to: x size - 1)
+					, {QuerySelector forAssociation: x last sourceClass: self} ].
+	^ self flatConnection: data
+]
+
+{ #category : #accessing }
+MoodleEventQuery class >> computeAssociations: arr forClass: aTMQueryBuilder [
+	| data |
+	data := self describe: arr.
+	data := data
+			collect: [ :x | 
+				(x sliceFrom: 1 to: x size - 1)
+					, {QuerySelector forAssociation: x last sourceClass: aTMQueryBuilder} ].
+	^ self flatConnection: data
+]
+
+{ #category : #accessing }
+MoodleEventQuery class >> describe: arr [
+	^ arr
 		collect: [ :aCollection | 
 			| x |
 			x := {MoodleQuery} , aCollection.
-			x
-				at: (x indexOf: x last)
-					put: {(x last: 2) first.
-							x last};
-				yourself ].
-	^self flatConnection: data
+			self bindMethod: x ]
 ]
 
 { #category : #accessing }

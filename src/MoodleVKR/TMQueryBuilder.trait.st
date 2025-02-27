@@ -6,8 +6,8 @@ Trait {
 { #category : #accessing }
 TMQueryBuilder classSide >> createGraph [
 	| mainRules view selfRules extraRules allRules |
-	mainRules := MoodleEventQuery computeAssociations: MoodleEventQuery ruleHierarchy.
-	selfRules := MoodleEventQuery computeAssociations: self rules keys.
+	mainRules := MoodleEventQuery computeAssociations: MoodleEventQuery ruleHierarchy forClass: self.
+	selfRules := MoodleEventQuery computeAssociations: self rules keys forClass: self.
 	extraRules := selfRules difference: mainRules.
 	allRules := mainRules, extraRules.
 	view := GtMondrian new.
