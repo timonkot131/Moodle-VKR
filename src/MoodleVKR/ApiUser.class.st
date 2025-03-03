@@ -13,7 +13,16 @@ ApiUser class >> forToken: aString [
 ]
 
 { #category : #'stream creation' }
-ApiUser >> completeUser: ids [
+ApiUser >> completeUsers [
+	| chunked fullUsers mapped |
+	mapped := self relatedUsers asAsyncStream map: [ :x | x at: 'id' ].
+	chunked := mapped chunks: 50.
+	fullUsers := chunked collect: [ :ids | self completeUsersChunk: ids ].
+	^ fullUsers flatten
+]
+
+{ #category : #'stream creation' }
+ApiUser >> completeUsersChunk: ids [
 	| response |
 	response := ZnClient new
 			url: 'http://localhost/webservice/rest/server.php';
@@ -24,16 +33,7 @@ ApiUser >> completeUser: ids [
 			queryAt: 'field' put: 'id'.
 	ids
 		withIndexDo: [ :x :i | response formAt: 'values[' , (i - 1) asString , ']' put: x asString ].
-	^ response post asAsyncStream
-]
-
-{ #category : #'stream creation' }
-ApiUser >> completeUsers [
-	| chunked fullUsers mapped |
-	mapped := self relatedUsers asAsyncStream map: [ :x | x at: 'id' ].
-	chunked := mapped chunks: 50.
-	fullUsers := chunked collect: [ :ids | self completeUser: ids ].
-	^ fullUsers flatten
+	^ AsyncIteratorStream forIterator: (JSONIterator forStream: (response post) of: MoodleUser) 
 ]
 
 { #category : #'stream creation' }
@@ -48,6 +48,11 @@ ApiUser >> relatedUsers [
 		formAt: 'courseid' put: '0';
 		streaming: true.
 	^response post asAsyncStream
+]
+
+{ #category : #accessing }
+ApiUser >> token [
+^ token
 ]
 
 { #category : #acccessing }

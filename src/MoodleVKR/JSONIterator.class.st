@@ -3,20 +3,41 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'charReader',
-		'jsonReader'
+		'jsonReader',
+		'arrayClass'
 	],
 	#category : #'MoodleVKR-Utility'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 JSONIterator class >> forStream: aStream [
 	| znStream jsonReader |
 	znStream := (ZnCharacterReadStream on: aStream).
-	jsonReader := NeoJSONReader on: znStream.
+	jsonReader := (NeoJSONReader on: znStream)
+		mapInstVarsFor: MoodleUser; yourself.
 	^self new 
 		charReader: znStream;
 		jsonReader: jsonReader.
 		
+]
+
+{ #category : #initalization }
+JSONIterator class >> forStream: aStream of: aClass [
+| instance |
+	instance := self forStream: aStream.
+	instance jsonReader mapInstVarsFor: aClass.
+	instance arrayClass: aClass. 
+	^instance.
+]
+
+{ #category : #accessing }
+JSONIterator >> arrayClass [
+	^ arrayClass
+]
+
+{ #category : #accessing }
+JSONIterator >> arrayClass: anObject [
+	arrayClass := anObject
 ]
 
 { #category : #accessing }
@@ -48,10 +69,11 @@ JSONIterator >> jsonReader: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-JSONIterator >> next [ 
-[charReader atEnd] whileFalse: [
-	charReader peek = ${ ifTrue: [
-		^jsonReader parseMap.
-	] ifFalse: [charReader next.]
-].
+JSONIterator >> next [
+	[ charReader atEnd ]
+		whileFalse: [ charReader peek = ${
+				ifTrue: [ arrayClass
+						ifNotNil: [ ^ jsonReader nextAs: arrayClass ]
+						ifNil: [ ^ jsonReader parseMap ] ]
+				ifFalse: [ charReader next ] ]
 ]

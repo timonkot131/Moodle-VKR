@@ -30,3 +30,9 @@ MoodleUser >> fullname [
 MoodleUser >> fullname: anObject [
 	fullname := anObject
 ]
+
+{ #category : #'as yet unclassified' }
+MoodleUser >> printOn: aStream [
+aStream << ('e-mail: "', email, '",').
+aStream << (' Полное имя: "', fullname, '"').  
+]
