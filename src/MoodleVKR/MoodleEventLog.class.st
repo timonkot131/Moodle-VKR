@@ -1,90 +1,55 @@
+"
+This class violates the architecture by using ReStore in it's field. But it's faster to do things this way.
+"
 Class {
 	#name : #MoodleEventLog,
 	#superclass : #Object,
 	#instVars : [
-		'id',
-		'eventname',
-		'component',
-		'action',
-		'target',
-		'objecttable',
-		'objectid',
-		'crud',
-		'edulevel',
-		'contextid',
-		'contextlevel',
-		'contextinstanceid',
-		'userId',
-		'courseId',
-		'relateduserid',
-		'anonymous',
-		'other',
-		'timeCreated',
-		'origin',
+		'eventName',
 		'ip',
-		'realuserid'
+		'timeCreated',
+		'user',
+		'course'
 	],
 	#category : #'MoodleVKR-Model'
 }
 
-{ #category : #initalization }
-MoodleEventLog class >> reStoreDefinition [
-	^super reStoreDefinition
-		defineAsID: #id;
-		tableName: 'logs';
-		define: #eventname as: (String maxSize: 255)
-]
-
-{ #category : #'as yet unclassified' }
-MoodleEventLog >> <= aMoodleEventLog [ 
-^self eventName <= aMoodleEventLog eventName.
+{ #category : #accessing }
+MoodleEventLog >> course [
+	^ course
 ]
 
 { #category : #accessing }
-MoodleEventLog >> courseId [
-	<delegate: #MoodleCourse>
-	^ courseId
+MoodleEventLog >> course: anObject [
+	course := anObject
 ]
 
 { #category : #accessing }
-MoodleEventLog >> courseId: anObject [
-	courseId := anObject
-]
-
-{ #category : #'as yet unclassified' }
-MoodleEventLog >> eventName [ 
-	<delegate: #DEventEnum>
-^ eventname.
-]
-
-{ #category : #'as yet unclassified' }
-MoodleEventLog >> eventName: aString [
-eventname:= aString
-]
-
-{ #category : #printing }
-MoodleEventLog >> printOn: aStream [
-	aStream << eventname.
-	^aStream.
+MoodleEventLog >> eventName [
+	^ eventName 
 ]
 
 { #category : #accessing }
-MoodleEventLog >> timeCreated [
-	^ timeCreated
+MoodleEventLog >> eventName: anObject [
+	eventName := anObject
 ]
 
 { #category : #accessing }
-MoodleEventLog >> timeCreated: anObject [
-	timeCreated := anObject
+MoodleEventLog >> ip [
+	^ ip
 ]
 
 { #category : #accessing }
-MoodleEventLog >> userId [
-	<delegate: #MoodleUser>
-	^ userId
+MoodleEventLog >> ip: anObject [
+	ip := anObject
 ]
 
 { #category : #accessing }
-MoodleEventLog >> userId: anObject [
-	userId := anObject
+MoodleEventLog >> user [
+	^ user
+]
+
+{ #category : #accessing }
+MoodleEventLog >> user: anObject [
+	user := anObject
 ]

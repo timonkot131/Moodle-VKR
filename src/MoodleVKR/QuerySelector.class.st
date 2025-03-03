@@ -74,10 +74,10 @@ QuerySelector >> newCoder: aClass [
 	selector := associtation second asString.
 	methodName := (class first asLowercase asString, class copyWithoutFirst)
 			, (selector first asUppercase asString, selector copyWithoutFirst)
-			, ': anObject'.
+			, ': anObject applyTo: ' .
 	pragma := '<rule: ', rule ,'>'.
 	body := {methodName. pragma} asStringWithCr.
-	^ GtPharoNewMethodCoderMenu new forClass: aClass source: body; shouldHaveHeader: false; protocol: 'query'. 
+	^ GtPharoNewMethodCoderMenu new forClass: aClass classSide source: body; shouldHaveHeader: false; protocol: 'query'. 
 ]
 
 { #category : #printing }

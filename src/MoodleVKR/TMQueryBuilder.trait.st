@@ -3,8 +3,13 @@ Trait {
 	#category : #'MoodleVKR-Model'
 }
 
-{ #category : #accessing }
+{ #category : #creation }
 TMQueryBuilder classSide >> createGraph [
+	self createGraph: GtMondrian new.
+]
+
+{ #category : #accessing }
+TMQueryBuilder classSide >> createGraph: aGtMondrian [
 	| mainRules view selfRules extraRules allRules |
 	mainRules := MoodleEventQuery
 			computeAssociations: MoodleEventQuery ruleHierarchy
@@ -14,7 +19,7 @@ TMQueryBuilder classSide >> createGraph [
 			forClass: self.
 	extraRules := selfRules difference: mainRules.
 	allRules := mainRules , extraRules.
-	view := GtMondrian new.
+	view := aGtMondrian.
 	view nodes
 		stencil: [ :x | self drawNode: x ];
 		with: allRules flatten asSet.
@@ -89,17 +94,18 @@ TMQueryBuilder classSide >> edgeStencil: selfRules extra: extraRules [
 { #category : #view }
 TMQueryBuilder classSide >> gtQueryGraphFor: aView [
 <gtClassView>
-^aView forward 
+^aView mondrian 
 		title: 'Иерархия запросов';
 		priority: 15;
-		object: [ self createGraph];
-		view: #gtLiveFor:
+		painting: [ :aMondrian | self createGraph: aMondrian];
+			actionButtonIcon: BrGlamorousVectorIcons refresh 
+			action: [ :aButton :aTab | aTab viewContentElement phlow syncUpdate ]
 ]
 
 { #category : #rules }
 TMQueryBuilder classSide >> rules [
 <return: #aDictionary of: #Collection to: #CompiledMethod>
-	^(self pragmas select: [:aPragma | aPragma selector = #rule:] thenCollect: 
+	^(self class pragmas select: [:aPragma | aPragma selector = #rule:] thenCollect: 
 		[ :aPragma | 
 			| anArgument |
 			anArgument := MoodleEventQuery parseRule: aPragma arguments first. 
@@ -109,11 +115,11 @@ TMQueryBuilder classSide >> rules [
 
 { #category : #rules }
 TMQueryBuilder >> argument: anObject for: aCollection [
-self currentQueryArguments at: aCollection put: anObject.
+self currentQueryFilters at: aCollection put: anObject.
 ]
 
 { #category : #rules }
-TMQueryBuilder >> currentQueryArguments [
+TMQueryBuilder >> currentQueryFilters [
 <return: #aDictionary of: #Collection to: #anObject>
 	^self explicitRequirement
 ]

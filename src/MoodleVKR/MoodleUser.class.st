@@ -3,7 +3,9 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'email',
-		'fullname'
+		'fullname',
+		'id',
+		'profileimageurlsmall'
 	],
 	#category : #'MoodleVKR-Model'
 }
@@ -12,13 +14,19 @@ Class {
 MoodleUser >> delegatedMethod: aCompiledMethod [
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MoodleUser >> email [
 
 ^email 
 
 ]
 
-{ #category : #'as yet unclassified' }
-MoodleUser >> fullName [
+{ #category : #accessing }
+MoodleUser >> fullname [
+	^ fullname
+]
+
+{ #category : #accessing }
+MoodleUser >> fullname: anObject [
+	fullname := anObject
 ]

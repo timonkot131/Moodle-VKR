@@ -71,14 +71,18 @@ MoodleEventQuery class >> parseRule: anArray [
 				ifFalse: [ aSymbol ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rules }
 MoodleEventQuery class >> ruleHierarchy [
 "Просто имена для сообщений, описывающие иерархию запроса"
 ^{
  {#eventname}.
- {MoodleUser. #fullName}.
+ {#ip}.
+ {#timecreated}.
+ {MoodleUser. #fullname}.
+ {MoodleUser. #username}.
  {MoodleUser. #email}.
- {MoodleCourse. #fullName}.
+ {MoodleCourse. #fullname}.
+ {MoodleCourse. #shortname}.
  {MoodleCourse. MoodleQuiz. #name}.
  {MoodleCourse. MoodleQuiz. MoodleAttempt. #id}
 } 
