@@ -1,28 +1,56 @@
 Class {
 	#name : #ApiUser,
 	#superclass : #Object,
+	#instVars : [
+		'token'
+	],
 	#category : #'MoodleVKR-API'
 }
 
-{ #category : #creation }
-ApiUser class >> userStream: aString [
-	| ids response |
-	ids := ZnClient new
-			url: 'http://localhost/webservice/rest/server.php';
-			queryAt: 'wsfunction' put: 'core_search_get_relevant_users ';
-			queryAt: 'wstoken' put: aString;
-			queryAt: 'moodlewsrestformat' add: 'json';
-			queryAt: 'query' add: '';
-			formAt: 'courseid' put: '0';
-			post.
+{ #category : #initialization }
+ApiUser class >> forToken: aString [ 
+	^self new token: aString.
+]
 
+{ #category : #'stream creation' }
+ApiUser >> completeUser: ids [
+	| response |
 	response := ZnClient new
 			url: 'http://localhost/webservice/rest/server.php';
 			queryAt: 'wsfunction' put: 'core_user_get_users_by_field';
-			queryAt: 'wstoken' put: aString;
+			streaming: true;
+			queryAt: 'wstoken' put: token;
 			queryAt: 'moodlewsrestformat' add: 'json';
 			queryAt: 'field' put: 'id'.
+	ids
+		withIndexDo: [ :x :i | response formAt: 'values[' , (i - 1) asString , ']' put: x asString ].
+	^ response post asAsyncStream
+]
 
-	(STON fromString: ids)
-		withIndexDo: [ :x :i | response formAt: 'values[' , (i - 1) asString , ']' put: (x at: 'id') asString ]
+{ #category : #'stream creation' }
+ApiUser >> completeUsers [
+	| chunked fullUsers mapped |
+	mapped := self relatedUsers asAsyncStream map: [ :x | x at: 'id' ].
+	chunked := mapped chunks: 50.
+	fullUsers := chunked collect: [ :ids | self completeUser: ids ].
+	^ fullUsers flatten
+]
+
+{ #category : #'stream creation' }
+ApiUser >> relatedUsers [
+	| response |
+	response :=  ZnClient new
+		url: 'http://localhost/webservice/rest/server.php';
+		queryAt: 'wsfunction' put: 'core_search_get_relevant_users ';
+		queryAt: 'wstoken' put: token;
+		queryAt: 'moodlewsrestformat' add: 'json';
+		queryAt: 'query' add: '';
+		formAt: 'courseid' put: '0';
+		streaming: true.
+	^response post asAsyncStream
+]
+
+{ #category : #acccessing }
+ApiUser >> token: aString [ 
+	token := aString
 ]
