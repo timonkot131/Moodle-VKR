@@ -37,6 +37,21 @@ ApiUser >> completeUsersChunk: ids [
 ]
 
 { #category : #'stream creation' }
+ApiUser >> completeUsersChunk: aCollection field: aString [
+	| response |
+	response := ZnClient new
+			url: 'http://localhost/webservice/rest/server.php';
+			queryAt: 'wsfunction' put: 'core_user_get_users_by_field';
+			streaming: true;
+			queryAt: 'wstoken' put: token;
+			queryAt: 'moodlewsrestformat' add: 'json';
+			queryAt: 'field' put: aString.
+	aCollection
+		withIndexDo: [ :x :i | response formAt: 'values[' , (i - 1) asString , ']' put: x asString ].
+	^ AsyncIteratorStream forIterator: (JSONIterator forStream: (response post) of: MoodleUser) 
+]
+
+{ #category : #'stream creation' }
 ApiUser >> relatedUsers [
 	| response |
 	response :=  ZnClient new
@@ -47,7 +62,7 @@ ApiUser >> relatedUsers [
 		queryAt: 'query' add: '';
 		formAt: 'courseid' put: '0';
 		streaming: true.
-	^response post asAsyncStream
+	^response post
 ]
 
 { #category : #accessing }

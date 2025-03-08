@@ -36,10 +36,9 @@ CreateBlockBuilder >> block [
 { #category : #initalization }
 CreateBlockBuilder >> block: aBlock [
 	block := aBlock.
-	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #factory }
 CreateBlockBuilder >> cull: anObject cull: aModel [
 	^ BlockSearchFilter
 		block: block

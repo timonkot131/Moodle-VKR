@@ -44,6 +44,13 @@ MoodleEventQuery class >> describe: arr [
 			self bindMethod: x ]
 ]
 
+{ #category : #static }
+MoodleEventQuery class >> eventAliases [ 
+{
+	'ww' -> '21'
+}
+]
+
 { #category : #accessing }
 MoodleEventQuery class >> flatConnection: arr [
 	| elems |

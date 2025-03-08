@@ -31,6 +31,16 @@ MoodleUser >> fullname: anObject [
 	fullname := anObject
 ]
 
+{ #category : #accessing }
+MoodleUser >> id [
+	^ id
+]
+
+{ #category : #accessing }
+MoodleUser >> id: anObject [
+	id := anObject
+]
+
 { #category : #'as yet unclassified' }
 MoodleUser >> printOn: aStream [
 aStream << ('e-mail: "', email, '",').

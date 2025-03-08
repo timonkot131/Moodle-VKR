@@ -17,6 +17,11 @@ BlockSearchFilter class >> block: aBlock model: aModel selectedValue: anObject [
 	    selectedValue: anObject.
 ]
 
+{ #category : #'logical operations' }
+BlockSearchFilter >> & aFilter [
+	^ MSearchIntersectionFilter forFilter: self filter: aFilter
+]
+
 { #category : #accessing }
 BlockSearchFilter >> block [
 	^ block
@@ -58,4 +63,9 @@ BlockSearchFilter >> selectedValue [
 { #category : #accessing }
 BlockSearchFilter >> selectedValue: anObject [
 	selectedValue := anObject
+]
+
+{ #category : #'logical operations' }
+BlockSearchFilter >> | aFilter [
+	^ MSearchUnionFilter forFilter: self filter: aFilter
 ]

@@ -30,6 +30,12 @@ Class {
 	#category : #'MoodleVKR-Database'
 }
 
+{ #category : #accessing }
+MoodleDBEventLog class >> blockArgument [
+	^ (SSWDBBlockParser newForReStore: ReStore argumentClass: self)
+		newBlockArgument
+]
+
 { #category : #initalization }
 MoodleDBEventLog class >> reStoreDefinition [
 	^ super reStoreDefinition
@@ -48,24 +54,13 @@ MoodleDBEventLog >> <= aMoodleEventLog [
 ]
 
 { #category : #accessing }
-MoodleDBEventLog >> courseId [
-	^ courseId
+MoodleDBEventLog >> courseid [
+	^ courseid
 ]
 
 { #category : #accessing }
-MoodleDBEventLog >> courseId: anObject [
-	courseId := anObject
-]
-
-{ #category : #'as yet unclassified' }
-MoodleDBEventLog >> eventName [ 
-	<delegate: #DEventEnum>
-^ eventname.
-]
-
-{ #category : #'as yet unclassified' }
-MoodleDBEventLog >> eventName: aString [
-eventname:= aString
+MoodleDBEventLog >> courseid: anObject [
+	courseid := anObject
 ]
 
 { #category : #accessing }
@@ -95,16 +90,6 @@ MoodleDBEventLog >> printOn: aStream [
 ]
 
 { #category : #accessing }
-MoodleDBEventLog >> timeCreated [
-	^ timeCreated
-]
-
-{ #category : #accessing }
-MoodleDBEventLog >> timeCreated: anObject [
-	timeCreated := anObject
-]
-
-{ #category : #accessing }
 MoodleDBEventLog >> timecreated [
 	^ timecreated
 ]
@@ -115,11 +100,11 @@ MoodleDBEventLog >> timecreated: anObject [
 ]
 
 { #category : #accessing }
-MoodleDBEventLog >> userId [
-	^ userId
+MoodleDBEventLog >> userid [
+	^ userid
 ]
 
 { #category : #accessing }
-MoodleDBEventLog >> userId: anObject [
-	userId := anObject
+MoodleDBEventLog >> userid: anObject [
+	userid := anObject
 ]

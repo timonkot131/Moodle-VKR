@@ -37,6 +37,18 @@ ApiQueryBuilder class >> edgeStencil: selfRules extra: extraRules [
 		border: (BlBorder paint: (color alpha: 0.5)) ]
 ]
 
+{ #category : #query }
+ApiQueryBuilder class >> moodleQueryEventname: aSelected applyTo: aMoodleQuery [
+<rule: #(eventname)>
+^aMoodleQuery eventname = aSelected.
+]
+
+{ #category : #query }
+ApiQueryBuilder class >> moodleUserEmail: aSelected applyTo: aMoodleUser [
+<rule: #(MoodleUser email)>
+^aMoodleUser email = aSelected.
+]
+
 { #category : #rules }
 ApiQueryBuilder >> argument: aBlock for: aCollection [
 self currentQueryFilters at: aCollection put: aBlock.
