@@ -11,7 +11,13 @@ MSearchIntersectionFilter >> & aFilter [
 
 { #category : #'as yet unclassified' }
 MSearchIntersectionFilter >> matches: anObject [
-	^ (left matches: anObject) & (right matches: anObject)
+	| resLeft resRight |
+	resLeft := left value: anObject.
+	resRight := right value: anObject.
+	resLeft = #pass & (resRight ~= #pass) ifTrue: [ ^resRight ].
+	resLeft ~= #pass & (resRight = #pass) ifTrue: [ ^resLeft ].
+	resLeft = #pass & (resRight = #pass) ifTrue: [ ^#pass ].
+	^ resLeft & resRight
 ]
 
 { #category : #'as yet unclassified' }

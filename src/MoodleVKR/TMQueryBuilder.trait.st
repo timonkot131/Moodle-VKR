@@ -98,8 +98,8 @@ TMQueryBuilder classSide >> gtQueryGraphFor: aView [
 		title: 'Иерархия запросов';
 		priority: 15;
 		painting: [ :aMondrian | self createGraph: aMondrian];
-			actionButtonIcon: BrGlamorousVectorIcons refresh 
-			action: [ :aButton :aTab | aTab viewContentElement phlow syncUpdate ]
+		actionButtonIcon: BrGlamorousVectorIcons refresh 
+		action: [ :aButton :aTab | aTab viewContentElement phlow syncUpdate ] 
 ]
 
 { #category : #rules }

@@ -1,6 +1,3 @@
-"
-This class violates the architecture by using ReStore in it's field. But it's faster to do things this way.
-"
 Class {
 	#name : #MoodleDBEventLog,
 	#superclass : #Object,

@@ -5,29 +5,29 @@ Class {
 		'email',
 		'fullname',
 		'id',
-		'profileimageurlsmall'
+		'profileimageurlsmall',
+		'userName'
 	],
 	#category : #'MoodleVKR-Model'
 }
 
-{ #category : #'as yet unclassified' }
-MoodleUser >> delegatedMethod: aCompiledMethod [
-]
-
 { #category : #accessing }
 MoodleUser >> email [
-
-^email 
-
+	^ email
 ]
 
 { #category : #accessing }
-MoodleUser >> fullname [
-	^ fullname
+MoodleUser >> email: aString [
+	email := aString
 ]
 
 { #category : #accessing }
-MoodleUser >> fullname: anObject [
+MoodleUser >> fullName [
+	^ fullname 
+]
+
+{ #category : #accessing }
+MoodleUser >> fullName: anObject [
 	fullname := anObject
 ]
 
@@ -44,5 +44,15 @@ MoodleUser >> id: anObject [
 { #category : #'as yet unclassified' }
 MoodleUser >> printOn: aStream [
 aStream << ('e-mail: "', email, '",').
-aStream << (' Полное имя: "', fullname, '"').  
+aStream << (' Полное имя: "', fullname, '"').   
+]
+
+{ #category : #accessing }
+MoodleUser >> userName [
+	^ userName
+]
+
+{ #category : #accessing }
+MoodleUser >> userName: anObject [
+	userName := anObject
 ]
