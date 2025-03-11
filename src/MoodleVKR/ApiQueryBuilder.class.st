@@ -71,18 +71,44 @@ ApiQueryBuilder >> currentQueryFilters [
 
 { #category : #execution }
 ApiQueryBuilder >> execute [
-	| userQuery  |
+	| userQuery chunks |
 	userQuery := self check: MoodleUser new.
 	userQuery ~= #pass
 		ifTrue: [ | users subQuery logs stream |
-			users := (self fetchUsers  select: query) cached .
-			subQuery := users inject: MethodNullSearchFilter new into: [:aQuery :anItem | aQuery | [:x | x userid = anItem id] ].
-			logs := MoodleDBEventLog storedInstances "satisfying" select: query & (subQuery wait).
-			stream := (IteratorStream forPosStream: logs readStream).
-			^stream asAsyncStream toArray wait collect: [:log | 
-				|user| 
-				user := (users asyncSimilarCopy select: [:aUser | aUser id = log userid ]) next wait value .
-				MoodleEventLog new user:  user; eventName: log eventname; id: log id] ]
+			users := (self fetchUsers select: query) cached.
+			subQuery := users
+					inject: MethodNullSearchFilter new
+					into: [ :aQuery :anItem | aQuery | [ :x | x userid = anItem id ] ].
+			logs := MoodleDBEventLog storedInstances select: query & subQuery wait.	"satisfying"
+			stream := IteratorStream forPosStream: logs readStream.
+			^ stream asAsyncStream
+				collect: [ :log | 
+					| user |
+					user := (users asyncSimilarCopy select: [ :aUser | aUser id = log userid ]) next wait value.
+					MoodleEventLog new
+						user: user;
+						eventName: log eventname;
+						id: log id ] ]
+		ifFalse: [ 
+			| res stream users job|
+			res := MoodleDBEventLog storedInstances select: query.
+			stream := IteratorStream forPosStream: res readStream.
+			chunks := (stream asAsyncStream chunks: 50) cached collect: [:logs | 
+				|userids apiUser|
+				apiUser := ApiUser forToken: token.
+				userids := (logs collect: #userid) asSet. 
+				job := (apiUser completeUsersChunk: userids) 
+					inject: Dictionary new into: [:dic :user | dic at: user id put: user; yourself].
+				users := job wait.
+				(logs collect: [:log  |
+					MoodleEventLog new
+						user: (users at: log userid);
+						eventName: log eventname;
+						id: log id
+				]) asAsyncStream
+			].
+			^chunks flatten
+		 ]
 ]
 
 { #category : #'as yet unclassified' }
