@@ -9,6 +9,11 @@ Class {
 	#category : #'MoodleVKR-Filters - Model'
 }
 
+{ #category : #factory }
+MethodSearchFilter class >> null [
+	^MethodNullSearchFilter new
+]
+
 { #category : #'logical operations' }
 MethodSearchFilter >> & aFilter [
 	^ MSearchIntersectionFilter forFilter: self filter: aFilter
@@ -18,7 +23,7 @@ MethodSearchFilter >> & aFilter [
 MethodSearchFilter >> matches: anObjectOrSymbol [
 	"#pass? Символ? Я фильтрую, но также могу выдавать информацию о самом запросе"
 	| pragmaArgs |
-	pragmaArgs := method pragmas first arguments first.
+	pragmaArgs := self pragmaArgs.
 	pragmaArgs size = 1
 		ifTrue: [ ^ method
 				valueWithReceiver: method methodClass
@@ -53,6 +58,16 @@ MethodSearchFilter >> model: aModel [
 { #category : #accessing }
 MethodSearchFilter >> pragma [
 	^method 
+]
+
+{ #category : #accessing }
+MethodSearchFilter >> pragmaArgs [
+	^method pragmas first arguments first.
+]
+
+{ #category : #'as yet unclassified' }
+MethodSearchFilter >> printOn: aStream [ 
+aStream << self pragmaArgs asString.
 ]
 
 { #category : #accessing }

@@ -9,7 +9,8 @@ Class {
 		'ip',
 		'timeCreated',
 		'user',
-		'course'
+		'course',
+		'id'
 	],
 	#category : #'MoodleVKR-Model'
 }
@@ -35,6 +36,16 @@ MoodleEventLog >> eventName: anObject [
 ]
 
 { #category : #accessing }
+MoodleEventLog >> id [
+	^ id
+]
+
+{ #category : #accessing }
+MoodleEventLog >> id: anObject [
+	id := anObject
+]
+
+{ #category : #accessing }
 MoodleEventLog >> ip [
 	^ ip
 ]
@@ -42,6 +53,13 @@ MoodleEventLog >> ip [
 { #category : #accessing }
 MoodleEventLog >> ip: anObject [
 	ip := anObject
+]
+
+{ #category : #'as yet unclassified' }
+MoodleEventLog >> printOn: aStream [
+	aStream << eventName.
+	aStream << ('; user: ', user email).
+	^aStream. 
 ]
 
 { #category : #accessing }

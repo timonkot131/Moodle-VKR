@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TMQueryBuilder classTrait',
 	#instVars : [
 		'currentQueryArguments',
-		'query'
+		'query',
+		'token'
 	],
 	#category : #'MoodleVKR-API'
 }
@@ -40,6 +41,11 @@ ApiQueryBuilder class >> moodleUserId: aSelected applyTo: aMoodleUserOrSymbol [
 ^aMoodleUserOrSymbol id = aSelected
 ]
 
+{ #category : #initialization }
+ApiQueryBuilder class >> query: aGtSearchFilter token: aString [
+^self new query: aGtSearchFilter; token: aString.
+]
+
 { #category : #'as yet unclassified' }
 ApiQueryBuilder >> acceptQuery: aBlock [
 	query := aBlock.
@@ -65,20 +71,50 @@ ApiQueryBuilder >> currentQueryFilters [
 
 { #category : #execution }
 ApiQueryBuilder >> execute [
-	| users anApiUser logs userQuery |
-	anApiUser := ApiUser forToken: 'f8ae68ba7886638627da9f059ca3555e'.
-	userQuery := (self check: MoodleUser new).
-	
-	userQuery ~= #pass 
-		ifTrue:  [ 
-			| emails |
-			users := anApiUser completeUsers filter:  userQuery.
-			emails := self check: #moodleuser_email.
-			
-			
-			
-		] 
-		ifFalse: [].
-	
-	logs := MoodleDBEventLog storedInstances filter: (self check: MoodleDBEventLog blockArgument).
+	| userQuery  |
+	userQuery := self check: MoodleUser new.
+	userQuery ~= #pass
+		ifTrue: [ | users subQuery logs stream |
+			users := (self fetchUsers  select: query) cached .
+			subQuery := users inject: MethodNullSearchFilter new into: [:aQuery :anItem | aQuery | [:x | x userid = anItem id] ].
+			logs := MoodleDBEventLog storedInstances "satisfying" select: query & (subQuery wait).
+			stream := (IteratorStream forPosStream: logs readStream).
+			^stream asAsyncStream toArray wait collect: [:log | 
+				|user| 
+				user := (users asyncSimilarCopy select: [:aUser | aUser id = log userid ]) next wait value .
+				MoodleEventLog new user:  user; eventName: log eventname; id: log id] ]
+]
+
+{ #category : #'as yet unclassified' }
+ApiQueryBuilder >> fetchUsers [
+	| apiUser |
+	apiUser := ApiUser forToken: token.
+	{'email'. 'id'. 'username'}
+		do: [ :item | 
+			| byQuery |
+			byQuery := query value: ('moodleuser_' , item) asSymbol.
+			byQuery isArray
+				ifTrue: [ byQuery ifEmpty: [ ^ {} ].
+				^ apiUser completeUsersChunk: byQuery field: item ]].
+	^apiUser completeUsers.
+]
+
+{ #category : #accessing }
+ApiQueryBuilder >> query [
+	^ query
+]
+
+{ #category : #accessing }
+ApiQueryBuilder >> query: aGtSearchFilter [
+	query := aGtSearchFilter.
+]
+
+{ #category : #accessing }
+ApiQueryBuilder >> token [
+	^ token
+]
+
+{ #category : #accessing }
+ApiQueryBuilder >> token: anObject [
+	token := anObject
 ]

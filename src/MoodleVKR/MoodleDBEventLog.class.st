@@ -71,6 +71,16 @@ MoodleDBEventLog >> eventname: anObject [
 ]
 
 { #category : #accessing }
+MoodleDBEventLog >> id [
+	^ id
+]
+
+{ #category : #accessing }
+MoodleDBEventLog >> id: anObject [
+	id := anObject
+]
+
+{ #category : #accessing }
 MoodleDBEventLog >> ip [
 	^ ip
 ]
@@ -83,6 +93,8 @@ MoodleDBEventLog >> ip: anObject [
 { #category : #printing }
 MoodleDBEventLog >> printOn: aStream [
 	aStream << eventname.
+	aStream << ('; userid: ', userid asString).
+	aStream << ('; courseid: ', courseid asString).
 	^aStream.
 ]
 
