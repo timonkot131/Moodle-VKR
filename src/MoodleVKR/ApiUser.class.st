@@ -14,7 +14,7 @@ ApiUser class >> forToken: aString [
 
 { #category : #'stream creation' }
 ApiUser >> completeUsers [
-	| chunked fullUsers mapped |
+	| chunked fullUsers mapped | 
 	mapped := self relatedUsers asAsyncStream map: [ :x | x at: 'id' ].
 	chunked := mapped chunks: 50.
 	fullUsers := chunked collect: [ :ids | self completeUsersChunk: ids ].

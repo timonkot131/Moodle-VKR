@@ -1,6 +1,8 @@
 Class {
 	#name : #MSearchUnionFilter,
 	#superclass : #GtSearchUnionFilter,
+	#traits : 'TMFilterExcutor',
+	#classTraits : 'TMFilterExcutor classTrait',
 	#category : #'MoodleVKR-Filters - Model'
 }
 
