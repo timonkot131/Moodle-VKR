@@ -71,16 +71,11 @@ JSONIterator >> jsonReader: anObject [
 
 { #category : #'as yet unclassified' }
 JSONIterator >> next [
-	(charReader position = 0 and: [arrayClass = MoodleCourse]) "Уместный костыль"
-		ifTrue: [
-			[ charReader peek = $[ ] whileFalse: [charReader next].
-		].
 	[ charReader atEnd ]
 		whileFalse: [ charReader peek = ${
-				ifTrue: [ 
-					
-					arrayClass
-						ifNotNil: [ arrayClass traceCr. ^ jsonReader nextAs: arrayClass ]
+				ifTrue: [ arrayClass
+						ifNotNil: [ arrayClass traceCr.
+							^ jsonReader nextAs: arrayClass ]
 						ifNil: [ ^ jsonReader parseMap ] ]
 				ifFalse: [ charReader next ] ]
 ]
