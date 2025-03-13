@@ -75,14 +75,21 @@ ApiQueryBuilder >> execute [
 	userQuery := self check: MoodleUser new.
 	userQuery ~= #pass
 		ifTrue: [ | users subQuery |
-			users := (self fetchUsers select: query) cached.
-			subQuery := users
+			users := (self fetchUsers select: query) cached
+			collect: [:anItem | query & [:x | x userid = anItem id]].
+		"	subQuery := user
 					inject: MethodNullSearchFilter new
-					into: [ :aQuery :anItem | aQuery | [ :x | x userid = anItem id ] ].
-			^(query | subQuery wait) execute. ]	
+					into: [ :aQuery :anItem | aQuery | [ :x | x userid = anItem id ] ]."
+			^(users collect: #execute) flatten. ]	
 		ifFalse: [ 
 			^query execute.
 		 ] 
+]
+
+{ #category : #'as yet unclassified' }
+ApiQueryBuilder >> fetchCourses [ 
+| apicourse |
+apicourse := ApiCourse forToken: token
 ]
 
 { #category : #'as yet unclassified' }

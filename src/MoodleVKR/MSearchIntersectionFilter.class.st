@@ -1,6 +1,8 @@
 Class {
 	#name : #MSearchIntersectionFilter,
 	#superclass : #GtSearchIntersectionFilter,
+	#traits : 'TMFilterExcutor',
+	#classTraits : 'TMFilterExcutor classTrait',
 	#category : #'MoodleVKR-Filters - Model'
 }
 
