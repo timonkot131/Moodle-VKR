@@ -1,6 +1,8 @@
 Class {
 	#name : #MethodSearchFilter,
 	#superclass : #GtSearchFilter,
+	#traits : 'TMFilterExcutor',
+	#classTraits : 'TMFilterExcutor classTrait',
 	#instVars : [
 		'method',
 		'selectedValue',
@@ -17,6 +19,11 @@ MethodSearchFilter class >> null [
 { #category : #'logical operations' }
 MethodSearchFilter >> & aFilter [
 	^ MSearchIntersectionFilter forFilter: self filter: aFilter
+]
+
+{ #category : #'as yet unclassified' }
+MethodSearchFilter >> buildAsyncQuery [
+^{self} asAsyncStream
 ]
 
 { #category : #testing }
@@ -67,7 +74,7 @@ MethodSearchFilter >> pragmaArgs [
 
 { #category : #'as yet unclassified' }
 MethodSearchFilter >> printOn: aStream [ 
-aStream << self pragmaArgs asString.
+aStream << (self pragmaArgs asString, ': ', selectedValue ).
 ]
 
 { #category : #accessing }

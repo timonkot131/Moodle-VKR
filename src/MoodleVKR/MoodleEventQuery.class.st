@@ -88,7 +88,10 @@ MoodleEventQuery class >> ruleHierarchy [
  {MoodleUser. #fullname}.
  {MoodleUser. #username}.
  {MoodleUser. #email}.
+  {MoodleUser. #id}.
  {MoodleCourse. #fullname}.
+ {MoodleCourse. #id}.
+ {MoodleCourse. #category}.
  {MoodleCourse. #shortname}.
  {MoodleCourse. MoodleQuiz. #name}.
  {MoodleCourse. MoodleQuiz. MoodleAttempt. #id}

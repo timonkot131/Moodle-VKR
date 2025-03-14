@@ -12,6 +12,16 @@ MSearchIntersectionFilter >> & aFilter [
 ]
 
 { #category : #'as yet unclassified' }
+MSearchIntersectionFilter >> buildAsyncQuery [
+	| leftQuery rightQuery |
+	leftQuery := left buildAsyncQuery.
+	rightQuery := right buildAsyncQuery.
+	^ leftQuery
+		flatCollect: 
+		[ :aLeft | rightQuery collect: [ :aRight | aLeft & aRight ] ]
+]
+
+{ #category : #'as yet unclassified' }
 MSearchIntersectionFilter >> matches: anObject [
 	| resLeft resRight |
 	resLeft := left value: anObject.

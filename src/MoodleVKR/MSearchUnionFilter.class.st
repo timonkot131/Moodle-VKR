@@ -11,6 +11,14 @@ MSearchUnionFilter >> & aFilter [
 	^ MSearchIntersectionFilter forFilter: self filter: aFilter
 ]
 
+{ #category : #'as yet unclassified' }
+MSearchUnionFilter >> buildAsyncQuery [
+	|leftQuery rightQuery|
+	leftQuery := left buildAsyncQuery. 
+	rightQuery := right buildAsyncQuery.
+	^leftQuery merge: rightQuery.
+]
+
 { #category : #testing }
 MSearchUnionFilter >> matches: anObject [
 	| resLeft resRight |

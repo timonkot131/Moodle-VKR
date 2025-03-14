@@ -22,11 +22,70 @@ ApiQueryBuilder class >> courseFullName: aSelected applyTo: anObject [
 ^anObject fullName = aSelected.
 ]
 
+{ #category : #utilities }
+ApiQueryBuilder class >> fetchCourses: aGtSearchFilter token: aToken [
+| apiCourse byIdQuery |
+apiCourse := ApiCourse forToken: aToken.
+byIdQuery := aGtSearchFilter value: 'moodlecourse_id' asSymbol.
+byIdQuery isArray 
+		ifTrue: [
+			byIdQuery ifEmpty: [^ {} asAsyncStream].
+			^ apiCourse completeCoursesChunk: byIdQuery
+		].
+{'shortname'. 'category'} 
+	do: [ :item | 
+			| byQuery |
+			byQuery := aGtSearchFilter value: ('moodlecourse_' , item) asSymbol.
+			byQuery isArray
+				ifTrue: [ byQuery ifEmpty: [ ^ {} asAsyncStream ].
+				^ apiCourse completeCoursesChunk: byQuery field: item ]].
+	^apiCourse completeCourses. 
+]
+
+{ #category : #utilities }
+ApiQueryBuilder class >> fetchUsers: aGtSearchFilter token: aString [
+	| apiUser |
+	apiUser := ApiUser forToken: aString.
+	{'email'. 'id'. 'username'}
+		do: [ :item | 
+			| byQuery |
+			byQuery := aGtSearchFilter value: ('moodleuser_' , item) asSymbol.
+			byQuery isArray
+				ifTrue: [ byQuery ifEmpty: [ ^ {} asAsyncStream ].
+				^ apiUser completeUsersChunk: byQuery field: item ]].
+	^apiUser completeUsers.
+]
+
+{ #category : #query }
+ApiQueryBuilder class >> moodleCourseCategory: aSelected applyTo: aMoodleCourse [
+<rule: #(MoodleCourse category)>
+^aMoodleCourse category = aSelected.
+]
+
+{ #category : #query }
+ApiQueryBuilder class >> moodleCourseId: aSelected applyTo: aMoodleCourse [
+<rule: #(MoodleCourse id)>
+^aMoodleCourse id = aSelected
+]
+
+{ #category : #query }
+ApiQueryBuilder class >> moodleCourseShortname: aSelected applyTo: aMoodleCourse [
+<rule: #(MoodleCourse shortname)>
+^aMoodleCourse shortname = aSelected.
+]
+
 { #category : #query }
 ApiQueryBuilder class >> moodleQueryEventname: aSelected applyTo: anObject [
 <rule: #(eventname)>
 anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ^anObject eventname = aSelected
+]
+
+{ #category : #query }
+ApiQueryBuilder class >> moodleQueryIp: aSelected applyTo: aMoodleQuery [
+<rule: #(ip)>
+aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
+^aMoodleQuery eventname = aSelected
 ]
 
 { #category : #query }
@@ -36,9 +95,21 @@ ApiQueryBuilder class >> moodleUserEmail: aSelected applyTo: aMoodleUser [
 ]
 
 { #category : #query }
+ApiQueryBuilder class >> moodleUserFullname: aSelected applyTo: aMoodleUser [
+<rule: #(MoodleUser fullname)>
+^aMoodleUser fullName = aSelected
+]
+
+{ #category : #query }
 ApiQueryBuilder class >> moodleUserId: aSelected applyTo: aMoodleUserOrSymbol [
 <rule: #(MoodleUser id)>
 ^aMoodleUserOrSymbol id = aSelected
+]
+
+{ #category : #query }
+ApiQueryBuilder class >> moodleUserUsername: aSelected applyTo: aMoodleUser [
+<rule: #(MoodleUser username)>
+^aMoodleUser username = aSelected.
 ]
 
 { #category : #initialization }
@@ -71,39 +142,39 @@ ApiQueryBuilder >> currentQueryFilters [
 
 { #category : #execution }
 ApiQueryBuilder >> execute [
-	| userQuery |
-	userQuery := self check: MoodleUser new.
+	| preloaded |
+	preloaded := self preloaded.
+	^ preloaded flatCollect: #execute
+]
+
+{ #category : #execution }
+ApiQueryBuilder >> preload: aGtSearchFilter [
+	| userQuery courseQuery courses users |
+	courseQuery := aGtSearchFilter value: MoodleCourse new.
+	userQuery := aGtSearchFilter value: MoodleUser new.
+
+	courseQuery ~= #pass
+		ifTrue: [ courses := (ApiQueryBuilder fetchCourses: aGtSearchFilter token: token) cached
+					collect: [ :anItem | aGtSearchFilter & [ :x | x courseid = anItem id ] ] ].
+
 	userQuery ~= #pass
-		ifTrue: [ | users subQuery |
-			users := (self fetchUsers select: query) cached
-			collect: [:anItem | query & [:x | x userid = anItem id]].
-		"	subQuery := user
-					inject: MethodNullSearchFilter new
-					into: [ :aQuery :anItem | aQuery | [ :x | x userid = anItem id ] ]."
-			^(users collect: #execute) flatten. ]	
-		ifFalse: [ 
-			^query execute.
-		 ] 
+		ifTrue: [ users := (ApiQueryBuilder fetchUsers: aGtSearchFilter token: token) cached
+					collect: [ :anItem | aGtSearchFilter & [ :x | x userid = anItem id ] ] ].
+
+	(courseQuery ~= #pass and: [ userQuery ~= #pass ])
+		ifTrue: [ ^ users
+				flatCollect: [ :anUser | courses collect: [ :aCourse | 				      			
+						anUser & aCourse 
+					]]].
+					
+	courseQuery ~= #pass ifTrue: [ ^courses ].
+	userQuery ~= #pass ifTrue: [ ^users ].
+	^ {aGtSearchFilter} asAsyncStream
 ]
 
-{ #category : #'as yet unclassified' }
-ApiQueryBuilder >> fetchCourses [ 
-| apicourse |
-apicourse := ApiCourse forToken: token
-]
-
-{ #category : #'as yet unclassified' }
-ApiQueryBuilder >> fetchUsers [
-	| apiUser |
-	apiUser := ApiUser forToken: token.
-	{'email'. 'id'. 'username'}
-		do: [ :item | 
-			| byQuery |
-			byQuery := query value: ('moodleuser_' , item) asSymbol.
-			byQuery isArray
-				ifTrue: [ byQuery ifEmpty: [ ^ {} ].
-				^ apiUser completeUsersChunk: byQuery field: item ]].
-	^apiUser completeUsers.
+{ #category : #execution }
+ApiQueryBuilder >> preloaded [
+	^ query buildAsyncQuery flatCollect: [ :aQuery | self preload: aQuery ]
 ]
 
 { #category : #accessing }
