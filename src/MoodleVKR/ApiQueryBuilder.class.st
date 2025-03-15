@@ -22,6 +22,13 @@ ApiQueryBuilder class >> courseFullName: aSelected applyTo: anObject [
 ^anObject fullName = aSelected.
 ]
 
+{ #category : #query }
+ApiQueryBuilder class >> courseId: aSelected applyTo: anObject [
+<rule: #(courseid)>
+anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
+^anObject courseid = aSelected
+]
+
 { #category : #utilities }
 ApiQueryBuilder class >> fetchCourses: aGtSearchFilter token: aToken [
 | apiCourse byIdQuery |
@@ -117,14 +124,16 @@ ApiQueryBuilder class >> query: aGtSearchFilter token: aString [
 ^self new query: aGtSearchFilter; token: aString.
 ]
 
+{ #category : #query }
+ApiQueryBuilder class >> userId: aSelected applyTo: anObject [
+<rule: #(userid)>
+anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
+^anObject userid = aSelected
+]
+
 { #category : #'as yet unclassified' }
 ApiQueryBuilder >> acceptQuery: aBlock [
 	query := aBlock.
-]
-
-{ #category : #rules }
-ApiQueryBuilder >> argument: aBlock for: aCollection [
-self currentQueryFilters at: aCollection put: aBlock.
 ]
 
 { #category : #utilites }
@@ -132,12 +141,6 @@ ApiQueryBuilder >> check: anObject [
 (query value: anObject) = #pass ifTrue: 
 	[^ #pass.]
 	ifFalse: [^ query]
-]
-
-{ #category : #rules }
-ApiQueryBuilder >> currentQueryFilters [
-<return: #aDictionary of: #Collection to: #anObject>
-	self currentQueryFilters
 ]
 
 { #category : #execution }
@@ -153,22 +156,24 @@ ApiQueryBuilder >> preload: aGtSearchFilter [
 	courseQuery := aGtSearchFilter value: MoodleCourse new.
 	userQuery := aGtSearchFilter value: MoodleUser new.
 
-	courseQuery ~= #pass
-		ifTrue: [ courses := (ApiQueryBuilder fetchCourses: aGtSearchFilter token: token) cached
-					collect: [ :anItem | aGtSearchFilter & [ :x | x courseid = anItem id ] ] ].
+	courses := courseQuery ~= #pass
+		ifTrue: [ (self class fetchCourses: aGtSearchFilter token: token) cached
+					collect: [ :anItem | 
+						self class fetchRule: {#courseid} select: anItem id ] ].
 
-	userQuery ~= #pass
-		ifTrue: [ users := (ApiQueryBuilder fetchUsers: aGtSearchFilter token: token) cached
-					collect: [ :anItem | aGtSearchFilter & [ :x | x userid = anItem id ] ] ].
+	users := userQuery ~= #pass
+		ifTrue: [  (self class fetchUsers: aGtSearchFilter token: token) cached
+					collect: [ :anItem |
+						self class fetchRule: {#userid} select: anItem id ] ].
 
 	(courseQuery ~= #pass and: [ userQuery ~= #pass ])
 		ifTrue: [ ^ users
-				flatCollect: [ :anUser | courses collect: [ :aCourse | 				      			
-						anUser & aCourse 
-					]]].
-					
-	courseQuery ~= #pass ifTrue: [ ^courses ].
-	userQuery ~= #pass ifTrue: [ ^users ].
+				flatCollect: [ :anUser |
+					courses collect: [ :aCourse | aGtSearchFilter & (anUser & aCourse) ] ] ].
+
+	courseQuery ~= #pass
+		ifTrue: [ ^ courses collect: [ :x | aGtSearchFilter & x ] ].
+	userQuery ~= #pass ifTrue: [ ^ users collect: [ :x | aGtSearchFilter & x ] ].
 	^ {aGtSearchFilter} asAsyncStream
 ]
 

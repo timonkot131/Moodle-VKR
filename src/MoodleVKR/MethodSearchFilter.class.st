@@ -74,7 +74,7 @@ MethodSearchFilter >> pragmaArgs [
 
 { #category : #'as yet unclassified' }
 MethodSearchFilter >> printOn: aStream [ 
-aStream << (self pragmaArgs asString, ': ', selectedValue ).
+aStream << (self pragmaArgs asString, ': ', selectedValue asString ).
 ]
 
 { #category : #accessing }

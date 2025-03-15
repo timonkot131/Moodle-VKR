@@ -91,6 +91,16 @@ TMQueryBuilder classSide >> edgeStencil: selfRules extra: extraRules [
 		border: (BlBorder paint: (color alpha: 0.5)) ]
 ]
 
+{ #category : #rules }
+TMQueryBuilder classSide >> fetchRule: aSet [
+^CreateMethodBuilder from: (self rules at: aSet)
+]
+
+{ #category : #rules }
+TMQueryBuilder classSide >> fetchRule: aSet select: anObject [
+^(CreateMethodBuilder from: (self rules at: aSet)) cull: anObject cull: nil
+]
+
 { #category : #view }
 TMQueryBuilder classSide >> gtQueryGraphFor: aView [
 <gtClassView>
@@ -111,15 +121,4 @@ TMQueryBuilder classSide >> rules [
 			anArgument := MoodleEventQuery parseRule: aPragma arguments first. 
 			anArgument -> aPragma method.
 			 ]) asDictionary
-]
-
-{ #category : #rules }
-TMQueryBuilder >> argument: anObject for: aCollection [
-self currentQueryFilters at: aCollection put: anObject.
-]
-
-{ #category : #rules }
-TMQueryBuilder >> currentQueryFilters [
-<return: #aDictionary of: #Collection to: #anObject>
-	^self explicitRequirement
 ]
