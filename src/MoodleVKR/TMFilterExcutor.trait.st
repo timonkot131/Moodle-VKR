@@ -40,7 +40,7 @@ TMFilterExcutor >> gtFilterQueryFor: aView [
 ^ aView columnedList
 		title: 'Items';
 		priority: 5;
-		items: [ (ApiQueryBuilder query: self    token: MConfig token) execute asyncSimilarCopy.];
+		items: [ (ApiQueryBuilder execute: self token: MConfig token) asyncSimilarCopy.];
 		column: 'Number' text: [ :_ :anIndex | anIndex ] width: 50;
 		column: 'Name' text: [ :each | each ];
 		actionUpdateButton
@@ -53,7 +53,7 @@ TMFilterExcutor >> gtPreloaded: aView [
 ^ aView columnedList
 		title: 'Preloaded';
 		priority: 5;
-		items: [ (ApiQueryBuilder query: self    token: MConfig token) preloaded asyncSimilarCopy.];
+		items: [ (ApiQueryBuilder preload: self    token: MConfig token) asyncSimilarCopy.];
 		column: 'Number' text: [ :_ :anIndex | anIndex ] width: 50;
 		column: 'Name' text: [ :each | each ];
 		actionUpdateButton

@@ -29,6 +29,13 @@ anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ^anObject courseid = aSelected
 ]
 
+{ #category : #execution }
+ApiQueryBuilder class >> execute: aGtSearchQuery token: aString [
+	| preloaded |
+	preloaded := self preloaded: aGtSearchQuery token: aString.
+	^ preloaded flatCollect: #execute
+]
+
 { #category : #utilities }
 ApiQueryBuilder class >> fetchCourses: aGtSearchFilter token: aToken [
 | apiCourse byIdQuery |
@@ -119,52 +126,21 @@ ApiQueryBuilder class >> moodleUserUsername: aSelected applyTo: aMoodleUser [
 ^aMoodleUser username = aSelected.
 ]
 
-{ #category : #initialization }
-ApiQueryBuilder class >> query: aGtSearchFilter token: aString [
-^self new query: aGtSearchFilter; token: aString.
-]
-
-{ #category : #query }
-ApiQueryBuilder class >> userId: aSelected applyTo: anObject [
-<rule: #(userid)>
-anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
-^anObject userid = aSelected
-]
-
-{ #category : #'as yet unclassified' }
-ApiQueryBuilder >> acceptQuery: aBlock [
-	query := aBlock.
-]
-
-{ #category : #utilites }
-ApiQueryBuilder >> check: anObject [
-(query value: anObject) = #pass ifTrue: 
-	[^ #pass.]
-	ifFalse: [^ query]
-]
-
 { #category : #execution }
-ApiQueryBuilder >> execute [
-	| preloaded |
-	preloaded := self preloaded.
-	^ preloaded flatCollect: #execute
-]
-
-{ #category : #execution }
-ApiQueryBuilder >> preload: aGtSearchFilter [
+ApiQueryBuilder class >> preload: aGtSearchFilter token: aString [
 	| userQuery courseQuery courses users |
 	courseQuery := aGtSearchFilter value: MoodleCourse new.
 	userQuery := aGtSearchFilter value: MoodleUser new.
 
 	courses := courseQuery ~= #pass
-		ifTrue: [ (self class fetchCourses: aGtSearchFilter token: token) cached
+		ifTrue: [ (self fetchCourses: aGtSearchFilter token: aString) cached
 					collect: [ :anItem | 
-						self class fetchRule: {#courseid} select: anItem id ] ].
+						self fetchRule: {#courseid} select: anItem id ] ].
 
 	users := userQuery ~= #pass
-		ifTrue: [  (self class fetchUsers: aGtSearchFilter token: token) cached
+		ifTrue: [  (self fetchUsers: aGtSearchFilter token: aString) cached
 					collect: [ :anItem |
-						self class fetchRule: {#userid} select: anItem id ] ].
+						self fetchRule: {#userid} select: anItem id ] ].
 
 	(courseQuery ~= #pass and: [ userQuery ~= #pass ])
 		ifTrue: [ ^ users
@@ -178,8 +154,34 @@ ApiQueryBuilder >> preload: aGtSearchFilter [
 ]
 
 { #category : #execution }
-ApiQueryBuilder >> preloaded [
-	^ query buildAsyncQuery flatCollect: [ :aQuery | self preload: aQuery ]
+ApiQueryBuilder class >> preloaded: aGtSearchFilter token: aString [
+	^ aGtSearchFilter distributeAsync flatCollect: [ :aQuery | self preload: aQuery  token: aString]
+]
+
+{ #category : #initialization }
+ApiQueryBuilder class >> query: aGtSearchFilter token: aString [
+^self new query: aGtSearchFilter; token: aString.
+]
+
+{ #category : #utilities }
+ApiQueryBuilder class >> queryMethodSelector: selector class: class [
+^(class first asLowercase asString, class copyWithoutFirst)
+			, (selector first asUppercase asString, selector copyWithoutFirst)
+			, ': aSelected applyTo: a', class .
+]
+
+{ #category : #query }
+ApiQueryBuilder class >> userId: aSelected applyTo: anObject [
+<rule: #(userid)>
+anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
+^anObject userid = aSelected
+]
+
+{ #category : #utilities }
+ApiQueryBuilder >> check: anObject [
+(query value: anObject) = #pass ifTrue: 
+	[^ #pass.]
+	ifFalse: [^ query]
 ]
 
 { #category : #accessing }

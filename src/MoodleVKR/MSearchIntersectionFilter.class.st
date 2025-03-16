@@ -12,10 +12,10 @@ MSearchIntersectionFilter >> & aFilter [
 ]
 
 { #category : #'as yet unclassified' }
-MSearchIntersectionFilter >> buildAsyncQuery [
+MSearchIntersectionFilter >> distributeAsync [
 	| leftQuery rightQuery |
-	leftQuery := left buildAsyncQuery.
-	rightQuery := right buildAsyncQuery.
+	leftQuery := left distributeAsync.
+	rightQuery := right distributeAsync.
 	^ leftQuery
 		flatCollect: 
 		[ :aLeft | rightQuery collect: [ :aRight | aLeft & aRight ] ]

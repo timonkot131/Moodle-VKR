@@ -22,7 +22,7 @@ MethodSearchFilter >> & aFilter [
 ]
 
 { #category : #'as yet unclassified' }
-MethodSearchFilter >> buildAsyncQuery [
+MethodSearchFilter >> distributeAsync [
 ^{self} asAsyncStream
 ]
 

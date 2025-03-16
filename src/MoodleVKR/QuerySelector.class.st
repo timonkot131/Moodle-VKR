@@ -72,9 +72,7 @@ QuerySelector >> newCoder: aClass [
 	rule := self serializeRule.
 	class := associtation first asString.
 	selector := associtation second asString.
-	methodName := (class first asLowercase asString, class copyWithoutFirst)
-			, (selector first asUppercase asString, selector copyWithoutFirst)
-			, ': aSelected applyTo: a', class .
+	methodName := aClass queryMethodSelector: selector class: class.
 	pragma := '<rule: ', rule ,'>'.
 	body := {methodName. pragma} asStringWithCr.
 	^ GtPharoNewMethodCoderMenu new forClass: aClass classSide source: body; shouldHaveHeader: false; protocol: 'query'. 

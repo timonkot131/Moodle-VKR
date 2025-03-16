@@ -12,10 +12,10 @@ MSearchUnionFilter >> & aFilter [
 ]
 
 { #category : #'as yet unclassified' }
-MSearchUnionFilter >> buildAsyncQuery [
+MSearchUnionFilter >> distributeAsync [
 	|leftQuery rightQuery|
-	leftQuery := left buildAsyncQuery. 
-	rightQuery := right buildAsyncQuery.
+	leftQuery := left distributeAsync. 
+	rightQuery := right distributeAsync.
 	^leftQuery merge: rightQuery.
 ]
 
