@@ -4,7 +4,8 @@ Class {
 	#traits : 'TMQueryBuilder',
 	#classTraits : 'TMQueryBuilder classTrait',
 	#instVars : [
-		'filterItemsModel'
+		'filterItemsModel',
+		'sourceQueryBuilder'
 	],
 	#category : #'MoodleVKR-Filters - Model'
 }
@@ -21,7 +22,9 @@ MoodleAvailableFiltersBuilder class >> moodleCourseShortname: aCompiledMethod [
 MoodleAvailableFiltersBuilder class >> moodleQueryEventname: aCompiledMethod [
 <rule: #(eventname)>
 ^GtFilterTextModel new 
-	name: 'Событие'.
+	name: 'Событие';
+	completion: (MEventCompletionStrategy new
+				"completions: (GtPrefixTree withAll: (Smalltalk allClasses collect: #name))")
 ]
 
 { #category : #query }
@@ -41,7 +44,14 @@ MoodleAvailableFiltersBuilder class >> queryMethodSelector: selector class: clas
 { #category : #'as yet unclassified' }
 MoodleAvailableFiltersBuilder >> availableFilters [
 <return: #Collection of: #GtFilterModel>
-^#() 
+^self class rules associations collect: [:pair |
+	| compiledMethod filterModel sourceRules|
+	sourceRules := self sourceQueryBuilder rules.
+	compiledMethod := sourceRules at: pair key.
+	filterModel := pair value valueWithReceiver: self class
+				arguments: {compiledMethod}.
+	filterModel creator: (CreateMethodBuilder from: compiledMethod)
+ ]
 
 ]
 
@@ -53,4 +63,14 @@ MoodleAvailableFiltersBuilder >> filterItemsModel [
 { #category : #accessing }
 MoodleAvailableFiltersBuilder >> filterItemsModel: anObject [
 	filterItemsModel := anObject
+]
+
+{ #category : #accessing }
+MoodleAvailableFiltersBuilder >> sourceQueryBuilder [
+	^ sourceQueryBuilder
+]
+
+{ #category : #accessing }
+MoodleAvailableFiltersBuilder >> sourceQueryBuilder: aTMQueryBuilder [
+	sourceQueryBuilder := aTMQueryBuilder
 ]

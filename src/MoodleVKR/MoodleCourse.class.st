@@ -39,6 +39,12 @@ MoodleCourse >> id: anObject [
 	id := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+MoodleCourse >> printOn: aStream [
+aStream << fullname.
+^aStream.
+]
+
 { #category : #accessing }
 MoodleCourse >> shortname [
 	^ shortname
