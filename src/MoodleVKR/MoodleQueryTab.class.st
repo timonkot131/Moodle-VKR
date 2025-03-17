@@ -6,7 +6,11 @@ Class {
 		'queryViewModel',
 		'sourceViewModel',
 		'titleEditor',
-		'titleHandler'
+		'titleHandler',
+		'availableFilters',
+		'anItemsModelType',
+		'anItemsModel',
+		'filterView'
 	],
 	#category : #'MoodleVKR-MoodleApp'
 }
@@ -36,12 +40,12 @@ MoodleQueryTab >> focusTitleEditor [
 { #category : #'as yet unclassified' }
 MoodleQueryTab >> initialize [
 	super initialize.
-	
+	 
 	mainFrame := BlElement new
 			padding: (BlInsets all: 10);
 			constraintsDo: [ :c | 
 				c vertical fitContent.
-				c horizontal fitContent ];
+				c horizontal matchParent ];
 			layout: BlLinearLayout vertical.
 
 	titleEditor := BrEditor new
@@ -51,14 +55,19 @@ MoodleQueryTab >> initialize [
 			id: 'Editor';
 			geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
 			border: (BlBorder paint: Color veryLightGray width: 1).
-			
-
+			 
+	availableFilters := (MoodleAvailableFiltersBuilder  new sourceQueryBuilder: ApiQueryBuilder).
+	anItemsModelType := ConjFilterItemsModel.
+	anItemsModel := anItemsModelType new.
+	anItemsModel availableFiltersBuilder: availableFilters.
 	titleEditor editor
 		when: BrTextEditorModifiedEvent
 		do: self onTitleEditorChanged.
-
+	filterView := anItemsModel asFiltersElement margin: (BlInsets top: 5).
+		
 	mainFrame addChild: titleEditor.
-
+	mainFrame addChild: filterView.
+	
 	self
 		aptitude: BrGlamorousTabAptitude;
 		padding: (BlInsets all: 10);
