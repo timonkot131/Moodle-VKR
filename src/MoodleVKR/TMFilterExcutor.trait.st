@@ -6,6 +6,7 @@ Trait {
 { #category : #'as yet unclassified' }
 TMFilterExcutor >> execute [
 | res stream chunks   | 
+		
 			res := MoodleDBEventLog storedInstances select: self.
 			stream := IteratorStream forPosStream: res readStream.
 			chunks := (stream asAsyncStream chunks: 50) cached  collect: [:logs | 
@@ -21,9 +22,12 @@ TMFilterExcutor >> execute [
 				courses := courseJob wait.
 				courses ifNil: [courses := Dictionary new].
 				users := userJob wait.
+				GtJustContextStackSignal emit.
 				logs asAsyncStream collect: [:log  |
+
 					MoodleEventLog new
 						ip: log ip;
+						timeCreated: log timecreated;
 						user: (users at: log userid );
 						course: (courses at: log courseid ifAbsent: [nil]);
 						eventName: log eventname;
@@ -37,12 +41,17 @@ TMFilterExcutor >> execute [
 TMFilterExcutor >> gtFilterQueryFor: aView [
 <gtToolView>
 <gtView>
-^ aView columnedList
+^aView columnedList
 		title: 'Items';
 		priority: 5;
-		items: [ (ApiQueryBuilder execute: self token: MConfig token) asyncSimilarCopy.];
-		column: 'Number' text: [ :_ :anIndex | anIndex ] width: 50;
-		column: 'Name' text: [ :each | each ];
+		items: [ (ApiQueryBuilder execute: self token: MConfig token) asyncSimilarCopy.
+		
+		]; 
+	 	column: 'index' text: [:each :index | index asString]; 
+		column: 'Событие' text: [:each | each eventName]; 
+		column: 'Пользователь' text: [:each | each user userName] width: 70;
+		column: 'Курс' text: [ :each | each course ifNotNil: [:x | x shortname] ifNil: ['Нет'] ] width: 70;
+		column: 'Время' text: [ :each | each timeCreated];
 		actionUpdateButton
 ]
 

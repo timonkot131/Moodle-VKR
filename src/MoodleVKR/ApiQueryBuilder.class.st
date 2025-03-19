@@ -33,7 +33,7 @@ anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ApiQueryBuilder class >> execute: aGtSearchQuery token: aString [
 	| preloaded |
 	preloaded := self preloaded: aGtSearchQuery token: aString.
-	^ preloaded flatCollect: #execute
+	^ preloaded flatCollect: #execute.
 ]
 
 { #category : #utilities }
@@ -123,7 +123,7 @@ ApiQueryBuilder class >> moodleUserId: aSelected applyTo: aMoodleUserOrSymbol [
 { #category : #query }
 ApiQueryBuilder class >> moodleUserUsername: aSelected applyTo: aMoodleUser [
 <rule: #(MoodleUser username)>
-^aMoodleUser username = aSelected.
+^aMoodleUser userName = aSelected.
 ]
 
 { #category : #execution }
@@ -137,15 +137,19 @@ ApiQueryBuilder class >> preload: aGtSearchFilter token: aString [
 					collect: [ :anItem | 
 						self fetchRule: {#courseid} select: anItem id ] ].
 
+	
 	users := userQuery ~= #pass
 		ifTrue: [  (self fetchUsers: aGtSearchFilter token: aString) cached
 					collect: [ :anItem |
 						self fetchRule: {#userid} select: anItem id ] ].
+						
+	GtJustContextStackSignal emit.
 
 	(courseQuery ~= #pass and: [ userQuery ~= #pass ])
 		ifTrue: [ ^ users
 				flatCollect: [ :anUser |
-					courses collect: [ :aCourse | aGtSearchFilter & (anUser & aCourse) ] ] ].
+					courses asyncSimilarCopy map: [ :aCourse | aGtSearchFilter & (anUser & aCourse) ] .
+					]].
 
 	courseQuery ~= #pass
 		ifTrue: [ ^ courses collect: [ :x | aGtSearchFilter & x ] ].

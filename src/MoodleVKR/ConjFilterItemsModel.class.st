@@ -6,6 +6,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 ConjFilterItemsModel >> asSearchFilter [
+	
 	^ self filters reduce: [ :x :y | x & y ]
 ]
 

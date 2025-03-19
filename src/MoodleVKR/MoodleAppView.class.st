@@ -40,7 +40,9 @@ MoodleAppView >> initialize [
 
 	aTabGroup := BrTabGroup new
 			aptitude: BrGlamorousTabGroupAptitude;
-			size: 400 @ 300;
+			constraintsDo: [:c | c vertical matchParent.
+									c horizontal matchParent];
+	
 			border: (BlBorder paint: Color lightGray width: 1);
 			addTabs: {dbTab.
 					queryTab}.
@@ -53,8 +55,8 @@ MoodleAppView >> initialize [
 	self
 		layout: BlFrameLayout new;
 		constraintsDo: [ :c | 
-			c vertical fitContent.
-			c horizontal fitContent ];
+			c vertical matchParent.
+			c horizontal matchParent ];
 		addChild: aTabGroup
 ]
 

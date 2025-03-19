@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'eventName',
 		'ip',
-		'timeCreated',
+		'timecreated',
 		'user',
 		'course',
 		'id'
@@ -60,6 +60,16 @@ MoodleEventLog >> printOn: aStream [
 	aStream << eventName.
 	aStream << ('; user: ', user email).
 	^aStream. 
+]
+
+{ #category : #'as yet unclassified' }
+MoodleEventLog >> timeCreated [
+^timecreated
+]
+
+{ #category : #'as yet unclassified' }
+MoodleEventLog >> timeCreated: aNumber [
+timecreated := aNumber.
 ]
 
 { #category : #accessing }

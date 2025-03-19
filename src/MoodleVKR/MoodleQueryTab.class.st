@@ -10,7 +10,9 @@ Class {
 		'availableFilters',
 		'anItemsModelType',
 		'anItemsModel',
-		'filterView'
+		'filterView',
+		'phlowLogElement',
+		'phlowView'
 	],
 	#category : #'MoodleVKR-MoodleApp'
 }
@@ -40,7 +42,7 @@ MoodleQueryTab >> focusTitleEditor [
 { #category : #'as yet unclassified' }
 MoodleQueryTab >> initialize [
 	super initialize.
-	 
+
 	mainFrame := BlElement new
 			padding: (BlInsets all: 10);
 			constraintsDo: [ :c | 
@@ -55,19 +57,30 @@ MoodleQueryTab >> initialize [
 			id: 'Editor';
 			geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
 			border: (BlBorder paint: Color veryLightGray width: 1).
-			 
-	availableFilters := (MoodleAvailableFiltersBuilder  new sourceQueryBuilder: ApiQueryBuilder).
-	anItemsModelType := ConjFilterItemsModel.
-	anItemsModel := anItemsModelType new.
-	anItemsModel availableFiltersBuilder: availableFilters.
+
 	titleEditor editor
 		when: BrTextEditorModifiedEvent
 		do: self onTitleEditorChanged.
+
+	availableFilters := MoodleAvailableFiltersBuilder new
+			sourceQueryBuilder: ApiQueryBuilder.
+	anItemsModelType := ConjFilterItemsModel.
+	anItemsModel := anItemsModelType new.
+	anItemsModel availableFiltersBuilder: availableFilters.
 	filterView := anItemsModel asFiltersElement margin: (BlInsets top: 5).
-		
+
+	phlowView := self phlowView.
+	phlowLogElement := phlowView asElement height: 340.
+
+	anItemsModel weak
+		when: GtFiltersModelUpdated
+		send: #onFilterUpdate:
+		to: self .
+	
 	mainFrame addChild: titleEditor.
 	mainFrame addChild: filterView.
-	
+	mainFrame addChild: phlowLogElement.
+
 	self
 		aptitude: BrGlamorousTabAptitude;
 		padding: (BlInsets all: 10);
@@ -76,8 +89,36 @@ MoodleQueryTab >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
+MoodleQueryTab >> onFilterUpdate: anAnnouncement [
+| model |
+				model := anAnnouncement model.
+				model items size > 0 ifTrue: [
+					phlowView items: [ApiQueryBuilder execute:  model asSearchFilter token: MConfig token
+				] .
+				phlowLogElement phlow update
+				]
+	
+]
+
+{ #category : #'as yet unclassified' }
 MoodleQueryTab >> onTitleEditorChanged [
 	^ [ :anEvent | queryViewModel title: anEvent text asString ]
+]
+
+{ #category : #'as yet unclassified' }
+MoodleQueryTab >> phlowView [
+	^ GtPhlowView empty columnedList
+		title: 'Items';
+		priority: 5;
+		column: 'Событие' text: [ :each | each eventName ];
+		column: 'Пользователь'
+			text: [ :each | each user userName ]
+			width: 70;
+		column: 'Курс'
+			text: [ :each | each course ifNotNil: [ :x | x shortname ] ifNil: [ 'Нет' ] ]
+			width: 70;
+		column: 'Время' text: [ :each | each timeCreated ];
+		actionUpdateButton
 ]
 
 { #category : #accessing }

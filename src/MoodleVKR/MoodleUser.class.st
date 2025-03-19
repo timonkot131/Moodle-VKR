@@ -6,7 +6,7 @@ Class {
 		'fullname',
 		'id',
 		'profileimageurlsmall',
-		'userName'
+		'username'
 	],
 	#category : #'MoodleVKR-Model'
 }
@@ -49,10 +49,10 @@ aStream << (' Полное имя: "', fullname, '"').
 
 { #category : #accessing }
 MoodleUser >> userName [
-	^ userName
+	^ username
 ]
 
 { #category : #accessing }
 MoodleUser >> userName: anObject [
-	userName := anObject
+	username := anObject
 ]

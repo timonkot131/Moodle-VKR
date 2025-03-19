@@ -6,7 +6,7 @@ Class {
 
 { #category : #testing }
 MethodNullSearchFilter >> matches: anObjectOrSymbol [
-	^#pass
+	^true
 ]
 
 { #category : #printing }
