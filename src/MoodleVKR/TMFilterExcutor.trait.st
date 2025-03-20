@@ -9,7 +9,7 @@ TMFilterExcutor >> execute [
 		
 			res := MoodleDBEventLog storedInstances select: self.
 			stream := IteratorStream forPosStream: res readStream.
-			chunks := (stream asAsyncStream chunks: 50) cached  collect: [:logs | 
+			chunks := (stream asAsyncStream chunks: 5) cached  collect: [:logs | 
 				|userids courseids courseJob userJob users courses apiUser apiCourse|
 				apiUser := ApiUser forToken: MConfig token.
 				apiCourse := ApiCourse forToken:  MConfig token.

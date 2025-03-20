@@ -117,8 +117,7 @@ MoodleQueryTab >> phlowView [
 		column: 'Курс'
 			text: [ :each | each course ifNotNil: [ :x | x shortname ] ifNil: [ 'Нет' ] ]
 			width: 70;
-		column: 'Время' text: [ :each | each timeCreated ];
-		actionUpdateButton
+		column: 'Время' text: [ :each | each timeCreated ].
 ]
 
 { #category : #accessing }

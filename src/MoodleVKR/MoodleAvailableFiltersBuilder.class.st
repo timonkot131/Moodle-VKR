@@ -11,9 +11,26 @@ Class {
 }
 
 { #category : #query }
+MoodleAvailableFiltersBuilder class >> moodleCourseCategory: aCompiledMethod [
+<rule: #(MoodleCourse category)>
+^GtFilterTextModel new 
+	order: 30;
+	name: 'Курс: Категория'
+]
+
+{ #category : #query }
+MoodleAvailableFiltersBuilder class >> moodleCourseFullname: aCompiledMethod [
+<rule: #(MoodleCourse fullname)>
+^GtFilterTextModel new 
+	order: 30;
+	name: 'Курс: Полное имя'
+]
+
+{ #category : #query }
 MoodleAvailableFiltersBuilder class >> moodleCourseShortname: aCompiledMethod [
 <rule: #(MoodleCourse shortname)>
 ^GtFilterTextModel new 
+	order: 30;
 	name: 'Курс: Короткое имя'
 	
 ]
@@ -22,15 +39,40 @@ MoodleAvailableFiltersBuilder class >> moodleCourseShortname: aCompiledMethod [
 MoodleAvailableFiltersBuilder class >> moodleQueryEventname: aCompiledMethod [
 <rule: #(eventname)>
 ^GtFilterTextModel new 
-	name: 'Событие';
-	completion: (MEventCompletionStrategy new
-				"completions: (GtPrefixTree withAll: (Smalltalk allClasses collect: #name))")
+	order: 10;
+	name: 'Логи: Событие';
+	completion: (MEventCompletionStrategy new)
+]
+
+{ #category : #query }
+MoodleAvailableFiltersBuilder class >> moodleQueryIp: aCompiledMethod [
+<rule: #(ip)>
+^GtFilterTextModel new 
+	order: 10;
+	name: 'Логи: IP'
+]
+
+{ #category : #query }
+MoodleAvailableFiltersBuilder class >> moodleUserEmail: aCompiledMethod [
+<rule: #(MoodleUser email)>
+^GtFilterTextModel new 
+	order: 20;
+	name: 'Пользователь: Почта'
+]
+
+{ #category : #query }
+MoodleAvailableFiltersBuilder class >> moodleUserFullname: aCompiledMethod [
+<rule: #(MoodleUser fullname)>
+^GtFilterTextModel new 
+	order: 20;
+	name: 'Пользователь: Полное имя'
 ]
 
 { #category : #query }
 MoodleAvailableFiltersBuilder class >> moodleUserUsername: aCompiledMethod [
 <rule: #(MoodleUser username)>
 ^GtFilterTextModel new 
+	order: 20;
 	name: 'Пользователь: Ник'
 ]
 
@@ -44,15 +86,16 @@ MoodleAvailableFiltersBuilder class >> queryMethodSelector: selector class: clas
 { #category : #'as yet unclassified' }
 MoodleAvailableFiltersBuilder >> availableFilters [
 <return: #Collection of: #GtFilterModel>
-^self class rules associations collect: [:pair |
+| models |
+	models := self class rules associations collect: [:pair |
 	| compiledMethod filterModel sourceRules|
 	sourceRules := self sourceQueryBuilder rules.
 	compiledMethod := sourceRules at: pair key.
 	filterModel := pair value valueWithReceiver: self class
 				arguments: {compiledMethod}.
 	filterModel creator: (CreateMethodBuilder from: compiledMethod)
- ]
-
+ ].
+ ^models sort: [:x :y | x order <= y order].
 ]
 
 { #category : #accessing }
