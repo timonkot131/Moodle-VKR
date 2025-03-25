@@ -41,6 +41,7 @@ MoodleQueryTab >> focusTitleEditor [
 
 { #category : #'as yet unclassified' }
 MoodleQueryTab >> initialize [
+	| addButton |
 	super initialize.
 
 	mainFrame := BlElement new
@@ -62,22 +63,26 @@ MoodleQueryTab >> initialize [
 		when: BrTextEditorModifiedEvent
 		do: self onTitleEditorChanged.
 
-	availableFilters := MoodleAvailableFiltersBuilder new
-			sourceQueryBuilder: ApiQueryBuilder.
-	anItemsModelType := ConjFilterItemsModel.
-	anItemsModel := anItemsModelType new.
-	anItemsModel availableFiltersBuilder: availableFilters.
-	filterView := anItemsModel asFiltersElement margin: (BlInsets top: 5).
-
+	addButton := BrButton new
+					aptitude: BrGlamorousButtonWithLabelAptitude new;
+					action: [ self queryViewModel addQuery ];
+					margin: (BlInsets top: 10);
+					label: 'Добавить запрос';
+					beLargeSize.
+		
+	filterView := BlElement new layout: BlLinearLayout vertical;
+		margin: (BlInsets top: 6);
+				constraintsDo: [ :c | 
+					c horizontal matchParent.
+					c vertical fitContent.
+				].
+	
 	phlowView := self phlowView.
 	phlowLogElement := phlowView asElement height: 340.
 
-	anItemsModel weak
-		when: GtFiltersModelUpdated
-		send: #onFilterUpdate:
-		to: self .
 	
 	mainFrame addChild: titleEditor.
+	mainFrame addChild: addButton.
 	mainFrame addChild: filterView.
 	mainFrame addChild: phlowLogElement.
 
@@ -90,14 +95,27 @@ MoodleQueryTab >> initialize [
 
 { #category : #'as yet unclassified' }
 MoodleQueryTab >> onFilterUpdate: anAnnouncement [
-| model |
-				model := anAnnouncement model.
-				model items size > 0 ifTrue: [
-					phlowView items: [ApiQueryBuilder execute:  model asSearchFilter token: MConfig token
-				] .
+| searchFilter |
+				searchFilter := anAnnouncement searchFilter.
+				phlowView items: [ApiQueryBuilder execute:  searchFilter token: MConfig token.
+				].
 				phlowLogElement phlow update
-				]
 	
+]
+
+{ #category : #accessing }
+MoodleQueryTab >> onPanelUpdate: _ [
+MQueryHolder printOn: filterView using: self queryViewModel.
+
+]
+
+{ #category : #accessing }
+MoodleQueryTab >> onTitleChanged: anEvent [
+	self label: anEvent title.	"Мне нужно убедиться, что он не тригерит сам себя"
+	^ titleEditor editor
+		removeEvent: BrTextEditorModifiedEvent;
+		replaceWith: anEvent title;
+		when: BrTextEditorModifiedEvent do: self onTitleEditorChanged
 ]
 
 { #category : #'as yet unclassified' }
@@ -135,7 +153,9 @@ MoodleQueryTab >> queryViewModel: aQueryViewModel [
 		self actionbarStencil: self actionbarStencil
 	].
 	
-	self subscribeToQueryViewModel	"Но почему не text:? А потому, что у него потом сбрасывается модель и события не вызываются"
+	MQueryHolder printOn: filterView using: queryViewModel.
+	
+	self subscribeToQueryViewModel
 ]
 
 { #category : #'as yet unclassified' }
@@ -172,13 +192,14 @@ MoodleQueryTab >> sourceViewModel: aMoodleSourceViewModel [
 MoodleQueryTab >> subscribeToQueryViewModel [
 	queryViewModel
 		when: MoodleQueryTitleChangedEvent
-		do: [ :anEvent | 
-			self label: anEvent title.
-			"Мне нужно убедиться, что он не тригерит сам себя"
-			titleEditor editor
-				removeEvent: BrTextEditorModifiedEvent;
-				replaceWith: anEvent title;
-				when: BrTextEditorModifiedEvent do: self onTitleEditorChanged ]
+			send: #onTitleChanged:
+			to: self;
+		when: MoodleQueryValueChanged
+			send: #onFilterUpdate:
+			to: self;
+		when: MoodleQueryModelChanged
+			send: #onPanelUpdate:
+			to: self
 ]
 
 { #category : #accessing }

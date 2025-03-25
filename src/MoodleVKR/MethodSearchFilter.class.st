@@ -22,6 +22,11 @@ MethodSearchFilter >> & aFilter [
 ]
 
 { #category : #'as yet unclassified' }
+MethodSearchFilter >> asSearchFilter [
+^self
+]
+
+{ #category : #'as yet unclassified' }
 MethodSearchFilter >> distributeAsync [
 ^{self} asAsyncStream
 ]

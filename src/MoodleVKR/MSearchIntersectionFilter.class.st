@@ -22,6 +22,11 @@ MSearchIntersectionFilter >> distributeAsync [
 ]
 
 { #category : #'as yet unclassified' }
+MSearchIntersectionFilter >> isEmpty [
+^false
+]
+
+{ #category : #'as yet unclassified' }
 MSearchIntersectionFilter >> matches: anObject [
 	| resLeft resRight |
 	resLeft := left value: anObject.

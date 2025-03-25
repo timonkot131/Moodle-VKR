@@ -19,6 +19,11 @@ MSearchUnionFilter >> distributeAsync [
 	^leftQuery merge: rightQuery.
 ]
 
+{ #category : #'as yet unclassified' }
+MSearchUnionFilter >> isEmpty [
+^ false
+]
+
 { #category : #testing }
 MSearchUnionFilter >> matches: anObject [
 	| resLeft resRight |

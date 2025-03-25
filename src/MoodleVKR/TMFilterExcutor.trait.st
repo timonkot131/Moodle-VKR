@@ -4,6 +4,11 @@ Trait {
 }
 
 { #category : #'as yet unclassified' }
+TMFilterExcutor >> asSearchFilter [
+^self
+]
+
+{ #category : #'as yet unclassified' }
 TMFilterExcutor >> execute [
 | res stream chunks   | 
 		
@@ -48,6 +53,7 @@ TMFilterExcutor >> gtFilterQueryFor: aView [
 		
 		]; 
 	 	column: 'index' text: [:each :index | index asString]; 
+	 	 	column: 'id' text: [:each :_ | each id asString] width: 60; 
 		column: 'Событие' text: [:each | each eventName]; 
 		column: 'Пользователь' text: [:each | each user userName] width: 70;
 		column: 'Курс' text: [ :each | each course ifNotNil: [:x | x shortname] ifNil: ['Нет'] ] width: 70;
@@ -67,4 +73,9 @@ TMFilterExcutor >> gtPreloaded: aView [
 		column: 'Name' text: [ :each | each ];
 		actionUpdateButton
 
+]
+
+{ #category : #'as yet unclassified' }
+TMFilterExcutor >> isEmpty [
+^false
 ]

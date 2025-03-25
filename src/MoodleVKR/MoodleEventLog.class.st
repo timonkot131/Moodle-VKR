@@ -15,6 +15,12 @@ Class {
 	#category : #'MoodleVKR-Model'
 }
 
+{ #category : #'as yet unclassified' }
+MoodleEventLog >> = anObject [
+(anObject isKindOf: self class) ifFalse: [^false].
+^self id = anObject id
+]
+
 { #category : #accessing }
 MoodleEventLog >> course [
 	^ course
@@ -33,6 +39,11 @@ MoodleEventLog >> eventName [
 { #category : #accessing }
 MoodleEventLog >> eventName: anObject [
 	eventName := anObject
+]
+
+{ #category : #'as yet unclassified' }
+MoodleEventLog >> hash [ 
+^id hash
 ]
 
 { #category : #accessing }

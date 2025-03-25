@@ -33,7 +33,7 @@ anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ApiQueryBuilder class >> execute: aGtSearchQuery token: aString [
 	| preloaded |
 	preloaded := self preloaded: aGtSearchQuery token: aString.
-	^ preloaded flatCollect: #execute.
+	^ (preloaded flatCollect: #execute) withoutDuplicates.
 ]
 
 { #category : #utilities }

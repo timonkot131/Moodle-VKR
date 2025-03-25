@@ -18,3 +18,8 @@ DisjFilterItemsModel >> filters [
 DisjFilterItemsModel >> initialize [
 super initialize.
 ]
+
+{ #category : #'as yet unclassified' }
+DisjFilterItemsModel >> isEmpty [ 
+^items isEmpty
+]

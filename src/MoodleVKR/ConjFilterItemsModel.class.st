@@ -6,8 +6,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 ConjFilterItemsModel >> asSearchFilter [
-	
-	^ self filters reduce: [ :x :y | x & y ]
+	^ self filters reduce: [ :x :y | x & y ] 
 ]
 
 { #category : #'as yet unclassified' }
@@ -18,4 +17,9 @@ ConjFilterItemsModel >> filters [
 { #category : #'as yet unclassified' }
 ConjFilterItemsModel >> initialize [
 super initialize.
+]
+
+{ #category : #'as yet unclassified' }
+ConjFilterItemsModel >> isEmpty [ 
+^items isEmpty
 ]
