@@ -57,7 +57,9 @@ TMFilterExcutor >> gtFilterQueryFor: aView [
 		column: 'Событие' text: [:each | each eventName]; 
 		column: 'Пользователь' text: [:each | each user userName] width: 70;
 		column: 'Курс' text: [ :each | each course ifNotNil: [:x | x shortname] ifNil: ['Нет'] ] width: 70;
-		column: 'Время' text: [ :each | each timeCreated];
+		column: 'Дата' text: [ :each | MLogDate ofUnix: each timeCreated] width: 60;
+		column: 'Время' text: [ :each | MLogTime ofUnix: each timeCreated] width: 50;
+			
 		actionUpdateButton
 ]
 
@@ -67,7 +69,7 @@ TMFilterExcutor >> gtPreloaded: aView [
 <gtView>
 ^ aView columnedList
 		title: 'Preloaded';
-		priority: 5;
+		priority: 6;
 		items: [ (ApiQueryBuilder preload: self    token: MConfig token) asyncSimilarCopy.];
 		column: 'Number' text: [ :_ :anIndex | anIndex ] width: 50;
 		column: 'Name' text: [ :each | each ];
