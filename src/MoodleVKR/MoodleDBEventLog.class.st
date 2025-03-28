@@ -47,7 +47,7 @@ MoodleDBEventLog class >> reStoreDefinition [
 
 { #category : #'as yet unclassified' }
 MoodleDBEventLog >> <= aMoodleEventLog [ 
-^self eventname <= aMoodleEventLog eventname.
+^self id <= aMoodleEventLog id.
 ]
 
 { #category : #accessing }
@@ -96,6 +96,11 @@ MoodleDBEventLog >> printOn: aStream [
 	aStream << ('; userid: ', userid asString).
 	aStream << ('; courseid: ', courseid asString).
 	^aStream.
+]
+
+{ #category : #utilities }
+MoodleDBEventLog >> timeAndDate [
+^DateAndTime fromUnixTime: self timecreated
 ]
 
 { #category : #accessing }

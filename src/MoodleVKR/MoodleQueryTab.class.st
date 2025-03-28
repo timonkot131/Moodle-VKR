@@ -135,7 +135,8 @@ MoodleQueryTab >> phlowView [
 		column: 'Курс'
 			text: [ :each | each course ifNotNil: [ :x | x shortname ] ifNil: [ 'Нет' ] ]
 			width: 70;
-		column: 'Время' text: [ :each | each timeCreated ].
+	 column: 'Дата' text: [ :each | MLogDate ofUnixToString: each timeCreated] width: 60;
+		column: 'Время' text: [ :each | MLogTime ofUnixToString: each timeCreated] width: 50.
 ]
 
 { #category : #accessing }

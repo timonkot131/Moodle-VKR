@@ -11,8 +11,10 @@ TMFilterExcutor >> asSearchFilter [
 { #category : #'as yet unclassified' }
 TMFilterExcutor >> execute [
 | res stream chunks   | 
-		
-			res := MoodleDBEventLog storedInstances select: self.
+			GtJustContextStackSignal emit.
+			res := (MoodleDBEventLog storedInstances sortBlock: [:p1 :p2 | 
+				p1 timecreated > p2 timecreated
+			]) satisfying: self.
 			stream := IteratorStream forPosStream: res readStream.
 			chunks := (stream asAsyncStream chunks: 5) cached  collect: [:logs | 
 				|userids courseids courseJob userJob users courses apiUser apiCourse|
@@ -57,8 +59,8 @@ TMFilterExcutor >> gtFilterQueryFor: aView [
 		column: 'Событие' text: [:each | each eventName]; 
 		column: 'Пользователь' text: [:each | each user userName] width: 70;
 		column: 'Курс' text: [ :each | each course ifNotNil: [:x | x shortname] ifNil: ['Нет'] ] width: 70;
-		column: 'Дата' text: [ :each | MLogDate ofUnix: each timeCreated] width: 60;
-		column: 'Время' text: [ :each | MLogTime ofUnix: each timeCreated] width: 50;
+		column: 'Дата' text: [ :each | MLogDate ofUnixToString: each timeCreated] width: 60;
+		column: 'Время' text: [ :each | MLogTime ofUnixToString: each timeCreated] width: 50;
 			
 		actionUpdateButton
 ]

@@ -103,6 +103,40 @@ aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ]
 
 { #category : #query }
+ApiQueryBuilder class >> moodleQueryTimecreated: aSelected applyTo: aMoodleQuery [
+	<rule: #(timecreated)>
+	| strings op valueString isTime timeCreated offset valueInt intervalOffset |
+	aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
+	offset := DateAndTime now offset asSeconds.
+	aSelected isEmptyOrNil ifTrue: [ ^ false ].
+	strings := ' ' split: aSelected.
+	op := '='.
+
+	strings size = 2
+		ifTrue: [ 
+			op := strings first.
+			valueString := strings second ]
+		ifFalse: [ valueString := aSelected ].
+	isTime := valueString includesSubstring: ':'.
+	isTime
+		ifTrue: [ 
+			intervalOffset := 60 "seconds".
+			timeCreated := (aMoodleQuery timecreated + offset) \\ MLogTime dayInSeconds.
+			valueInt := MLogTime fromStringtoInt: valueString ]
+		ifFalse: [ 
+			intervalOffset := MLogTime dayInSeconds.
+			timeCreated := aMoodleQuery timecreated.
+			valueInt := MLogDate fromStringtoInt: valueString ].
+	GtJustContextStackSignal emit.
+	op = '>' ifTrue: [ ^ timeCreated > valueInt ].
+	op = '<' ifTrue: [ ^ timeCreated < valueInt ].
+	^ timeCreated > valueInt & (timeCreated < (valueInt + intervalOffset)) .
+
+		
+		
+]
+
+{ #category : #query }
 ApiQueryBuilder class >> moodleUserEmail: aSelected applyTo: aMoodleUser [
 <rule: #(MoodleUser email)>
 ^aMoodleUser email = aSelected.
@@ -142,8 +176,6 @@ ApiQueryBuilder class >> preload: aGtSearchFilter token: aString [
 		ifTrue: [  (self fetchUsers: aGtSearchFilter token: aString) cached
 					collect: [ :anItem |
 						self fetchRule: {#userid} select: anItem id ] ].
-						
-	GtJustContextStackSignal emit.
 
 	(courseQuery ~= #pass and: [ userQuery ~= #pass ])
 		ifTrue: [ ^ users

@@ -53,6 +53,14 @@ MoodleAvailableFiltersBuilder class >> moodleQueryIp: aCompiledMethod [
 ]
 
 { #category : #query }
+MoodleAvailableFiltersBuilder class >> moodleQueryTimecreated: aCompiledMethod [
+<rule: #(timecreated)>
+^GtFilterTextModel new 
+	order: 10;
+	name: 'Логи: Время'. 
+]
+
+{ #category : #query }
 MoodleAvailableFiltersBuilder class >> moodleUserEmail: aCompiledMethod [
 <rule: #(MoodleUser email)>
 ^GtFilterTextModel new 
