@@ -6,7 +6,9 @@ Class {
 	#instVars : [
 		'announcer',
 		'title',
-		'itemsModels'
+		'itemsModels',
+		'cancellation',
+		'queryBuilder'
 	],
 	#category : #'MoodleVKR-ViewModels'
 }
@@ -39,16 +41,35 @@ itemsModels at: index put: value.
 self announce: MoodleQueryModelChanged new; getItems.
 ]
 
+{ #category : #accessing }
+MoodleQueryViewModel >> cancellation [
+	^ cancellation
+]
+
+{ #category : #accessing }
+MoodleQueryViewModel >> cancellation: aQueryCancellation [
+	cancellation ifNotNil: [
+		cancellation unsubscribe: self.
+	].
+	cancellation := aQueryCancellation.
+	cancellation weak when: MoodleCancelEvent send: #onCancel: to: self
+]
+
 { #category : #'as yet unclassified' }
 MoodleQueryViewModel >> getItems [
-	| count |
+	| count searchFilter result |
 	count := (itemsModels
 			reject: #isSymbol
 			thenCollect: [ :item | item items size ])
-			ifEmpty: [ ^self ]
+			ifEmpty: [ ^ self ]
 			ifNotEmpty: [ :items | items reduce: [ :x :y | x + y ] ].
-	count isZero ifTrue: [ ^self ].
-	self announce: (MoodleQueryValueChanged new searchFilter: self reducedItems asSearchFilter)
+	count isZero ifTrue: [ ^ self ]. 
+	searchFilter := self reducedItems asSearchFilter. 
+	self cancellation cancel.
+	self cancellation: QueryCancellation new.
+	self queryBuilder cancellation: self cancellation.
+	result := self queryBuilder execute: searchFilter.
+	self announce: (MoodleQueryValueChanged new items: result).
 ]
 
 { #category : #'as yet unclassified' }
@@ -60,6 +81,10 @@ MoodleQueryViewModel >> ids [
 MoodleQueryViewModel >> initialize [
 	| availableFilters itemsModel |
 	super initialize.
+	
+	self cancellation: QueryCancellation new.
+	self queryBuilder: (ApiQueryBuilder token: MConfig token cancellation: self cancellation).
+	
 	announcer := Announcer new.
 	availableFilters := MoodleAvailableFiltersBuilder new
 			sourceQueryBuilder: ApiQueryBuilder.
@@ -87,6 +112,21 @@ aReceiverObject isEmpty ifTrue: [^anObject asSearchFilter].
 anObject isEmpty ifTrue: [^aReceiverObject asSearchFilter].
 ^aReceiverObject asSearchFilter perform: aSymbol withArguments: {anObject asSearchFilter}
 
+]
+
+{ #category : #accessing }
+MoodleQueryViewModel >> onCancel: anObject [
+self announce: anObject.
+]
+
+{ #category : #accessing }
+MoodleQueryViewModel >> queryBuilder [
+	^ queryBuilder
+]
+
+{ #category : #accessing }
+MoodleQueryViewModel >> queryBuilder: anObject [
+	queryBuilder := anObject
 ]
 
 { #category : #'as yet unclassified' }

@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'currentQueryArguments',
 		'query',
-		'token'
+		'token',
+		'cancellation'
 	],
 	#category : #'MoodleVKR-API'
 }
@@ -27,47 +28,6 @@ ApiQueryBuilder class >> courseId: aSelected applyTo: anObject [
 <rule: #(courseid)>
 anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ^anObject courseid = aSelected
-]
-
-{ #category : #execution }
-ApiQueryBuilder class >> execute: aGtSearchQuery token: aString [
-	| preloaded |
-	preloaded := self preloaded: aGtSearchQuery token: aString.
-	^ (preloaded flatCollect: #execute) withoutDuplicates.
-]
-
-{ #category : #utilities }
-ApiQueryBuilder class >> fetchCourses: aGtSearchFilter token: aToken [
-| apiCourse byIdQuery |
-apiCourse := ApiCourse forToken: aToken.
-byIdQuery := aGtSearchFilter value: 'moodlecourse_id' asSymbol.
-byIdQuery isArray 
-		ifTrue: [
-			byIdQuery ifEmpty: [^ {} asAsyncStream].
-			^ apiCourse completeCoursesChunk: byIdQuery
-		].
-{'shortname'. 'category'} 
-	do: [ :item | 
-			| byQuery |
-			byQuery := aGtSearchFilter value: ('moodlecourse_' , item) asSymbol.
-			byQuery isArray
-				ifTrue: [ byQuery ifEmpty: [ ^ {} asAsyncStream ].
-				^ apiCourse completeCoursesChunk: byQuery field: item ]].
-	^apiCourse completeCourses. 
-]
-
-{ #category : #utilities }
-ApiQueryBuilder class >> fetchUsers: aGtSearchFilter token: aString [
-	| apiUser |
-	apiUser := ApiUser forToken: aString.
-	{'email'. 'id'. 'username'}
-		do: [ :item | 
-			| byQuery |
-			byQuery := aGtSearchFilter value: ('moodleuser_' , item) asSymbol.
-			byQuery isArray
-				ifTrue: [ byQuery ifEmpty: [ ^ {} asAsyncStream ].
-				^ apiUser completeUsersChunk: byQuery field: item ]].
-	^apiUser completeUsers.
 ]
 
 { #category : #query }
@@ -160,50 +120,18 @@ ApiQueryBuilder class >> moodleUserUsername: aSelected applyTo: aMoodleUser [
 ^aMoodleUser userName = aSelected.
 ]
 
-{ #category : #execution }
-ApiQueryBuilder class >> preload: aGtSearchFilter token: aString [
-	| userQuery courseQuery courses users |
-	courseQuery := aGtSearchFilter value: MoodleCourse new.
-	userQuery := aGtSearchFilter value: MoodleUser new.
-
-	courses := courseQuery ~= #pass
-		ifTrue: [ (self fetchCourses: aGtSearchFilter token: aString) cached
-					collect: [ :anItem | 
-						self fetchRule: {#courseid} select: anItem id ] ].
-
-	
-	users := userQuery ~= #pass
-		ifTrue: [  (self fetchUsers: aGtSearchFilter token: aString) cached
-					collect: [ :anItem |
-						self fetchRule: {#userid} select: anItem id ] ].
-
-	(courseQuery ~= #pass and: [ userQuery ~= #pass ])
-		ifTrue: [ ^ users
-				flatCollect: [ :anUser |
-					courses asyncSimilarCopy map: [ :aCourse | aGtSearchFilter & (anUser & aCourse) ] .
-					]].
-
-	courseQuery ~= #pass
-		ifTrue: [ ^ courses collect: [ :x | aGtSearchFilter & x ] ].
-	userQuery ~= #pass ifTrue: [ ^ users collect: [ :x | aGtSearchFilter & x ] ].
-	^ {aGtSearchFilter} asAsyncStream
-]
-
-{ #category : #execution }
-ApiQueryBuilder class >> preloaded: aGtSearchFilter token: aString [
-	^ aGtSearchFilter distributeAsync flatCollect: [ :aQuery | self preload: aQuery  token: aString]
-]
-
-{ #category : #initialization }
-ApiQueryBuilder class >> query: aGtSearchFilter token: aString [
-^self new query: aGtSearchFilter; token: aString.
-]
-
 { #category : #utilities }
 ApiQueryBuilder class >> queryMethodSelector: selector class: class [
 ^(class first asLowercase asString, class copyWithoutFirst)
 			, (selector first asUppercase asString, selector copyWithoutFirst)
 			, ': aSelected applyTo: a', class .
+]
+
+{ #category : #initialization }
+ApiQueryBuilder class >> token: aString cancellation: aQueryCancellation [
+^self new 
+	token: aString;
+	cancellation: aQueryCancellation
 ]
 
 { #category : #query }
@@ -213,11 +141,91 @@ anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ^anObject userid = aSelected
 ]
 
+{ #category : #accessing }
+ApiQueryBuilder >> cancellation [
+cancellation ifNil: [
+	cancellation := QueryCancellation new.
+].
+^cancellation
+]
+
+{ #category : #accessing }
+ApiQueryBuilder >> cancellation: aQueryCancellation [ 
+cancellation := aQueryCancellation.
+]
+
+{ #category : #execution }
+ApiQueryBuilder >> execute: aGtSearchQuery [
+	| preloaded |
+	preloaded := self preloaded: aGtSearchQuery.
+	^ (preloaded flatCollect: [:item | item execute: self cancellation]) withoutDuplicates.
+]
+
 { #category : #utilities }
-ApiQueryBuilder >> check: anObject [
-(query value: anObject) = #pass ifTrue: 
-	[^ #pass.]
-	ifFalse: [^ query]
+ApiQueryBuilder >> fetchCourses: aGtSearchFilter [
+	| apiCourse byIdQuery |
+	apiCourse := ApiCourse forToken: self token.
+	apiCourse subscribeToCancel: self cancellation.
+	byIdQuery := aGtSearchFilter value: 'moodlecourse_id' asSymbol.
+	byIdQuery isArray
+		ifTrue: [ byIdQuery ifEmpty: [ ^ {} asAsyncStream ].
+			^ apiCourse completeCoursesChunk: byIdQuery ].
+	{'shortname'. 'category'}
+		do: [ :item | 
+			| byQuery |
+			byQuery := aGtSearchFilter
+				value: ('moodlecourse_' , item) asSymbol.
+			byQuery isArray
+				ifTrue: [ byQuery ifEmpty: [ ^ {} asAsyncStream ].
+					^ apiCourse completeCoursesChunk: byQuery field: item ] ].
+	^ apiCourse completeCourses
+]
+
+{ #category : #utilities }
+ApiQueryBuilder >> fetchUsers: aGtSearchFilter [ 
+	| apiUser |
+	apiUser := ApiUser forToken: self token.
+	apiUser subscribeToCancel: self cancellation.
+	{'email'. 'id'. 'username'}
+		do: [ :item | 
+			| byQuery |
+			byQuery := aGtSearchFilter value: ('moodleuser_' , item) asSymbol.
+			byQuery isArray
+				ifTrue: [ byQuery ifEmpty: [ ^ {} asAsyncStream ].
+				^ apiUser completeUsersChunk: byQuery field: item ]].
+	^apiUser completeUsers.
+]
+
+{ #category : #execution }
+ApiQueryBuilder >> preload: aGtSearchFilter [
+	| userQuery courseQuery courses users |
+	courseQuery := aGtSearchFilter value: MoodleCourse new.
+	userQuery := aGtSearchFilter value: MoodleUser new.
+
+	courses := courseQuery ~= #pass
+		ifTrue: [ (self fetchCourses: aGtSearchFilter ) cached
+					collect: [ :anItem | 
+						self class fetchRule: {#courseid} select: anItem id ] ].
+	users := userQuery ~= #pass
+		ifTrue: [  (self fetchUsers: aGtSearchFilter ) cached
+					collect: [ :anItem |
+						self class fetchRule: {#userid} select: anItem id ] ].
+	(courseQuery ~= #pass and: [ userQuery ~= #pass ])
+		ifTrue: [ ^ users
+				flatCollect: [ :anUser |
+					courses asyncSimilarCopy map: [ :aCourse | aGtSearchFilter & (anUser & aCourse) ] .
+					]].
+
+	courseQuery ~= #pass
+		ifTrue: [ ^ courses collect: [ :x | aGtSearchFilter & x ] ].
+	userQuery ~= #pass 
+		ifTrue: [ ^ users collect: [ :x | aGtSearchFilter & x ] ].
+	^ {aGtSearchFilter} asAsyncStream
+]
+
+{ #category : #execution }
+ApiQueryBuilder >> preloaded: aGtSearchFilter [ 
+	^ aGtSearchFilter distributeAsync flatCollect: [ :aQuery | self preload: aQuery ]
 ]
 
 { #category : #accessing }

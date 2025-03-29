@@ -2,7 +2,8 @@ Class {
 	#name : #ApiUser,
 	#superclass : #Object,
 	#instVars : [
-		'token'
+		'token',
+		'iterator'
 	],
 	#category : #'MoodleVKR-API'
 }
@@ -10,6 +11,13 @@ Class {
 { #category : #initialization }
 ApiUser class >> forToken: aString [ 
 	^self new token: aString.
+]
+
+{ #category : #'as yet unclassified' }
+ApiUser >> close [ 
+iterator ifNotNil: [
+	iterator close.
+]
 ]
 
 { #category : #'stream creation' }
@@ -33,7 +41,8 @@ ApiUser >> completeUsersChunk: ids [
 			queryAt: 'field' put: 'id'.
 	ids
 		withIndexDo: [ :x :i | response formAt: 'values[' , (i - 1) asString , ']' put: x asString ].
-	^ AsyncIteratorStream forIterator: (JSONIterator forStream: (response post) of: MoodleUser) 
+	iterator := JSONIterator forStream: response post of: MoodleUser.
+	^ AsyncIteratorStream forIterator: iterator
 ]
 
 { #category : #'stream creation' }
@@ -48,7 +57,13 @@ ApiUser >> completeUsersChunk: aCollection field: aString [
 			queryAt: 'field' put: aString.
 	aCollection
 		withIndexDo: [ :x :i | response formAt: 'values[' , (i - 1) asString , ']' put: x asString ].
-	^ AsyncIteratorStream forIterator: (JSONIterator forStream: (response post) of: MoodleUser) 
+	iterator := JSONIterator forStream: response post of: MoodleUser.
+	^ AsyncIteratorStream forIterator: iterator
+]
+
+{ #category : #'as yet unclassified' }
+ApiUser >> iterator [
+^ iterator
 ]
 
 { #category : #'stream creation' }
@@ -63,6 +78,14 @@ ApiUser >> relatedUsers [
 		formAt: 'courseid' put: '0';
 		streaming: true.
 	^response post
+]
+
+{ #category : #'as yet unclassified' }
+ApiUser >> subscribeToCancel: aQueryCancellation [
+	aQueryCancellation weak 
+		when: MoodleCancelEvent
+		send: #close
+		to: self.
 ]
 
 { #category : #accessing }

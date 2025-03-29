@@ -2,7 +2,8 @@ Class {
 	#name : #ApiCourse,
 	#superclass : #Object,
 	#instVars : [
-		'token'
+		'token',
+		'iterator'
 	],
 	#category : #'MoodleVKR-API'
 }
@@ -28,8 +29,15 @@ ApiCourse >> adjust: iterator [
 ]
 
 { #category : #'as yet unclassified' }
+ApiCourse >> close [ 
+iterator ifNotNil: [
+	iterator close.
+]
+]
+
+{ #category : #'as yet unclassified' }
 ApiCourse >> completeCourses [
-	| response iterator |
+	| response |
 	response := ZnClient new
 			url: 'http://localhost/webservice/rest/server.php';
 			streaming: true;
@@ -43,7 +51,7 @@ ApiCourse >> completeCourses [
 
 { #category : #'as yet unclassified' }
 ApiCourse >> completeCoursesChunk: ids [ 
-	| response iterator |
+	| response |
 	ids isEmpty ifTrue: [^{} asAsyncStream].
 		response := ZnClient new 
 		url: 'http://localhost/webservice/rest/server.php';
@@ -68,7 +76,7 @@ ApiCourse >> completeCoursesChunk: anArray field: aString [
 
 { #category : #'as yet unclassified' }
 ApiCourse >> course: anObject by: aString [
-| response iterator |
+| response |
 	response := ZnClient new 
 		url: 'http://localhost/webservice/rest/server.php';
 		streaming: true;
@@ -79,7 +87,21 @@ ApiCourse >> course: anObject by: aString [
 		formAt: 'value' put: anObject.
 	iterator :=  JSONIterator forStream: response post of: MoodleCourse.
 	self adjust: iterator.
+	
 	^ AsyncIteratorStream forIterator: iterator
+]
+
+{ #category : #acccessing }
+ApiCourse >> iterator [
+^ iterator
+]
+
+{ #category : #'as yet unclassified' }
+ApiCourse >> subscribeToCancel: aQueryCancellation [
+	aQueryCancellation weak 
+		when: MoodleCancelEvent
+		send: #close
+		to: self.
 ]
 
 { #category : #'as yet unclassified' }

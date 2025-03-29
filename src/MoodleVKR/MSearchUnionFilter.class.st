@@ -19,7 +19,7 @@ MSearchUnionFilter >> distributeAsync [
 	^leftQuery merge: rightQuery.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 MSearchUnionFilter >> isEmpty [
 ^ false
 ]

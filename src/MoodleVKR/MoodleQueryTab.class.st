@@ -43,7 +43,7 @@ MoodleQueryTab >> focusTitleEditor [
 MoodleQueryTab >> initialize [
 	| addButton |
 	super initialize.
-
+	
 	mainFrame := BlElement new
 			padding: (BlInsets all: 10);
 			constraintsDo: [ :c | 
@@ -80,7 +80,6 @@ MoodleQueryTab >> initialize [
 	phlowView := self phlowView.
 	phlowLogElement := phlowView asElement height: 340.
 
-	
 	mainFrame addChild: titleEditor.
 	mainFrame addChild: addButton.
 	mainFrame addChild: filterView.
@@ -93,14 +92,15 @@ MoodleQueryTab >> initialize [
 		stencil: [ mainFrame ]
 ]
 
+{ #category : #accessing }
+MoodleQueryTab >> onCancel: anObject1 [
+'got cancelled' traceCr
+]
+
 { #category : #'as yet unclassified' }
 MoodleQueryTab >> onFilterUpdate: anAnnouncement [
-| searchFilter |
-				searchFilter := anAnnouncement searchFilter.
-				phlowView items: [ApiQueryBuilder execute:  searchFilter token: MConfig token.
-				].
-				phlowLogElement phlow update
-	
+	phlowView items: [ anAnnouncement items ].
+	phlowLogElement phlow update
 ]
 
 { #category : #accessing }
@@ -156,7 +156,7 @@ MoodleQueryTab >> queryViewModel: aQueryViewModel [
 	
 	MQueryHolder printOn: filterView using: queryViewModel.
 	
-	self subscribeToQueryViewModel
+	self subscribeToQueryViewModel..
 ]
 
 { #category : #'as yet unclassified' }
@@ -191,7 +191,7 @@ MoodleQueryTab >> sourceViewModel: aMoodleSourceViewModel [
 
 { #category : #accessing }
 MoodleQueryTab >> subscribeToQueryViewModel [
-	queryViewModel
+	(queryViewModel weak)
 		when: MoodleQueryTitleChangedEvent
 			send: #onTitleChanged:
 			to: self;
@@ -200,7 +200,10 @@ MoodleQueryTab >> subscribeToQueryViewModel [
 			to: self;
 		when: MoodleQueryModelChanged
 			send: #onPanelUpdate:
-			to: self
+			to: self;
+		when: MoodleCancelEvent
+			send: #onCancel:
+			to: self.
 ]
 
 { #category : #accessing }

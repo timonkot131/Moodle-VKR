@@ -3,19 +3,24 @@ Trait {
 	#category : #'MoodleVKR-Database'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #converting }
 TMFilterExcutor >> asSearchFilter [
 ^self
 ]
 
-{ #category : #'as yet unclassified' }
-TMFilterExcutor >> execute [
-| res stream chunks   | 
+{ #category : #execution }
+TMFilterExcutor >> execute: aQueryCancellation [
+| res stream chunks readStream | 
 			GtJustContextStackSignal emit.
 			res := (MoodleDBEventLog storedInstances sortBlock: [:p1 :p2 | 
 				p1 timecreated > p2 timecreated
 			]) satisfying: self.
-			stream := IteratorStream forPosStream: res readStream.
+			readStream := res readStream.
+			aQueryCancellation weak
+				when: MoodleCancelEvent
+				send: #close
+				to: readStream.
+			stream := IteratorStream forPosStream: readStream.
 			chunks := (stream asAsyncStream chunks: 5) cached  collect: [:logs | 
 				|userids courseids courseJob userJob users courses apiUser apiCourse|
 				apiUser := ApiUser forToken: MConfig token.
@@ -29,13 +34,14 @@ TMFilterExcutor >> execute [
 				courses := courseJob wait.
 				courses ifNil: [courses := Dictionary new].
 				users := userJob wait.
+				apiUser close.
+				apiCourse close.
 				GtJustContextStackSignal emit.
 				logs asAsyncStream collect: [:log  |
-
 					MoodleEventLog new
 						ip: log ip;
 						timeCreated: log timecreated;
-						user: (users at: log userid );
+						user: (users at: log userid);
 						course: (courses at: log courseid ifAbsent: [nil]);
 						eventName: log eventname;
 						id: log id
@@ -44,14 +50,14 @@ TMFilterExcutor >> execute [
 			^chunks flatten
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #view }
 TMFilterExcutor >> gtFilterQueryFor: aView [
 <gtToolView>
 <gtView>
 ^aView columnedList
 		title: 'Items';
 		priority: 5;
-		items: [ (ApiQueryBuilder execute: self token: MConfig token) asyncSimilarCopy.
+		items: [ ((ApiQueryBuilder new token: MConfig token) execute: self) asyncSimilarCopy.
 		
 		]; 
 	 	column: 'index' text: [:each :index | index asString]; 
@@ -65,21 +71,21 @@ TMFilterExcutor >> gtFilterQueryFor: aView [
 		actionUpdateButton
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #view }
 TMFilterExcutor >> gtPreloaded: aView [
 <gtToolView>
 <gtView>
 ^ aView columnedList
 		title: 'Preloaded';
 		priority: 6;
-		items: [ (ApiQueryBuilder preload: self    token: MConfig token) asyncSimilarCopy.];
+		items: [ ((ApiQueryBuilder new token: MConfig token) preloaded: self) asyncSimilarCopy.];
 		column: 'Number' text: [ :_ :anIndex | anIndex ] width: 50;
 		column: 'Name' text: [ :each | each ];
 		actionUpdateButton
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 TMFilterExcutor >> isEmpty [
 ^false
 ]

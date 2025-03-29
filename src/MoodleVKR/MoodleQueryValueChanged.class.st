@@ -3,10 +3,21 @@ Class {
 	#superclass : #MoodleQueryEvent,
 	#instVars : [
 		'model',
-		'searchFilter'
+		'searchFilter',
+		'items'
 	],
 	#category : #'MoodleVKR-ViewModels'
 }
+
+{ #category : #accessing }
+MoodleQueryValueChanged >> items [
+	^ items
+]
+
+{ #category : #accessing }
+MoodleQueryValueChanged >> items: anObject [
+	items := anObject
+]
 
 { #category : #'as yet unclassified' }
 MoodleQueryValueChanged >> model [ 
@@ -16,14 +27,4 @@ MoodleQueryValueChanged >> model [
 { #category : #'as yet unclassified' }
 MoodleQueryValueChanged >> model: anObject [ 
 model := anObject
-]
-
-{ #category : #accessing }
-MoodleQueryValueChanged >> searchFilter [
-	^ searchFilter
-]
-
-{ #category : #accessing }
-MoodleQueryValueChanged >> searchFilter: anObject [
-	searchFilter := anObject
 ]

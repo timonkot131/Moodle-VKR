@@ -21,7 +21,7 @@ MSearchIntersectionFilter >> distributeAsync [
 		[ :aLeft | rightQuery collect: [ :aRight | aLeft & aRight ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 MSearchIntersectionFilter >> isEmpty [
 ^false
 ]

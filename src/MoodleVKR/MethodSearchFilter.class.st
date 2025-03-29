@@ -21,7 +21,7 @@ MethodSearchFilter >> & aFilter [
 	^ MSearchIntersectionFilter forFilter: self filter: aFilter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #converting }
 MethodSearchFilter >> asSearchFilter [
 ^self
 ]

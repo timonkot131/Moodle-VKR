@@ -51,9 +51,14 @@ JSONIterator >> charReader: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+JSONIterator >> close [ 
+self jsonReader close
+]
+
+{ #category : #'as yet unclassified' }
 JSONIterator >> hasNext [
 	charReader peek = $] ifTrue: [
-		jsonReader close.
+		self close.
 		^false
 	].
 	^charReader atEnd not.
@@ -74,7 +79,7 @@ JSONIterator >> next [
 	[ charReader atEnd ]
 		whileFalse: [ charReader peek = ${
 				ifTrue: [ arrayClass
-						ifNotNil: [ arrayClass traceCr.
+						ifNotNil: [.
 							^ jsonReader nextAs: arrayClass ]
 						ifNil: [ ^ jsonReader parseMap ] ]
 				ifFalse: [ charReader next ] ]
