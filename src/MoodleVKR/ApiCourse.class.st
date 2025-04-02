@@ -14,18 +14,16 @@ ApiCourse class >> forToken: token [
 ]
 
 { #category : #utilities }
-ApiCourse >> adjust: iterator [
-	[ iterator charReader peek = $[ ]
-		whileFalse: [ iterator charReader atEnd
-				ifFalse: [ iterator charReader next ]
-				ifTrue: [ 
-					|err|
-				iterator jsonReader close.
-					err := Error new
-						messageText: 'Error accured'.
-					err signal.
-						]
-					 ]
+ApiCourse >> adjust: anIterator [
+	| buffer |
+	buffer := String
+			streamContents: [ :out | 
+				[ anIterator charReader peek = $[ ]
+					whileFalse: [ anIterator charReader atEnd ifFalse: [ anIterator charReader next ] ] ].
+	anIterator charReader atEnd
+		ifTrue: [ ((NeoJSONReader on: buffer readStream)
+				mapInstVarsFor: MoodleExecutionError;
+				nextAs: MoodleExecutionError) signal ]
 ]
 
 { #category : #'as yet unclassified' }

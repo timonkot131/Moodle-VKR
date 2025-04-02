@@ -14,6 +14,20 @@ ApiUser class >> forToken: aString [
 ]
 
 { #category : #'as yet unclassified' }
+ApiUser >> adjust: anIterator [
+	| buffer |
+	buffer := String
+			streamContents: [ :out | 
+				[ anIterator charReader peek = $[ |
+				  anIterator charReader atEnd ]
+					whileFalse: [ out nextPut: anIterator charReader next  ] ].
+	anIterator charReader atEnd
+		ifTrue: [ ((NeoJSONReader on: buffer readStream)
+				mapInstVarsFor: MoodleExecutionError;
+				nextAs: MoodleExecutionError) signal ]
+]
+
+{ #category : #'as yet unclassified' }
 ApiUser >> close [ 
 iterator ifNotNil: [
 	iterator close.
@@ -27,6 +41,28 @@ ApiUser >> completeUsers [
 	chunked := mapped chunks: 50.
 	fullUsers := chunked collect: [ :ids | self completeUsersChunk: ids ].
 	^ fullUsers flatten
+]
+
+{ #category : #'as yet unclassified' }
+ApiUser >> completeUsers: aDictionary [
+	| response |
+	response := ZnClient new
+			url: 'http://localhost/webservice/rest/server.php';
+			queryAt: 'wsfunction' put: 'core_user_get_users';
+			streaming: true;
+			queryAt: 'wstoken' put: token;
+			queryAt: 'moodlewsrestformat' add: 'json'.
+	aDictionary associations
+		withIndexDo: [ :x :i | 
+			response 
+				formAt: 'criteria[' , (i - 1) asString , '][key]'
+				put: x key asString.
+			response
+				formAt: 'criteria[' , (i - 1) asString , '][value]'
+				put: x value asString ].
+	iterator := JSONIterator forStream: response post of: MoodleUser.
+	self adjust: iterator.
+	^ AsyncIteratorStream forIterator: iterator
 ]
 
 { #category : #'stream creation' }

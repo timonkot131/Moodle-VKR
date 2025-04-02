@@ -11,12 +11,15 @@ TMFilterExcutor >> asSearchFilter [
 { #category : #execution }
 TMFilterExcutor >> execute: aQueryCancellation [
 | res stream chunks readStream | 
-			GtJustContextStackSignal emit.
-			res := (MoodleDBEventLog storedInstances sortBlock: [:p1 :p2 | 
+
+			[res := (MoodleDBEventLog storedInstances sortBlock: [:p1 :p2 | 
 				p1 timecreated > p2 timecreated
-			]) satisfying: self.
+			]) satisfying: self] on: Error
+			 do: [:anError | aQueryCancellation cancel: anError. 
+			 	^ {} asAsyncStream
+			 ].
 			readStream := res readStream.
-			aQueryCancellation weak
+			aQueryCancellation weak 
 				when: MoodleCancelEvent
 				send: #close
 				to: readStream.
@@ -36,7 +39,6 @@ TMFilterExcutor >> execute: aQueryCancellation [
 				users := userJob wait.
 				apiUser close.
 				apiCourse close.
-				GtJustContextStackSignal emit.
 				logs asAsyncStream collect: [:log  |
 					MoodleEventLog new
 						ip: log ip;
@@ -47,7 +49,12 @@ TMFilterExcutor >> execute: aQueryCancellation [
 						id: log id
 				] 
 			].
-			^chunks flatten
+			^chunks flatten on: Error do: [:anError | 
+				aQueryCancellation cancel: anError.
+			 	MoodleEventLog new
+						user: MoodleUser new;
+						course: MoodleCourse new .
+				]
 ]
 
 { #category : #view }

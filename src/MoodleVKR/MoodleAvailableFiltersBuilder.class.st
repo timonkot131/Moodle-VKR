@@ -61,6 +61,15 @@ MoodleAvailableFiltersBuilder class >> moodleQueryTimecreated: aCompiledMethod [
 ]
 
 { #category : #query }
+MoodleAvailableFiltersBuilder class >> moodleUserAuth: aCompiledMethod [
+<rule: #(MoodleUser auth)>
+^MFilterShortListModel new 
+	items: MoodleEventQuery auths;
+	order: 20;
+	name: 'Пользователь: Авторизация'
+]
+
+{ #category : #query }
 MoodleAvailableFiltersBuilder class >> moodleUserEmail: aCompiledMethod [
 <rule: #(MoodleUser email)>
 ^GtFilterTextModel new 
@@ -69,11 +78,19 @@ MoodleAvailableFiltersBuilder class >> moodleUserEmail: aCompiledMethod [
 ]
 
 { #category : #query }
-MoodleAvailableFiltersBuilder class >> moodleUserFullname: aCompiledMethod [
-<rule: #(MoodleUser fullname)>
+MoodleAvailableFiltersBuilder class >> moodleUserFirstname: aCompiledMethod [
+<rule: #(MoodleUser firstname)>
 ^GtFilterTextModel new 
-	order: 20;
-	name: 'Пользователь: Полное имя'
+	order: 19;
+	name: 'Пользователь: Имя'
+]
+
+{ #category : #query }
+MoodleAvailableFiltersBuilder class >> moodleUserLastname: aCompiledMethod [
+<rule: #(MoodleUser lastname)>
+^GtFilterTextModel new 
+	order: 18;
+	name: 'Пользователь: Фамилия'
 ]
 
 { #category : #query }

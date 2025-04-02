@@ -12,7 +12,9 @@ Class {
 		'anItemsModel',
 		'filterView',
 		'phlowLogElement',
-		'phlowView'
+		'phlowView',
+		'errorText',
+		'errorWrapper'
 	],
 	#category : #'MoodleVKR-MoodleApp'
 }
@@ -62,6 +64,18 @@ MoodleQueryTab >> initialize [
 	titleEditor editor
 		when: BrTextEditorModifiedEvent
 		do: self onTitleEditorChanged.
+		
+	errorText := BlTextElement new
+			constraintsDo: [ :c | c frame horizontal alignLeft ];
+			id: #errortext.
+			 
+	errorWrapper := BlElement new
+		id: #errorwrap;
+		layout: BlFrameLayout new;
+		height: 40;
+		padding: (BlInsets top:14);
+		constraintsDo: [ :c | c horizontal matchParent ];
+		addChild: errorText.
 
 	addButton := BrButton new
 					aptitude: BrGlamorousButtonWithLabelAptitude new;
@@ -93,23 +107,32 @@ MoodleQueryTab >> initialize [
 ]
 
 { #category : #accessing }
-MoodleQueryTab >> onCancel: anObject1 [
-'got cancelled' traceCr
+MoodleQueryTab >> onCancel: anObject [
+	| reason |
+	reason := anObject reason.
+	(reason isKindOf: Error) ifFalse: [ ^ self ].
+	GtJustContextStackSignal emit.
+	mainFrame
+		childNamed: 'errorwrap'
+		ifFound: [  ]
+		ifNone: [ mainFrame addChild: errorWrapper at: 2 ].
+	errorText text: (reason messageText asRopedText foreground: Color red)
 ]
 
 { #category : #'as yet unclassified' }
 MoodleQueryTab >> onFilterUpdate: anAnnouncement [
+	mainFrame removeChildNamed: 'errorwrap'.
 	phlowView items: [ anAnnouncement items ].
 	phlowLogElement phlow update
 ]
 
-{ #category : #accessing }
+{ #category : #'event - handling' }
 MoodleQueryTab >> onPanelUpdate: _ [
 MQueryHolder printOn: filterView using: self queryViewModel.
 
 ]
 
-{ #category : #accessing }
+{ #category : #'event - handling' }
 MoodleQueryTab >> onTitleChanged: anEvent [
 	self label: anEvent title.	"Мне нужно убедиться, что он не тригерит сам себя"
 	^ titleEditor editor
@@ -156,7 +179,7 @@ MoodleQueryTab >> queryViewModel: aQueryViewModel [
 	
 	MQueryHolder printOn: filterView using: queryViewModel.
 	
-	self subscribeToQueryViewModel..
+	self subscribeToQueryViewModel.
 ]
 
 { #category : #'as yet unclassified' }

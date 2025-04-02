@@ -4,6 +4,11 @@ Class {
 	#category : #'MoodleVKR-Model'
 }
 
+{ #category : #static }
+MoodleEventQuery class >> auths [
+^#('cas' 'db' 'email' 'ldap' 'lti' 'manual' 'mnet' 'nologin' 'none' 'oauth2' 'shibboleth' 'webservice')
+]
+
 { #category : #accessing }
 MoodleEventQuery class >> bindMethod: anArray [
 	^ anArray
@@ -90,10 +95,12 @@ MoodleEventQuery class >> ruleHierarchy [
  {#eventname}.
  {#ip}.
  {#timecreated}.
- {MoodleUser. #fullname}.
+ {MoodleUser. #auth}.
+ {MoodleUser. #firstname}.
+ {MoodleUser. #lastname}.
  {MoodleUser. #username}.
  {MoodleUser. #email}.
-  {MoodleUser. #id}.
+ {MoodleUser. #id}.
  {MoodleCourse. #fullname}.
  {MoodleCourse. #id}.
  {MoodleCourse. #category}.

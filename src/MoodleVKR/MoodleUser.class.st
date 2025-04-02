@@ -6,10 +6,23 @@ Class {
 		'fullname',
 		'id',
 		'profileimageurlsmall',
-		'username'
+		'username',
+		'firstname',
+		'lastname',
+		'auth'
 	],
 	#category : #'MoodleVKR-Model'
 }
+
+{ #category : #accessing }
+MoodleUser >> auth [
+	^ auth
+]
+
+{ #category : #accessing }
+MoodleUser >> auth: anObject [
+	auth := anObject
+]
 
 { #category : #accessing }
 MoodleUser >> email [
@@ -21,9 +34,19 @@ MoodleUser >> email: aString [
 	email := aString
 ]
 
+{ #category : #'as yet unclassified' }
+MoodleUser >> firstName [
+^firstname
+]
+
+{ #category : #'as yet unclassified' }
+MoodleUser >> firstName: aString [
+firstname := aString
+]
+
 { #category : #accessing }
 MoodleUser >> fullName [
-	^ fullname 
+	^ fullname
 ]
 
 { #category : #accessing }
@@ -39,6 +62,17 @@ MoodleUser >> id [
 { #category : #accessing }
 MoodleUser >> id: anObject [
 	id := anObject
+]
+
+{ #category : #'as yet unclassified' }
+MoodleUser >> lastName [
+^lastname
+
+]
+
+{ #category : #'as yet unclassified' }
+MoodleUser >> lastName: aString [
+lastname := aString
 ]
 
 { #category : #'as yet unclassified' }

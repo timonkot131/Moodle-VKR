@@ -66,7 +66,7 @@ aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ApiQueryBuilder class >> moodleQueryTimecreated: aSelected applyTo: aMoodleQuery [
 	<rule: #(timecreated)>
 	| strings op valueString isTime timeCreated offset valueInt intervalOffset |
-	aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
+	[aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
 	offset := DateAndTime now offset asSeconds.
 	aSelected isEmptyOrNil ifTrue: [ ^ false ].
 	strings := ' ' split: aSelected.
@@ -87,13 +87,22 @@ ApiQueryBuilder class >> moodleQueryTimecreated: aSelected applyTo: aMoodleQuery
 			intervalOffset := MLogTime dayInSeconds.
 			timeCreated := aMoodleQuery timecreated.
 			valueInt := MLogDate fromStringtoInt: valueString ].
-	GtJustContextStackSignal emit.
+
 	op = '>' ifTrue: [ ^ timeCreated > valueInt ].
 	op = '<' ifTrue: [ ^ timeCreated < valueInt ].
-	^ timeCreated > valueInt & (timeCreated < (valueInt + intervalOffset)) .
+	^ timeCreated > valueInt & (timeCreated < (valueInt + intervalOffset))] on: Error do: [:anError | 
+	GtJustContextStackSignal emit.
+	(MoodleFilterError new
+	messageText: 'Неправильный формата даты/времени') signal  ]  . 
 
 		
 		
+]
+
+{ #category : #query }
+ApiQueryBuilder class >> moodleUserAuth: aSelected applyTo: aMoodleUser [
+<rule: #(MoodleUser auth)>
+^aMoodleUser auth = aSelected.
 ]
 
 { #category : #query }
@@ -103,15 +112,21 @@ ApiQueryBuilder class >> moodleUserEmail: aSelected applyTo: aMoodleUser [
 ]
 
 { #category : #query }
-ApiQueryBuilder class >> moodleUserFullname: aSelected applyTo: aMoodleUser [
-<rule: #(MoodleUser fullname)>
-^aMoodleUser fullName = aSelected
+ApiQueryBuilder class >> moodleUserFirstname: aSelected applyTo: aMoodleUser [
+<rule: #(MoodleUser firstname)>
+^aMoodleUser firstName = aSelected.
 ]
 
 { #category : #query }
 ApiQueryBuilder class >> moodleUserId: aSelected applyTo: aMoodleUserOrSymbol [
 <rule: #(MoodleUser id)>
 ^aMoodleUserOrSymbol id = aSelected
+]
+
+{ #category : #query }
+ApiQueryBuilder class >> moodleUserLastname: aSelected applyTo: aMoodleUser [
+<rule: #(MoodleUser lastname)>
+^aMoodleUser lastName = aSelected.
 ]
 
 { #category : #query }
@@ -183,17 +198,21 @@ ApiQueryBuilder >> fetchCourses: aGtSearchFilter [
 
 { #category : #utilities }
 ApiQueryBuilder >> fetchUsers: aGtSearchFilter [ 
-	| apiUser |
+	| apiUser dict  |
+	dict := Dictionary new.
 	apiUser := ApiUser forToken: self token.
 	apiUser subscribeToCancel: self cancellation.
-	{'email'. 'id'. 'username'}
+	GtJustContextStackSignal emit.
+	{'email'. 'id'. 'username'. 'auth'. 'firstname'. 'lastname'}
 		do: [ :item | 
 			| byQuery |
 			byQuery := aGtSearchFilter value: ('moodleuser_' , item) asSymbol.
 			byQuery isArray
 				ifTrue: [ byQuery ifEmpty: [ ^ {} asAsyncStream ].
-				^ apiUser completeUsersChunk: byQuery field: item ]].
-	^apiUser completeUsers.
+				dict at: item put: byQuery first ]].
+	^dict ifEmpty: [apiUser completeUsers] ifNotEmpty:
+		 [apiUser completeUsers: dict]
+	
 ]
 
 { #category : #execution }
@@ -202,14 +221,18 @@ ApiQueryBuilder >> preload: aGtSearchFilter [
 	courseQuery := aGtSearchFilter value: MoodleCourse new.
 	userQuery := aGtSearchFilter value: MoodleUser new.
 
-	courses := courseQuery ~= #pass
+	[courses := courseQuery ~= #pass
 		ifTrue: [ (self fetchCourses: aGtSearchFilter ) cached
 					collect: [ :anItem | 
 						self class fetchRule: {#courseid} select: anItem id ] ].
 	users := userQuery ~= #pass
-		ifTrue: [  (self fetchUsers: aGtSearchFilter ) cached
+		ifTrue: [  (self fetchUsers: aGtSearchFilter) cached
 					collect: [ :anItem |
-						self class fetchRule: {#userid} select: anItem id ] ].
+						self class fetchRule: {#userid} select: anItem id ] ]] on: Error do: [ :anError | 
+		self cancellation cancel: anError.
+		^ {} asAsyncStream
+		].
+		
 	(courseQuery ~= #pass and: [ userQuery ~= #pass ])
 		ifTrue: [ ^ users
 				flatCollect: [ :anUser |
