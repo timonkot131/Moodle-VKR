@@ -40,6 +40,18 @@ MoodleEventQuery class >> computeAssociations: arr forClass: aTMQueryBuilder [
 	^ self flatConnection: data
 ]
 
+{ #category : #static }
+MoodleEventQuery class >> contextLevels [
+	^ Dictionary new
+		at: 'Система' put: 10;
+		at: 'Пользователь' put: 30;
+		at: 'Категория курса' put: 40;
+		at: 'Курс' put: 50;
+		at: 'Модуль' put: 70;
+		at: 'Блок' put: 80;
+		yourself
+]
+
 { #category : #accessing }
 MoodleEventQuery class >> describe: arr [
 	^ arr
@@ -95,6 +107,7 @@ MoodleEventQuery class >> ruleHierarchy [
  {#eventname}.
  {#ip}.
  {#timecreated}.
+ {#contextlevel}.
  {MoodleUser. #auth}.
  {MoodleUser. #firstname}.
  {MoodleUser. #lastname}.

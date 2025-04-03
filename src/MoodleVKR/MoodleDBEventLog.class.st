@@ -12,7 +12,6 @@ Class {
 		'crud',
 		'edulevel',
 		'contextid',
-		'contextlevel',
 		'contextinstanceid',
 		'userid',
 		'courseid',
@@ -22,7 +21,8 @@ Class {
 		'timecreated',
 		'origin',
 		'ip',
-		'realuserid'
+		'realuserid',
+		'contextlevel'
 	],
 	#category : #'MoodleVKR-Database'
 }
@@ -38,6 +38,7 @@ MoodleDBEventLog class >> reStoreDefinition [
 	^ super reStoreDefinition
 		defineAsID: #id;
 		tableName: 'logs';
+				define: #contextlevel as: Integer;
 		define: #eventname as: (String maxSize: 255);
 		define: #courseid as: Integer;
 		define: #userid as: Integer;
@@ -48,6 +49,16 @@ MoodleDBEventLog class >> reStoreDefinition [
 { #category : #'as yet unclassified' }
 MoodleDBEventLog >> <= aMoodleEventLog [ 
 ^self id <= aMoodleEventLog id.
+]
+
+{ #category : #accessing }
+MoodleDBEventLog >> contextlevel [
+	^ contextlevel
+]
+
+{ #category : #accessing }
+MoodleDBEventLog >> contextlevel: anObject [
+	contextlevel := anObject
 ]
 
 { #category : #accessing }

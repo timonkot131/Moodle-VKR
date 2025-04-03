@@ -10,7 +10,8 @@ Class {
 		'timecreated',
 		'user',
 		'course',
-		'id'
+		'id',
+		'contextLevel'
 	],
 	#category : #'MoodleVKR-Model'
 }
@@ -19,6 +20,16 @@ Class {
 MoodleEventLog >> = anObject [
 (anObject isKindOf: self class) ifFalse: [^false].
 ^self id = anObject id
+]
+
+{ #category : #accessing }
+MoodleEventLog >> contextLevel [
+	^ contextLevel
+]
+
+{ #category : #accessing }
+MoodleEventLog >> contextLevel: anObject [
+	contextLevel := anObject
 ]
 
 { #category : #accessing }

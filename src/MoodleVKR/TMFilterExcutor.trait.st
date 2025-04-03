@@ -42,6 +42,7 @@ TMFilterExcutor >> execute: aQueryCancellation [
 				logs asAsyncStream collect: [:log  |
 					MoodleEventLog new
 						ip: log ip;
+						contextLevel: log contextlevel;
 						timeCreated: log timecreated;
 						user: (users at: log userid);
 						course: (courses at: log courseid ifAbsent: [nil]);
