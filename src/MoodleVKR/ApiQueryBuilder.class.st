@@ -4,7 +4,6 @@ Class {
 	#traits : 'TMQueryBuilder',
 	#classTraits : 'TMQueryBuilder classTrait',
 	#instVars : [
-		'currentQueryArguments',
 		'query',
 		'token',
 		'cancellation'
@@ -66,37 +65,34 @@ aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ApiQueryBuilder class >> moodleQueryTimecreated: aSelected applyTo: aMoodleQuery [
 	<rule: #(timecreated)>
 	| strings op valueString isTime timeCreated offset valueInt intervalOffset |
-	[aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
+	[ aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [ ^ #pass ].
 	offset := DateAndTime now offset asSeconds.
 	aSelected isEmptyOrNil ifTrue: [ ^ false ].
 	strings := ' ' split: aSelected.
 	op := '='.
 
 	strings size = 2
-		ifTrue: [ 
-			op := strings first.
+		ifTrue: [ op := strings first.
 			valueString := strings second ]
 		ifFalse: [ valueString := aSelected ].
 	isTime := valueString includesSubstring: ':'.
 	isTime
-		ifTrue: [ 
-			intervalOffset := 60 "seconds".
+		ifTrue: [ intervalOffset := 60.	"seconds"
 			timeCreated := (aMoodleQuery timecreated + offset) \\ MLogTime dayInSeconds.
 			valueInt := MLogTime fromStringtoInt: valueString ]
-		ifFalse: [ 
-			intervalOffset := MLogTime dayInSeconds.
+		ifFalse: [ intervalOffset := MLogTime dayInSeconds.
 			timeCreated := aMoodleQuery timecreated.
 			valueInt := MLogDate fromStringtoInt: valueString ].
-
 	op = '>' ifTrue: [ ^ timeCreated > valueInt ].
 	op = '<' ifTrue: [ ^ timeCreated < valueInt ].
-	^ timeCreated > valueInt & (timeCreated < (valueInt + intervalOffset))] on: Error do: [:anError | 
-	GtJustContextStackSignal emit.
-	(MoodleFilterError new
-	messageText: 'Неправильный формата даты/времени') signal  ]  . 
-
-		
-		
+	^ isTime
+		ifFalse: [ aMoodleQuery timecreated + offset < (valueInt + intervalOffset)
+				& (aMoodleQuery timecreated + offset > valueInt) ]
+		ifTrue: [ (aMoodleQuery timecreated + offset) \\ MLogTime dayInSeconds
+				< (valueInt + intervalOffset)
+				& ((aMoodleQuery timecreated + offset) \\ MLogTime dayInSeconds > valueInt) ] ]
+		on: Error
+		do: [ :anError | (MoodleFilterError new messageText: 'Неправильный формата даты/времени') signal ]
 ]
 
 { #category : #query }
@@ -202,7 +198,6 @@ ApiQueryBuilder >> fetchUsers: aGtSearchFilter [
 	dict := Dictionary new.
 	apiUser := ApiUser forToken: self token.
 	apiUser subscribeToCancel: self cancellation.
-	GtJustContextStackSignal emit.
 	{'email'. 'id'. 'username'. 'auth'. 'firstname'. 'lastname'}
 		do: [ :item | 
 			| byQuery |
