@@ -1,15 +1,5 @@
 Class {
 	#name : #MoodleAppEvent,
-	#superclass : #Announcement,
+	#superclass : #ContextStackSignal,
 	#category : #'MoodleVKR-ViewModels'
 }
-
-{ #category : #'as yet unclassified' }
-MoodleAppEvent >> body [ 
-^'Hello'
-]
-
-{ #category : #accessing }
-MoodleAppEvent >> hello: anEvent [
-^'Dude'
-]

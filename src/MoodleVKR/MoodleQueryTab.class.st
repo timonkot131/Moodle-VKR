@@ -111,7 +111,6 @@ MoodleQueryTab >> onCancel: anObject [
 	| reason |
 	reason := anObject reason.
 	(reason isKindOf: Error) ifFalse: [ ^ self ].
-	GtJustContextStackSignal emit.
 	mainFrame
 		childNamed: 'errorwrap'
 		ifFound: [  ]
