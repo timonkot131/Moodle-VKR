@@ -151,6 +151,9 @@ MoodleQueryTab >> phlowView [
 		title: 'Items';
 		priority: 5;
 		column: 'Событие' text: [ :each | each eventName ];
+		column: 'Уровень' text: [ :each |
+			MoodleEventQuery contextLevels keyAtValue: each contextLevel ]
+			width: 60;
 		column: 'Пользователь'
 			text: [ :each | each user userName ]
 			width: 70;

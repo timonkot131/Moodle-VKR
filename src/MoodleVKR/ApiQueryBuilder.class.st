@@ -48,6 +48,13 @@ ApiQueryBuilder class >> moodleCourseShortname: aSelected applyTo: aMoodleCourse
 ]
 
 { #category : #query }
+ApiQueryBuilder class >> moodleQueryContextlevel: aSelected applyTo: aMoodleQuery [
+<rule: #(contextlevel)>
+aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
+^aMoodleQuery contextlevel = (MoodleEventQuery contextLevels at: aSelected)
+]
+
+{ #category : #query }
 ApiQueryBuilder class >> moodleQueryEventname: aSelected applyTo: anObject [
 <rule: #(eventname)>
 anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].

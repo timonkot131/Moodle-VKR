@@ -36,6 +36,16 @@ MoodleAvailableFiltersBuilder class >> moodleCourseShortname: aCompiledMethod [
 ]
 
 { #category : #query }
+MoodleAvailableFiltersBuilder class >> moodleQueryContextlevel: aCompiledMethod [
+<rule: #(contextlevel)>
+^MFilterShortListModel new 
+	items: MoodleEventQuery contextLevels keys;
+	selectedItem: 'Система';
+	order: 10;
+	name: 'Логи: Уровень контекста'.
+]
+
+{ #category : #query }
 MoodleAvailableFiltersBuilder class >> moodleQueryEventname: aCompiledMethod [
 <rule: #(eventname)>
 ^GtFilterTextModel new 
@@ -65,6 +75,7 @@ MoodleAvailableFiltersBuilder class >> moodleUserAuth: aCompiledMethod [
 <rule: #(MoodleUser auth)>
 ^MFilterShortListModel new 
 	items: MoodleEventQuery auths;
+	selectedItem: 'manual';
 	order: 20;
 	name: 'Пользователь: Авторизация'
 ]
