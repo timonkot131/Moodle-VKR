@@ -78,11 +78,23 @@ CalendarWidget >> dayElement: anItem [
 			anElementSink
 				sink: AsyncCounterSink new;
 				whenUpdate: [ :anElement :aCounterSink | 
-					aCounterSink count > 0 ifTrue: [
-					anElement background: Color orange]
-					];
+					| count|
+					count := aCounterSink count.
+					count = 0 & anElement background paint color = Color veryVeryLightGray
+					 ifFalse: [
+							
+					
+					anElement parent addAnimation: 
+						(BlParallelAnimation new add: 
+							(BlColorTransition new
+							from: anElement background paint color;
+							to: (self thresholdColor: count);
+							delay: 80 milliSeconds;
+							duration: 400 milliSeconds;
+							onStepDo: [ :c | anElement background: c]))	].
+						];
 				forwardStream: (self itemStream asyncSimilarCopy filter: [:each | 
-				GtJustContextStackSignal emit.
+				"GtJustContextStackSignal emit."
 					self isLog: each in: anItem
 				 ]) ]; 
 		addChild: (BlTextElement new
@@ -147,6 +159,16 @@ CalendarWidget >> monthNum: anObject [
 { #category : #'as yet unclassified' }
 CalendarWidget >> offset [ 
 ^DateAndTime now offset asSeconds.
+]
+
+{ #category : #'as yet unclassified' }
+CalendarWidget >> thresholdColor: anInteger [
+anInteger <= 0 ifTrue: [^Color white].
+anInteger <= 5 ifTrue: [^Color lightYellow].
+anInteger <= 10 ifTrue: [^Color yellow].
+anInteger <= 20 ifTrue: [^Color lightOrange].
+anInteger > 20 ifTrue: [^Color orange].
+
 ]
 
 { #category : #accessing }
