@@ -52,9 +52,7 @@ TMFilterExcutor >> execute: aQueryCancellation [
 			].
 			^chunks flatten on: Error do: [:anError | 
 				aQueryCancellation cancel: anError.
-			 	MoodleEventLog new
-						user: MoodleUser new;
-						course: MoodleCourse new .
+			    nil .
 				]
 ]
 
