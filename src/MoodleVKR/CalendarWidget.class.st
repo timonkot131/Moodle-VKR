@@ -31,6 +31,11 @@ CalendarWidget class >> year: anInteger month: aMonthInteger stream: anAsyncStre
 ]
 
 { #category : #'as yet unclassified' }
+CalendarWidget >> animTime [
+	^ 200 milliSeconds
+]
+
+{ #category : #'as yet unclassified' }
 CalendarWidget >> asElement [
 	^ BlElement new
 		layout: BlLinearLayout vertical;
@@ -65,38 +70,31 @@ CalendarWidget >> dayElement: anItem [
 		id: #day;
 		layout: BlFrameLayout new;
 		background: (anItem month = self monthNum
-				ifTrue: [ Color white ]
-				ifFalse: [ Color veryVeryLightGray ]);
+			ifTrue: [ Color white ]
+			ifFalse: [ Color veryVeryLightGray ]);
 		border: (BlBorder paint: Color gray width: 1);
 		constraintsDo: [ :c | c horizontal matchParent ];
 		background: (anItem month = self monthNum
-				ifTrue: [ Color white ]
-				ifFalse: [ Color veryVeryLightGray ]);
+			ifTrue: [ Color white ]
+			ifFalse: [ Color veryVeryLightGray ]);
 		height: 60;
 		padding: (BlInsets all: 10);
-		withAsyncSinkDo: [ :anElementSink |
+		withAsyncSinkDo: [ :anElementSink | 
 			anElementSink
 				sink: AsyncCounterSink new;
 				whenUpdate: [ :anElement :aCounterSink | 
-					| count|
+					| count |
 					count := aCounterSink count.
-					count = 0 & anElement background paint color = Color veryVeryLightGray
-					 ifFalse: [
-							
-					
-					anElement parent addAnimation: 
-						(BlParallelAnimation new add: 
-							(BlColorTransition new
-							from: anElement background paint color;
-							to: (self thresholdColor: count);
-							delay: 80 milliSeconds;
-							duration: 400 milliSeconds;
-							onStepDo: [ :c | anElement background: c]))	].
-						];
-				forwardStream: (self itemStream asyncSimilarCopy filter: [:each | 
-				"GtJustContextStackSignal emit."
-					self isLog: each in: anItem
-				 ]) ]; 
+					(count = 0 & anElement background paint color) = Color veryVeryLightGray
+						ifFalse: [ anElement parent
+							addAnimation: (BlParallelAnimation new
+								add: (BlColorTransition new
+									from: anElement background paint color;
+									to: (self thresholdColor: count);
+									duration: self animTime;
+									onStepDo: [ :c | anElement background: c ])) ] ];
+				forwardStream: (self itemStream asyncSimilarCopy
+					filter: [  "GtJustContextStackSignal emit.":each | self isLog: each in: anItem ]) ];
 		addChild: (BlTextElement new
 				text: (anItem ifNil: [ '' asRopedText ] ifNotNil: [ :x | x dayOfMonth asRopedText ]))
 ]
