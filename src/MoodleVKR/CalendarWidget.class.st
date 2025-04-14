@@ -42,13 +42,26 @@ CalendarWidget >> asElement [
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical fitContent ];
-		addChildren: {BlElement new
+		addChildren: {
+				BlElement new
+					layout: BlFrameLayout new;
+					height: 40;
+					constraintsDo: [ :c | c horizontal matchParent ];
+					background: Color white;
+					addChild: 
+						(BlTextElement new
+							text: (Month month:  self monthNum) asRopedText;
+							constraintsDo: [ :c | 
+								c frame horizontal alignCenter.
+								c frame vertical alignCenter ]).
+				BlElement new
 					layout: BlLinearLayout horizontal;
 					constraintsDo: [ :c | c horizontal matchParent ];
 					addChildren: (CalendarWidget daysOfWeek
 							collect: [ :anItem | 
 								BlElement new
 									layout: BlFrameLayout new;
+									background: Color white;
 									constraintsDo: [ :c | c horizontal matchParent ];
 									addChild: (BlTextElement new
 											text: anItem asRopedText;
@@ -85,6 +98,7 @@ CalendarWidget >> dayElement: anItem [
 				whenUpdate: [ :anElement :aCounterSink | 
 					| count |
 					count := aCounterSink count.
+					count traceCr.
 					(count = 0 & anElement background paint color) = Color veryVeryLightGray
 						ifFalse: [ anElement parent
 							addAnimation: (BlParallelAnimation new

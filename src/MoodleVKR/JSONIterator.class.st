@@ -30,6 +30,20 @@ JSONIterator class >> forStream: aStream of: aClass [
 	^instance.
 ]
 
+{ #category : #utility }
+JSONIterator >> adjust [
+	| buffer |
+	buffer := String
+			streamContents: [ :out | 
+				[ self charReader peek = $[ |
+				  self charReader atEnd ]
+					whileFalse: [ out nextPut: self charReader next  ] ].
+	self charReader atEnd
+		ifTrue: [ ((NeoJSONReader on: buffer readStream)
+				mapInstVarsFor: MoodleExecutionError;
+				nextAs: MoodleExecutionError) signal ]
+]
+
 { #category : #accessing }
 JSONIterator >> arrayClass [
 	^ arrayClass

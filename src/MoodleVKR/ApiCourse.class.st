@@ -43,7 +43,7 @@ ApiCourse >> completeCourses [
 			queryAt: 'wstoken' put: token;
 			queryAt: 'moodlewsrestformat' add: 'json'.
 	iterator := JSONIterator forStream: response post of: MoodleCourse.
-	self adjust: iterator.
+	iterator adjust.
 	^ AsyncIteratorStream forIterator: iterator
 ]
 
@@ -60,7 +60,7 @@ ApiCourse >> completeCoursesChunk: ids [
 		queryAt: 'field' add: 'ids';
 		formAt: 'value' put: (', ' join: ids).
 	iterator :=  JSONIterator forStream: response post of: MoodleCourse.
-	self adjust: iterator.
+	iterator adjust.
 	^ AsyncIteratorStream forIterator: iterator
 ]
 
@@ -84,7 +84,7 @@ ApiCourse >> course: anObject by: aString [
 		queryAt: 'field' add: aString;
 		formAt: 'value' put: anObject.
 	iterator :=  JSONIterator forStream: response post of: MoodleCourse.
-	self adjust: iterator.
+	iterator adjust.
 	
 	^ AsyncIteratorStream forIterator: iterator
 ]

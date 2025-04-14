@@ -118,6 +118,7 @@ MoodleEventQuery class >> ruleHierarchy [
  {MoodleCourse. #id}.
  {MoodleCourse. #category}.
  {MoodleCourse. #shortname}.
+ {MoodleCourse. MoodleGroup. #name}.
  {MoodleCourse. MoodleQuiz. #name}.
  {MoodleCourse. MoodleQuiz. MoodleAttempt. #id}
 } 

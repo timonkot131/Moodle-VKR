@@ -111,6 +111,7 @@ MoodleQueryTab >> onCancel: anObject [
 	| reason |
 	reason := anObject reason.
 	(reason isKindOf: Error) ifFalse: [ ^ self ].
+	GtJustContextStackSignal emit.
 	mainFrame
 		childNamed: 'errorwrap'
 		ifFound: [  ]
@@ -121,7 +122,7 @@ MoodleQueryTab >> onCancel: anObject [
 { #category : #'as yet unclassified' }
 MoodleQueryTab >> onFilterUpdate: anAnnouncement [
 	mainFrame removeChildNamed: 'errorwrap'.
-	phlowView items: [ anAnnouncement items ].
+	phlowView items: [ anAnnouncement items filter: #isNotNil ].
 	phlowLogElement phlow update
 ]
 
@@ -161,7 +162,18 @@ MoodleQueryTab >> phlowView [
 			text: [ :each | each course ifNotNil: [ :x | x shortname ] ifNil: [ 'Нет' ] ]
 			width: 70;
 	 column: 'Дата' text: [ :each | MLogDate ofUnixToString: each timeCreated] width: 60;
-		column: 'Время' text: [ :each | MLogTime ofUnixToString: each timeCreated] width: 50.
+		column: 'Время' text: [ :each | MLogTime ofUnixToString: each timeCreated] width: 50;
+			contextItemLabel: 'Тепловая карта'
+			action: [ :element :item | 
+				| aSpace |
+				aSpace := BlSpace new
+					extent: 800@400;
+					title: 'Moodle app';
+					withSceneDriller;
+					addChild: (CalendarPager forEventLog: item);
+					show
+	
+				]
 ]
 
 { #category : #accessing }

@@ -44,7 +44,8 @@ TMFilterExcutor >> execute: aQueryCancellation [
 						ip: log ip;
 						contextLevel: log contextlevel;
 						timeCreated: log timecreated;
-						user: (users at: log userid);
+						user: (users at: log userid ifAbsent: 
+							[MoodleUser new fullName: 'nilUser'; email: 'nomail@example.com']);
 						course: (courses at: log courseid ifAbsent: [nil]);
 						eventName: log eventname;
 						id: log id

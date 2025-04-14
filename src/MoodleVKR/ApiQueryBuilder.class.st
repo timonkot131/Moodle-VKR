@@ -48,6 +48,12 @@ ApiQueryBuilder class >> moodleCourseShortname: aSelected applyTo: aMoodleCourse
 ]
 
 { #category : #query }
+ApiQueryBuilder class >> moodleGroupName: aSelected applyTo: aMoodleGroup [
+<rule: #(MoodleCourse MoodleGroup name)>
+^aMoodleGroup name = aSelected.
+]
+
+{ #category : #query }
 ApiQueryBuilder class >> moodleQueryContextlevel: aSelected applyTo: aMoodleQuery [
 <rule: #(contextlevel)>
 aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
@@ -219,18 +225,23 @@ ApiQueryBuilder >> fetchUsers: aGtSearchFilter [
 
 { #category : #execution }
 ApiQueryBuilder >> preload: aGtSearchFilter [
-	| userQuery courseQuery courses users |
+	| userQuery courseQuery courses users filters |
 	courseQuery := aGtSearchFilter value: MoodleCourse new.
 	userQuery := aGtSearchFilter value: MoodleUser new.
 
-	[courses := courseQuery ~= #pass
-		ifTrue: [ (self fetchCourses: aGtSearchFilter ) cached
+	filters := { aGtSearchFilter } asOrderedCollection.
+	[courseQuery ~= #pass
+		ifTrue: [
+			filters add: 
+			((self fetchCourses: aGtSearchFilter) cached
 					collect: [ :anItem | 
-						self class fetchRule: {#courseid} select: anItem id ] ].
-	users := userQuery ~= #pass
-		ifTrue: [  (self fetchUsers: aGtSearchFilter) cached
+						self class fetchRule: {#courseid} select: anItem id ] )].
+	userQuery ~= #pass
+		ifTrue: [
+			filters add: 
+			((self fetchUsers: aGtSearchFilter) cached
 					collect: [ :anItem |
-						self class fetchRule: {#userid} select: anItem id ] ]] on: Error do: [ :anError | 
+						self class fetchRule: {#userid} select: anItem id ])]] on: Error do: [ :anError | 
 		self cancellation cancel: anError.
 		^ {} asAsyncStream
 		].
