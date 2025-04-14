@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'token',
-		'iterator'
+		'iterators',
+		'cancel'
 	],
 	#category : #'MoodleVKR-API'
 }
@@ -15,14 +16,14 @@ ApiGroup class >> forToken: aString [
 
 { #category : #'as yet unclassified' }
 ApiGroup >> close [ 
-iterator ifNotNil: [
-	iterator close.
+iterators do: [ :each |
+	each close.
 ]
 ]
 
 { #category : #'as yet unclassified' }
 ApiGroup >> completeGroups: ids [
-| response |
+| response iterator |
 	response := ZnClient new
 			url: 'http://localhost/webservice/rest/server.php';
 			streaming: true;
@@ -35,14 +36,16 @@ ApiGroup >> completeGroups: ids [
 		withIndexDo: [:x :i | response formAt: 'groupids[', (i - 1) asString, ']' put: x asString].	
 	
 	iterator := JSONIterator forStream: response post of: MoodleGroup.
-	iterator adjust.
+	iterators add: iterator adjust.
 	^ AsyncIteratorStream forIterator: iterator
 ]
 
 { #category : #'as yet unclassified' }
 ApiGroup >> groupMembers: ids [
 | response apiUser |
+	ids isEmptyOrNil ifTrue: [^{} asAsyncStream].
 	apiUser := ApiUser forToken: token.
+	apiUser subscribeToCancel: cancel.
 	response := ZnClient new
 			url: 'http://localhost/webservice/rest/server.php';
 			queryAt: 'wsfunction' put: 'core_group_get_group_members';
@@ -51,12 +54,12 @@ ApiGroup >> groupMembers: ids [
 	ids 
 		withIndexDo: [:x :i | response formAt: 'groupids[', (i - 1) asString ,']' put: x asString].
 	
-	^apiUser completeUsersChunk: ((STON fromString: response post) flatCollect: [:x | x at: 'userids']) asSet
+	^apiUser completeUsersChunk: ((STON fromString: response post) flatCollect: [:x | x at: 'userids']) asSet 
 ]
 
 { #category : #'as yet unclassified' }
 ApiGroup >> groupOfCourse: aCourseId ofUser: aUserId [
-| response |
+| response iterator |
 	response := ZnClient new
 			url: 'http://localhost/webservice/rest/server.php';
 			queryAt: 'wsfunction' put: 'core_group_get_course_user_groups';
@@ -67,13 +70,13 @@ ApiGroup >> groupOfCourse: aCourseId ofUser: aUserId [
 			queryAt: 'userid' put: aUserId.
 			
 	iterator := JSONIterator forStream: response post of: MoodleGroup.
-	iterator adjust.
+	iterators add: iterator adjust.
 	^ AsyncIteratorStream forIterator: iterator
 ]
 
 { #category : #'as yet unclassified' }
 ApiGroup >> groupsOfCourse: anIntegerId [
-| response |
+| response iterator |
 	response := ZnClient new
 			url: 'http://localhost/webservice/rest/server.php';
 			queryAt: 'wsfunction' put: 'core_group_get_course_groups';
@@ -83,13 +86,24 @@ ApiGroup >> groupsOfCourse: anIntegerId [
 			queryAt: 'courseid' put: anIntegerId.
 			
 	iterator := JSONIterator forStream: response post of: MoodleGroup.
-	iterator adjust.
-	^ AsyncIteratorStream forIterator: iterator
+	iterators add: iterator adjust.
+	^ (AsyncIteratorStream forIterator: iterator) filter: [:x | 
+		"Если возвращаемых значений нет. Он закидывает JSONIterator"
+		"Их нужно отфильтровать"
+		(x isKindOf: JSONIterator) not
+	]
+]
+
+{ #category : #'as yet unclassified' }
+ApiGroup >> initialize [
+super initialize.
+cancel := QueryCancellation new.
+iterators := {} asOrderedCollection.
 ]
 
 { #category : #'as yet unclassified' }
 ApiGroup >> subscribeToCancel: aQueryCancellation [
-	aQueryCancellation weak 
+	(cancel := aQueryCancellation) weak 
 		when: MoodleCancelEvent
 		send: #close
 		to: self.

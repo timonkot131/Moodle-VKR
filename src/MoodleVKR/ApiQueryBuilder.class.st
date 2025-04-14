@@ -205,6 +205,17 @@ ApiQueryBuilder >> fetchCourses: aGtSearchFilter [
 	^ apiCourse completeCourses
 ]
 
+{ #category : #execution }
+ApiQueryBuilder >> fetchGroups: aGtSearchFilter ofCourse: anInteger [ 
+	| apiGroup groups |
+	apiGroup := ApiGroup forToken: self token.
+	apiGroup subscribeToCancel: self cancellation.
+	groups := (apiGroup groupsOfCourse: anInteger) toArray wait
+				select: aGtSearchFilter
+				thenCollect: #id.
+	^apiGroup groupMembers: groups.
+]
+
 { #category : #utilities }
 ApiQueryBuilder >> fetchUsers: aGtSearchFilter [ 
 	| apiUser dict  |
@@ -225,17 +236,39 @@ ApiQueryBuilder >> fetchUsers: aGtSearchFilter [
 
 { #category : #execution }
 ApiQueryBuilder >> preload: aGtSearchFilter [
-	| userQuery courseQuery courses users filters |
+	| userQuery courseQuery filters res groupQuery courses |
+	
+	filters := { {aGtSearchFilter} asAsyncStream } asOrderedCollection.
 	courseQuery := aGtSearchFilter value: MoodleCourse new.
 	userQuery := aGtSearchFilter value: MoodleUser new.
+	groupQuery := aGtSearchFilter value: MoodleGroup new.
+	
 
-	filters := { aGtSearchFilter } asOrderedCollection.
-	[courseQuery ~= #pass
-		ifTrue: [
+
+	GtJustContextStackSignal emit.
+
+	[
+	courses := (self fetchCourses: aGtSearchFilter) cached.
+	courseQuery ~= #pass
+		ifTrue: [ 
 			filters add: 
-			((self fetchCourses: aGtSearchFilter) cached
+			(courses
 					collect: [ :anItem | 
 						self class fetchRule: {#courseid} select: anItem id ] )].
+						
+	groupQuery ~= #pass 
+		ifTrue: [
+			| groups |
+			groups :=
+				courses flatCollect: [:each |
+					(self fetchGroups: aGtSearchFilter ofCourse: each id)
+				].
+			filters add: 
+				(groups collect: [:each | 
+					self class fetchRule: {#userid} select: each id
+				])
+		].
+						
 	userQuery ~= #pass
 		ifTrue: [
 			filters add: 
@@ -245,18 +278,16 @@ ApiQueryBuilder >> preload: aGtSearchFilter [
 		self cancellation cancel: anError.
 		^ {} asAsyncStream
 		].
-		
-	(courseQuery ~= #pass and: [ userQuery ~= #pass ])
-		ifTrue: [ ^ users
-				flatCollect: [ :anUser |
-					courses asyncSimilarCopy map: [ :aCourse | aGtSearchFilter & (anUser & aCourse) ] .
-					]].
+	
+	res := filters reduce: [:xs :ys | 
+		xs
+		 flatCollect: [ :x |
+					ys asyncSimilarCopy map: [ :y | x & y ]]
+	].
+	
+	GtJustContextStackSignal emit.
 
-	courseQuery ~= #pass
-		ifTrue: [ ^ courses collect: [ :x | aGtSearchFilter & x ] ].
-	userQuery ~= #pass 
-		ifTrue: [ ^ users collect: [ :x | aGtSearchFilter & x ] ].
-	^ {aGtSearchFilter} asAsyncStream
+	^ res asAsyncStream
 ]
 
 { #category : #execution }

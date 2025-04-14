@@ -36,6 +36,14 @@ MoodleAvailableFiltersBuilder class >> moodleCourseShortname: aCompiledMethod [
 ]
 
 { #category : #query }
+MoodleAvailableFiltersBuilder class >> moodleGroupName: aCompiledMethod [
+<rule: #(MoodleCourse MoodleGroup name)>
+^GtFilterTextModel new 
+	order: 31;
+	name: 'Группа: Название'
+]
+
+{ #category : #query }
 MoodleAvailableFiltersBuilder class >> moodleQueryContextlevel: aCompiledMethod [
 <rule: #(contextlevel)>
 ^MFilterShortListModel new 
