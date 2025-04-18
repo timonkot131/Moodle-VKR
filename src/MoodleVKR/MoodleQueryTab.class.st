@@ -1,8 +1,7 @@
 Class {
 	#name : #MoodleQueryTab,
-	#superclass : #BrTab,
+	#superclass : #BlElement,
 	#instVars : [
-		'mainFrame',
 		'queryViewModel',
 		'sourceViewModel',
 		'titleEditor',
@@ -20,7 +19,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MoodleQueryTab >> actionbarStencil [
+MoodleQueryTab class >> actionbarStencil: aBlock [
 	^ [ :aTabModel | 
 	BrToolbar new
 		aptitude: (BrGlamorousToolbarAptitude new spacing: 0);
@@ -32,7 +31,7 @@ MoodleQueryTab >> actionbarStencil [
 					label: 'Close';
 					model: aTabModel;
 					containerName: #CloseTab;
-					action: [ self removeFromToolbar ]} ]
+					action: [ aBlock value ]} ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -46,7 +45,7 @@ MoodleQueryTab >> initialize [
 	| addButton |
 	super initialize.
 	
-	mainFrame := BlElement new
+	self
 			padding: (BlInsets all: 10);
 			constraintsDo: [ :c | 
 				c vertical fitContent.
@@ -94,16 +93,10 @@ MoodleQueryTab >> initialize [
 	phlowView := self phlowView.
 	phlowLogElement := phlowView asElement height: 340.
 
-	mainFrame addChild: titleEditor.
-	mainFrame addChild: addButton.
-	mainFrame addChild: filterView.
-	mainFrame addChild: phlowLogElement.
-
-	self
-		aptitude: BrGlamorousTabAptitude;
-		padding: (BlInsets all: 10);
-		label: '+ Новый запрос';
-		stencil: [ mainFrame ]
+	self addChild: titleEditor.
+	self addChild: addButton.
+	self addChild: filterView.
+	self addChild: phlowLogElement.
 ]
 
 { #category : #accessing }
@@ -112,16 +105,16 @@ MoodleQueryTab >> onCancel: anObject [
 	reason := anObject reason.
 	(reason isKindOf: Error) ifFalse: [ ^ self ].
 	GtJustContextStackSignal emit.
-	mainFrame
+	self
 		childNamed: 'errorwrap'
 		ifFound: [  ]
-		ifNone: [ mainFrame addChild: errorWrapper at: 2 ].
+		ifNone: [ self addChild: errorWrapper at: 2 ].
 	errorText text: (reason messageText asRopedText foreground: Color red)
 ]
 
 { #category : #'as yet unclassified' }
 MoodleQueryTab >> onFilterUpdate: anAnnouncement [
-	mainFrame removeChildNamed: 'errorwrap'.
+	self removeChildNamed: 'errorwrap'.
 	phlowView items: [ anAnnouncement items filter: #isNotNil ].
 	phlowLogElement phlow update
 ]
@@ -134,7 +127,6 @@ MQueryHolder printOn: filterView using: self queryViewModel.
 
 { #category : #'event - handling' }
 MoodleQueryTab >> onTitleChanged: anEvent [
-	self label: anEvent title.	"Мне нужно убедиться, что он не тригерит сам себя"
 	^ titleEditor editor
 		removeEvent: BrTextEditorModifiedEvent;
 		replaceWith: anEvent title;
@@ -167,7 +159,7 @@ MoodleQueryTab >> phlowView [
 			action: [ :element :item | 
 				| aSpace |
 				aSpace := BlSpace new
-					extent: 800@400;
+					extent: 800@500;
 					title: 'Moodle app';
 					withSceneDriller;
 					addChild: (CalendarPager forEventLog: item);
@@ -187,43 +179,9 @@ MoodleQueryTab >> queryViewModel: aQueryViewModel [
 	queryViewModel ifNotNil: [ queryViewModel unsubscribe: self ].
 	queryViewModel := aQueryViewModel.
 	
-	self viewModel actionbarStencilBuilder ifNil: [ 
-		self actionbarStencil: self actionbarStencil
-	].
-	
 	MQueryHolder printOn: filterView using: queryViewModel.
 	
 	self subscribeToQueryViewModel.
-]
-
-{ #category : #'as yet unclassified' }
-MoodleQueryTab >> removeFromToolbar [
-	self parentTabGroup
-		selectTabToTheLeft;
-		removeTab: self.
-
-	self sourceViewModel unsubscribe: self queryViewModel.
-	self queryViewModel unsubscribe: self
-]
-
-{ #category : #accessing }
-MoodleQueryTab >> sourceViewModel [
-	^ sourceViewModel
-]
-
-{ #category : #'as yet unclassified' }
-MoodleQueryTab >> sourceViewModel: aMoodleSourceViewModel [
-	queryViewModel
-		ifNil: [ Exception signal: 'queryViewModel должна быть инициализирована' ].
-	sourceViewModel == aMoodleSourceViewModel ifTrue: [ ^ self ].
-	sourceViewModel ifNotNil: [ sourceViewModel unsubscribe: queryViewModel ].
-	sourceViewModel := aMoodleSourceViewModel.
-
-	sourceViewModel 
-		when: MoodleModelChanged 
-		send: #onModelChanged:
-		to: self queryViewModel
-		for: self queryViewModel.
 ]
 
 { #category : #accessing }
@@ -241,13 +199,4 @@ MoodleQueryTab >> subscribeToQueryViewModel [
 		when: MoodleCancelEvent
 			send: #onCancel:
 			to: self.
-]
-
-{ #category : #accessing }
-MoodleQueryTab >> subscribeToViewModel [
-	queryViewModel
-		when: MoodleQueryTitleChangedEvent
-		do: [ :anEvent | 
-			self label: anEvent title.	"Но почему не text:? А потому, что у него потом сбрасывается модель и события не вызываются"
-			titleEditor editor replaceWith: anEvent title ]
 ]

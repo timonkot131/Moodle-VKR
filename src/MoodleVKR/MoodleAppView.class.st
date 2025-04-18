@@ -35,22 +35,24 @@ MoodleAppView >> initialize [
 	dbTab := MoodleDbTab new
 			magritteViewModel: magritteViewModel;
 			sourceViewModel: self appViewModel.
-
-	queryTab := MoodleQueryTab new.
+			
+	queryTab := self newTab.
+	queryTab userData 
+		at: #tabType put: MoodleQueryTab new.
+	queryTab stencil: [queryTab userData at: #tabType].
 
 	aTabGroup := BrTabGroup new
 			aptitude: BrGlamorousTabGroupAptitude;
-			constraintsDo: [:c | c vertical matchParent.
-									c horizontal matchParent];
-	
+			constraintsDo: [ :c | 
+				c vertical matchParent.
+				c horizontal matchParent ];
 			border: (BlBorder paint: Color lightGray width: 1);
 			addTabs: {dbTab.
 					queryTab}.
 
 	aTabGroup
 		when: BrTabSelectedEvent
-		do: [:anEvent | 
-		self onQueryTabClick: anEvent].
+		do: [ :anEvent | self onQueryTabClick: anEvent ].
 
 	self
 		layout: BlFrameLayout new;
@@ -61,21 +63,42 @@ MoodleAppView >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
+MoodleAppView >> newTab [
+	^ BrTab new
+		aptitude: BrGlamorousTabAptitude;
+		padding: (BlInsets all: 10);
+		label: '+ Новый запрос'
+]
+
+{ #category : #'as yet unclassified' }
 MoodleAppView >> onQueryTabClick: anEvent [
-	| tab queryViewModel newQueryTab |
+	| tab queryViewModel newQueryTab tabType |
 	tab := anEvent tab widget.
-	(tab isKindOf: MoodleQueryTab) ifFalse: [ ^self ].
-	tab queryViewModel ifNotNil: [ ^ self ].
+	tabType := tab userData at: #tabType ifAbsent: [ ^self ].
+	tabType queryViewModel ifNotNil: [ ^ self ].
 	queryViewModel := MoodleQueryViewModel new.
-	tab
-		queryViewModel: queryViewModel;
-		sourceViewModel: self appViewModel.	"Сначала Должна произойти подписка, напимер подписка на изменение названия вкладки"
-	queryViewModel title: 'Новый запрос'.
-	tab focusTitleEditor.
-	newQueryTab := MoodleQueryTab new.
-	aTabGroup addTab: newQueryTab.
 	
-				
+	queryViewModel 
+		when: MoodleQueryTitleChangedEvent
+		do: [:x | tab label: x title ].
+	
+	tab viewModel actionbarStencilBuilder ifNil: [ 
+		tab actionbarStencil: ( MoodleQueryTab
+			actionbarStencil: [
+				tab parentTabGroup 
+					selectTabToTheLeft;
+					removeTab: tab
+			])
+	].
+	tabType
+		queryViewModel: queryViewModel.
+	queryViewModel title: 'Новый запрос'.
+	tabType focusTitleEditor.
+	newQueryTab := self newTab.
+	newQueryTab userData 
+		at: #tabType put: MoodleQueryTab new.
+	newQueryTab stencil: [newQueryTab userData at: #tabType].
+	aTabGroup addTab: newQueryTab.
 ]
 
 { #category : #'as yet unclassified' }

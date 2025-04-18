@@ -1,5 +1,5 @@
 Class {
 	#name : #MoodleAppEvent,
-	#superclass : #ContextStackSignal,
+	#superclass : #Announcement,
 	#category : #'MoodleVKR-ViewModels'
 }

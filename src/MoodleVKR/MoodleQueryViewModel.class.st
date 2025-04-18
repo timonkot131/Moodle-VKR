@@ -106,10 +106,10 @@ MoodleQueryViewModel >> itemsModels: anArray [
 
 { #category : #'as yet unclassified' }
 MoodleQueryViewModel >> makeFiler: aReceiverObject message: aSymbol argument: anObject [
-(aReceiverObject isEmpty and: [anObject isEmpty]) 
-	ifTrue: [  ^ConjFilterItemsModel new].
-aReceiverObject isEmpty ifTrue: [^anObject asSearchFilter].
-anObject isEmpty ifTrue: [^aReceiverObject asSearchFilter].
+	(aReceiverObject isEmpty and: [anObject isEmpty]) 
+		ifTrue: [  ^ConjFilterItemsModel new].
+	aReceiverObject isEmpty ifTrue: [^anObject asSearchFilter].
+	anObject isEmpty ifTrue: [^aReceiverObject asSearchFilter].
 ^aReceiverObject asSearchFilter perform: aSymbol withArguments: {anObject asSearchFilter}
 
 ]
