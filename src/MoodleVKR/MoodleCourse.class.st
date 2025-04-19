@@ -26,7 +26,7 @@ MoodleCourse >> delegatedMethod: aCompiledMethod [
 
 { #category : #'as yet unclassified' }
 MoodleCourse >> fullName [ 
-
+^fullname
 ]
 
 { #category : #accessing }

@@ -17,6 +17,27 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MoodleEventLog class >> fieldSet [ 
+^#(
+'Событие'
+'IP'
+'Дата'
+'Время'
+'Уровень'
+'Авторизация'
+'Имя'
+'Ник'
+'Фамилия'
+'Полное имя'
+'Почта'
+'Полное название курса'
+'Курс'
+'Категория курса'
+) 
+asSet
+]
+
+{ #category : #'as yet unclassified' }
 MoodleEventLog >> = anObject [
 (anObject isKindOf: self class) ifFalse: [^false].
 ^self id = anObject id

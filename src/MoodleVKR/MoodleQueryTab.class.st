@@ -35,6 +35,71 @@ MoodleQueryTab class >> actionbarStencil: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
+MoodleQueryTab class >> fieldColumns [
+	^ {'Событие'
+			-> {#name -> 'Событие'.
+					#calc -> [ :each | each eventName ].
+					#width -> 120}.
+		'IP'
+			-> {#name -> 'IP'.
+					#width -> 60.
+					#calc -> [ :each | each ip ]}.
+		'Дата'
+			-> {#name -> 'Дата'.
+					#width -> 60.
+					#calc -> [ :each | MLogDate ofUnixToString: each timeCreated ]}.
+		'Время'
+			-> {#name -> 'Время'.
+					#width -> 60.
+					#calc -> [ :each | MLogTime ofUnixToString: each timeCreated ]}.
+		'Уровень'
+			-> {#name -> 'Уровень'.
+					#width -> 60.
+					#calc
+						-> [ :each | MoodleEventQuery contextLevels keyAtValue: each contextLevel ]}.
+		'Ник'
+			-> {#name -> 'Ник'.
+					#width -> 80.
+					#calc -> [ :each | each user userName ]}.
+		'Авторизация'
+			-> {#name -> 'Авторизация'.
+					#width -> 60.
+					#calc -> [ :each | each user auth ]}.
+		'Имя'
+			-> {#name -> 'Имя'.
+					#width -> 90.
+					#calc -> [ :each | each user firstName ]}.
+		'Фамилия'
+			-> {#name -> 'Фамилия'.
+					#width -> 90.
+					#calc -> [ :each | each user lastName ]}.
+		'Полное имя'
+			-> {#name -> 'Полное имя'.
+					#width -> 130.
+					#calc -> [ :each | each user fullName ]}.
+		'Почта'
+			-> {#name -> 'Почта'.
+					#width -> 80.
+					#calc -> [ :each | each user email ]}.
+		'Полное название курса'
+			-> {#name -> 'Полное название курса'.
+					#width -> 120.
+					#calc
+						-> [ :each | each course ifNotNil: [ :x | x fullName ] ifNil: [ 'Нет' ] ]}.
+		'Курс'
+			-> {#name -> 'Курс'.
+					#width -> 90.
+					#calc
+						-> [ :each | each course ifNotNil: [ :x | x shortName ] ifNil: [ 'Нет' ] ]}.
+		'Категория курса'
+			-> {#name -> 'Категория курса'.
+					#width -> 90.
+					#calc
+						-> [ :each | each course ifNotNil: [ :x | x category ] ifNil: [ 'Нет' ] ]}}
+		asSet
+]
+
+{ #category : #'as yet unclassified' }
 MoodleQueryTab >> focusTitleEditor [
 	titleEditor selection select: 0 to: titleEditor text size.
 	titleEditor requestFocus
@@ -42,7 +107,7 @@ MoodleQueryTab >> focusTitleEditor [
 
 { #category : #'as yet unclassified' }
 MoodleQueryTab >> initialize [
-	| addButton |
+	| controlPanel |
 	super initialize.
 	
 	self
@@ -76,12 +141,27 @@ MoodleQueryTab >> initialize [
 		constraintsDo: [ :c | c horizontal matchParent ];
 		addChild: errorText.
 
-	addButton := BrButton new
+	
+	controlPanel := 
+		BlElement new 
+			layout: BlLinearLayout horizontal;
+			constraintsDo: [:c |
+				c horizontal matchParent.
+				c vertical fitContent.
+			];
+			addChildren: {
+				BrButton new
 					aptitude: BrGlamorousButtonWithLabelAptitude new;
 					action: [ self queryViewModel addQuery ];
 					margin: (BlInsets top: 10);
 					label: 'Добавить запрос';
 					beLargeSize.
+				BrButton new
+					aptitude: BrGlamorousButtonWithLabelAptitude new;
+					action: [  ];
+					margin: (BlInsets top: 10 left: 5);
+					label: 'Выбрать колонки';
+					beLargeSize.}.
 		
 	filterView := BlElement new layout: BlLinearLayout vertical;
 		margin: (BlInsets top: 6);
@@ -94,7 +174,7 @@ MoodleQueryTab >> initialize [
 	phlowLogElement := phlowView asElement height: 340.
 
 	self addChild: titleEditor.
-	self addChild: addButton.
+	self addChild: controlPanel.
 	self addChild: filterView.
 	self addChild: phlowLogElement.
 ]
