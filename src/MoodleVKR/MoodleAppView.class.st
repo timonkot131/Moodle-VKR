@@ -103,12 +103,12 @@ MoodleAppView >> onQueryTabClick: anEvent [
 
 { #category : #'as yet unclassified' }
 MoodleAppView >> openInSpace [
-| aSpace |
+	| aSpace |
 	aSpace := BlSpace new
-		addChild: self;
-		extent: 800@600;
-		title: 'Moodle app'.
-aSpace show
+			addChild: self;
+			extent: 800 @ 600;
+			title: 'Moodle App'.
+	aSpace show
 ]
 
 { #category : #'as yet unclassified' }

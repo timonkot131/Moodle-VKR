@@ -8,10 +8,17 @@ Class {
 		'title',
 		'itemsModels',
 		'cancellation',
-		'queryBuilder'
+		'queryBuilder',
+		'columnSet'
 	],
 	#category : #'MoodleVKR-ViewModels'
 }
+
+{ #category : #'as yet unclassified' }
+MoodleQueryViewModel >> addColumns: aSet [
+	columnSet addAll: aSet.
+	self announce: (MoodleQueryColumnChanged new columns: columnSet)
+]
 
 { #category : #'as yet unclassified' }
 MoodleQueryViewModel >> addQuery [
@@ -56,6 +63,11 @@ MoodleQueryViewModel >> cancellation: aQueryCancellation [
 ]
 
 { #category : #'as yet unclassified' }
+MoodleQueryViewModel >> columnSet [ 
+^ columnSet
+]
+
+{ #category : #'as yet unclassified' }
 MoodleQueryViewModel >> getItems [
 	| count searchFilter result |
 	count := (itemsModels
@@ -82,6 +94,7 @@ MoodleQueryViewModel >> initialize [
 	| availableFilters itemsModel |
 	super initialize.
 	
+	columnSet := #(Событие Уровень Пользователь Курс Дата Время) asSet.
 	self cancellation: QueryCancellation new.
 	self queryBuilder: (ApiQueryBuilder token: MConfig token cancellation: self cancellation).
 	
@@ -151,6 +164,12 @@ MoodleQueryViewModel >> remove: anInteger [
 					ifTrue: [ itemsModels at: index put: nil.
 						itemsModels at: index + 1 put: nil ] ].
 	self itemsModels: (itemsModels reject: #isNil)
+]
+
+{ #category : #'as yet unclassified' }
+MoodleQueryViewModel >> removeColumns: aSet [
+	columnSet removeAll: aSet.
+	self announce: (MoodleQueryColumnChanged new columns: columnSet)
 ]
 
 { #category : #'as yet unclassified' }

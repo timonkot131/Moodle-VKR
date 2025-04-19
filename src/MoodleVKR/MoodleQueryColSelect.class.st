@@ -1,12 +1,22 @@
 Class {
 	#name : #MoodleQueryColSelect,
 	#superclass : #BlElement,
+	#instVars : [
+		'leftList',
+		'rightList',
+		'queryViewModel'
+	],
 	#category : #MoodleVKR
 }
 
+{ #category : #accessing }
+MoodleQueryColSelect >> changeColumns: aSet [
+rightList items: aSet asOrderedCollection.
+leftList items: (MoodleEventLog fieldSet difference: aSet) asOrderedCollection.
+]
+
 { #category : #'as yet unclassified' }
 MoodleQueryColSelect >> initialize [
-| leftList rightList |
 super initialize.
 "BlFrameLayoutCompositionExamples>>#example"
 self
@@ -16,6 +26,9 @@ self
 		c vertical matchParent.
 	 ];
 	addChildren: {
+		leftList := 
+			self multiselectList 
+				constraintsDo: [:c | c frame horizontal alignLeft].
 		BlElement new 
 			layout: BlLinearLayout vertical;
 			constraintsDo: [:c | 
@@ -25,11 +38,18 @@ self
 				c frame vertical alignCenter.
 			];
 			addChildren: {
-				self itemMover: '>' action: [].
-				(self itemMover: '<' action: [])
+				self itemMover: '>' action: [
+					self queryViewModel addColumns: leftList selectedItems
+				].
+				(self itemMover: '<' action:[
+					self queryViewModel removeColumns: rightList selectedItems
+				])
 				margin: (BlInsets top: 10)
 				.
 			}.
+		rightList := 
+			self multiselectList
+				constraintsDo: [:c | c frame horizontal alignRight].
 	}
 	 
 	 
@@ -56,15 +76,50 @@ MoodleQueryColSelect >> itemMover: aString action: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
-MoodleQueryColSelect >> multiselectList [ 
-^ BrSimpleList new
-		itemStencil: [
-			BrLabel new
-				"hMatchParent;"
-				aptitude: BrGlamorousLabelAptitude new + (BrStyleCommonAptitude new
-					selected: [ :aStyle | aStyle background: Color veryVeryLightGray ]);
+MoodleQueryColSelect >> multiselectList [
+	^ BrSimpleList new
+		constraintsDo: [ :c | c frame vertical alignCenter ];
+		width: 200;
+		height: 500;
+		padding: (BlInsets left: 2);
+		border: (BlBorder paint: Color gray width: 1);
+		aptitude: BrMultiListAptitude new;
+		itemStencil: [ BrLabel new
+				aptitude: BrGlamorousLabelAptitude new
+						+ (BrStyleCommonAptitude new
+								selected: [ :aStyle | aStyle background: Color veryVeryLightGray ]);
 				padding: (BlInsets all: 5) ];
-		itemDataBinder: [ :eachElement :eachClass :eachIndex | eachElement text: eachClass name ];
-		aptitude: BrMultiListAptitude new.
-		
+		itemDataBinder: [ :eachElement :eachClass :eachIndex | eachElement text: eachClass asRopedText ]
+]
+
+{ #category : #accessing }
+MoodleQueryColSelect >> onColumnChange: anEvent [
+self changeColumns: anEvent columns
+]
+
+{ #category : #'as yet unclassified' }
+MoodleQueryColSelect >> openInSpace [
+| aSpace |
+	aSpace := BlSpace new
+			addChild: self;
+			extent: 800 @ 600;
+			title: 'Выбрать колонки'.
+	aSpace show
+]
+
+{ #category : #accessing }
+MoodleQueryColSelect >> queryViewModel [
+	^ queryViewModel
+]
+
+{ #category : #accessing }
+MoodleQueryColSelect >> queryViewModel: anObject [
+	queryViewModel := anObject.
+	
+	self changeColumns: queryViewModel columnSet.
+	
+	queryViewModel weak 
+		when: MoodleQueryColumnChanged
+		send: #onColumnChange:
+		to: self
 ]

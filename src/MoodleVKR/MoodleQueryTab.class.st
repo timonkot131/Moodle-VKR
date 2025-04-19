@@ -38,65 +38,78 @@ MoodleQueryTab class >> actionbarStencil: aBlock [
 MoodleQueryTab class >> fieldColumns [
 	^ {'Событие'
 			-> {#name -> 'Событие'.
+					#priority -> 10.
 					#calc -> [ :each | each eventName ].
 					#width -> 120}.
 		'IP'
 			-> {#name -> 'IP'.
-					#width -> 60.
+					#priority -> 20.
+					#width -> 120.
 					#calc -> [ :each | each ip ]}.
 		'Дата'
 			-> {#name -> 'Дата'.
-					#width -> 60.
+					#priority -> 19.
+					#width -> 90.
 					#calc -> [ :each | MLogDate ofUnixToString: each timeCreated ]}.
 		'Время'
 			-> {#name -> 'Время'.
-					#width -> 60.
+					#priority -> 18.
+					#width -> 45.
 					#calc -> [ :each | MLogTime ofUnixToString: each timeCreated ]}.
 		'Уровень'
 			-> {#name -> 'Уровень'.
+					#priority -> 21.
 					#width -> 60.
 					#calc
 						-> [ :each | MoodleEventQuery contextLevels keyAtValue: each contextLevel ]}.
-		'Ник'
-			-> {#name -> 'Ник'.
+		'Пользователь'
+			-> {#name -> 'Пользователь'.
+					#priority -> 30.
 					#width -> 80.
 					#calc -> [ :each | each user userName ]}.
 		'Авторизация'
 			-> {#name -> 'Авторизация'.
+					#priority -> 29.
 					#width -> 60.
 					#calc -> [ :each | each user auth ]}.
 		'Имя'
 			-> {#name -> 'Имя'.
+					#priority -> 31.
 					#width -> 90.
 					#calc -> [ :each | each user firstName ]}.
 		'Фамилия'
 			-> {#name -> 'Фамилия'.
+					#priority -> 32.
 					#width -> 90.
 					#calc -> [ :each | each user lastName ]}.
 		'Полное имя'
 			-> {#name -> 'Полное имя'.
+					#priority -> 33.
 					#width -> 130.
 					#calc -> [ :each | each user fullName ]}.
 		'Почта'
 			-> {#name -> 'Почта'.
+					#priority -> 30.
 					#width -> 80.
 					#calc -> [ :each | each user email ]}.
 		'Полное название курса'
 			-> {#name -> 'Полное название курса'.
-					#width -> 120.
+					#priority -> 40.
+					#width -> 130.
 					#calc
 						-> [ :each | each course ifNotNil: [ :x | x fullName ] ifNil: [ 'Нет' ] ]}.
 		'Курс'
 			-> {#name -> 'Курс'.
+					#priority -> 39.
 					#width -> 90.
 					#calc
-						-> [ :each | each course ifNotNil: [ :x | x shortName ] ifNil: [ 'Нет' ] ]}.
+						-> [ :each | each course ifNotNil: [ :x | x shortname ] ifNil: [ 'Нет' ] ]}.
 		'Категория курса'
 			-> {#name -> 'Категория курса'.
-					#width -> 90.
+					#priority -> 38.
+					#width -> 100.
 					#calc
-						-> [ :each | each course ifNotNil: [ :x | x category ] ifNil: [ 'Нет' ] ]}}
-		asSet
+						-> [ :each | each course ifNotNil: [ :x | x category ] ifNil: [ 'Нет' ] ]}} asDictionary
 ]
 
 { #category : #'as yet unclassified' }
@@ -158,7 +171,8 @@ MoodleQueryTab >> initialize [
 					beLargeSize.
 				BrButton new
 					aptitude: BrGlamorousButtonWithLabelAptitude new;
-					action: [  ];
+					action: [ 
+						MoodleQueryColSelect new queryViewModel: self queryViewModel; openInSpace  ];
 					margin: (BlInsets top: 10 left: 5);
 					label: 'Выбрать колонки';
 					beLargeSize.}.
@@ -194,9 +208,11 @@ MoodleQueryTab >> onCancel: anObject [
 
 { #category : #'as yet unclassified' }
 MoodleQueryTab >> onFilterUpdate: anAnnouncement [
-	self removeChildNamed: 'errorwrap'.
-	phlowView items: [ anAnnouncement items filter: #isNotNil ].
-	phlowLogElement phlow update
+	self removeChildNamed: 'errorwrap';
+		 removeChild: phlowLogElement.
+	phlowView := self phlowView items: [ anAnnouncement items filter: #isNotNil ].
+	phlowLogElement := phlowView asElement height: 340.
+	self addChild: phlowLogElement.
 ]
 
 { #category : #'event - handling' }
@@ -220,32 +236,39 @@ MoodleQueryTab >> onTitleEditorChanged [
 
 { #category : #'as yet unclassified' }
 MoodleQueryTab >> phlowView [
-	^ GtPhlowView empty columnedList
-		title: 'Items';
-		priority: 5;
-		column: 'Событие' text: [ :each | each eventName ];
-		column: 'Уровень' text: [ :each |
-			MoodleEventQuery contextLevels keyAtValue: each contextLevel ]
-			width: 60;
-		column: 'Пользователь'
-			text: [ :each | each user userName ]
-			width: 70;
-		column: 'Курс'
-			text: [ :each | each course ifNotNil: [ :x | x shortname ] ifNil: [ 'Нет' ] ]
-			width: 70;
-	 column: 'Дата' text: [ :each | MLogDate ofUnixToString: each timeCreated] width: 60;
-		column: 'Время' text: [ :each | MLogTime ofUnixToString: each timeCreated] width: 50;
+	| phlow columns |
+	phlow := GtPhlowView empty columnedList
+			title: 'Результаты запросв';
+			priority: 5;
 			contextItemLabel: 'Тепловая карта'
-			action: [ :element :item | 
-				| aSpace |
-				aSpace := BlSpace new
-					extent: 800@500;
-					title: 'Moodle app';
-					withSceneDriller;
-					addChild: (CalendarPager forEventLog: item);
-					show
-	
-				]
+				action: [ :element :item | 
+					| aSpace |
+					aSpace := BlSpace new
+							extent: 800 @ 500;
+							title: 'Moodle app';
+							withSceneDriller;
+							addChild: (CalendarPager forEventLog: item);
+							show ].
+
+
+	columns := self queryViewModel
+			ifNil: [ #() ]
+			ifNotNil: [ :x |
+				x columnSet collect: [ :each |
+				 	(self class fieldColumns at: each) 
+				 	asDictionary ] ].
+	columns := columns sorted: [ :each | each at: #priority ] ascending.
+	columns
+		do: [ :each | 
+			| name text width |
+			name := each at: #name.
+			text := each at: #calc.
+			width := each at: #width.
+			phlow
+				column: name
+				text: text
+				width: width ].
+	^ phlow
 ]
 
 { #category : #accessing }
