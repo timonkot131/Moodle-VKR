@@ -30,5 +30,5 @@ BaselineOfMoodleVKR >> baseline: spec [
 				].
 
 			spec package: 'MoodleVKR' 
-			with: [ spec requires: #('ReStore') ] ]
+			with: [ spec requires: #('ReStore' 'MySQL') ] ]
 ]
