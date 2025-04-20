@@ -23,5 +23,14 @@ BaselineOfMoodleVKR class >> loadLepiter [
 BaselineOfMoodleVKR >> baseline: spec [
 	<baseline>
 	^ spec for: #common do: [ 
-			 	spec package: 'MoodleVKR' ] .
+				spec
+					baseline: 'ReStore'
+					with: [ 
+						spec 
+						 loads: #('Pharo MySQL');
+						 repository: 'github://rko281/ReStoreForPharo:pharo11'
+					].
+				
+			 	spec package: 'MoodleVKR' with:
+			 	[spec requires: #('ReStore')] ] .
 ]
