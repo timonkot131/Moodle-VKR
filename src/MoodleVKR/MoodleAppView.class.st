@@ -124,7 +124,7 @@ MoodleAppView >> openInSpace [
 			addChild: self;
 			extent: 800 @ 600;
 			title: 'Moodle App'.
-	aSpace show
+	^aSpace show
 ]
 
 { #category : #'as yet unclassified' }
