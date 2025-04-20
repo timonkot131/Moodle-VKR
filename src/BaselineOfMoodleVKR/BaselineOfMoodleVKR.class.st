@@ -29,5 +29,6 @@ BaselineOfMoodleVKR >> baseline: spec [
 					spec repository: 'github://rko281/ReStoreForPharo:pharo11'
 				].
 
-			spec package: 'MoodleVKR' ]
+			spec package: 'MoodleVKR' 
+			with: [ spec requires: #('ReStore') ] ]
 ]
