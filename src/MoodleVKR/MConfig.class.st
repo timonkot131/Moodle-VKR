@@ -37,6 +37,13 @@ MConfig class >> httpsDescription [
 		labelAptitude: [ BrGlamorousLabelAptitude new glamorousFormLabelStyle ].
 ]
 
+{ #category : #'as yet unclassified' }
+MConfig class >> initialize [
+isHttps := false.
+token := ''.
+serverName := 'localhost'
+]
+
 { #category : #accessing }
 MConfig class >> isHttps [
 	^ isHttps
