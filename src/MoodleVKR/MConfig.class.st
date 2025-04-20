@@ -26,6 +26,17 @@ MConfig class >> clientFor: aString [
 	^ request
 ]
 
+{ #category : #'as yet unclassified' }
+MConfig class >> httpsDescription [
+<magritteDescription>
+^ MABooleanDescription new 
+		label: 'Https?';
+		priority: 3;
+		accessor: #isHttps;
+		editorAptitude:  [ BrGlamorousRegularEditorAptitude new glamorousFormEditorCodeFontAndSize ];
+		labelAptitude: [ BrGlamorousLabelAptitude new glamorousFormLabelStyle ].
+]
+
 { #category : #accessing }
 MConfig class >> isHttps [
 	^ isHttps
@@ -34,6 +45,17 @@ MConfig class >> isHttps [
 { #category : #accessing }
 MConfig class >> isHttps: anObject [
 	isHttps := anObject
+]
+
+{ #category : #'as yet unclassified' }
+MConfig class >> serverDescription [
+<magritteDescription>
+^ MAStringDescription new 
+		label: 'Сервер';
+		priority: 1;
+		accessor: #serverName;
+		editorAptitude:  [ BrGlamorousRegularEditorAptitude new glamorousFormEditorCodeFontAndSize ];
+		labelAptitude: [ BrGlamorousLabelAptitude new glamorousFormLabelStyle ].
 ]
 
 { #category : #accessing }
@@ -54,4 +76,15 @@ MConfig class >> token [
 { #category : #accessing }
 MConfig class >> token: anObject [
 	token := anObject
+]
+
+{ #category : #'as yet unclassified' }
+MConfig class >> tokenDescription [
+<magritteDescription>
+	^ MAPasswordDescription new
+		label: 'Токен';
+		priority: 2;
+		accessor: #token;
+		editorAptitude:  [ BrGlamorousRegularEditorAptitude new glamorousFormEditorCodeFontAndSize ];
+		labelAptitude: [ BrGlamorousLabelAptitude new glamorousFormLabelStyle ].
 ]

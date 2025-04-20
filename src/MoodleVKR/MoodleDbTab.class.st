@@ -41,6 +41,7 @@ MoodleDbTab >> initialize [
 				
 	mainFrame addChild: accordion.
 	mainFrame addChild: editFrame.
+	mainFrame addChild: MConfig asGtMagritteViewModel asElement.
 
 	self
 		aptitude: BrGlamorousTabAptitude;

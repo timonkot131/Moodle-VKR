@@ -29,7 +29,8 @@ MoodleAppView >> initialize [
 	| magritteViewModel dbTab queryTab |
 	super initialize.
 
-	magritteViewModel := GtMagritteViewModel forMyObject: MySQLDriverSpec new.
+	magritteViewModel := 
+		GtMagritteViewModel forMyObject: MySQLDriverSpec new.
 	self appViewModel: MoodleSourceViewModel new.
 
 	dbTab := MoodleDbTab new
