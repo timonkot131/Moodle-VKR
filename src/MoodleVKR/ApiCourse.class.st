@@ -36,12 +36,8 @@ iterator ifNotNil: [
 { #category : #'as yet unclassified' }
 ApiCourse >> completeCourses [
 	| response |
-	response := ZnClient new
-			url: 'http://localhost/webservice/rest/server.php';
-			streaming: true;
-			queryAt: 'wsfunction' put: 'core_course_get_courses_by_field';
-			queryAt: 'wstoken' put: token;
-			queryAt: 'moodlewsrestformat' add: 'json'.
+	response := (MConfig clientFor: 'core_course_get_courses_by_field')
+			streaming: true.
 	iterator := JSONIterator forStream: response post of: MoodleCourse.
 	iterator adjust.
 	^ AsyncIteratorStream forIterator: iterator
@@ -51,12 +47,8 @@ ApiCourse >> completeCourses [
 ApiCourse >> completeCoursesChunk: ids [ 
 	| response |
 	ids isEmpty ifTrue: [^{} asAsyncStream].
-		response := ZnClient new 
-		url: 'http://localhost/webservice/rest/server.php';
-		streaming: true;
-		queryAt: 'wsfunction' put: 'core_course_get_courses_by_field';
-		queryAt: 'wstoken' put: token;
-		queryAt: 'moodlewsrestformat' add: 'json'; 
+		response := (MConfig clientFor: 'core_course_get_courses_by_field')
+		streaming: true; 
 		queryAt: 'field' add: 'ids';
 		formAt: 'value' put: (', ' join: ids).
 	iterator :=  JSONIterator forStream: response post of: MoodleCourse.

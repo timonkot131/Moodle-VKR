@@ -40,7 +40,7 @@ MoodleQueryTab class >> fieldColumns [
 			-> {#name -> 'Событие'.
 					#priority -> 10.
 					#calc -> [ :each | each eventName ].
-					#width -> 120}.
+					#width -> 240}.
 		'IP'
 			-> {#name -> 'IP'.
 					#priority -> 20.
@@ -283,7 +283,7 @@ MoodleQueryTab >> queryViewModel: aQueryViewModel [
 	queryViewModel := aQueryViewModel.
 	
 	MQueryHolder printOn: filterView using: queryViewModel.
-	
+	titleEditor editor replaceWith: aQueryViewModel title.
 	self subscribeToQueryViewModel.
 ]
 

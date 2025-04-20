@@ -173,6 +173,11 @@ MoodleQueryViewModel >> removeColumns: aSet [
 ]
 
 { #category : #'as yet unclassified' }
+MoodleQueryViewModel >> title [
+^title
+]
+
+{ #category : #'as yet unclassified' }
 MoodleQueryViewModel >> title: aString [ 
 	title = aString ifTrue: [^self].
     title := aString.

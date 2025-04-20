@@ -24,14 +24,8 @@ iterators do: [ :each |
 { #category : #'as yet unclassified' }
 ApiGroup >> completeGroups: ids [
 | response iterator |
-	response := ZnClient new
-			url: 'http://localhost/webservice/rest/server.php';
-			streaming: true;
-			queryAt: 'wsfunction' put: 'core_group_get_groups';
-			queryAt: 'moodlewsrestformat' add: 'json';
-			queryAt: 'wstoken' put: token;
-			queryAt: 'moodlewsrestformat' add: 'json'.
-			
+	response := (MConfig clientFor:'core_group_get_groups')
+			streaming: true.
 	ids 
 		withIndexDo: [:x :i | response formAt: 'groupids[', (i - 1) asString, ']' put: x asString].	
 	
@@ -46,11 +40,8 @@ ApiGroup >> groupMembers: ids [
 	ids isEmptyOrNil ifTrue: [^{} asAsyncStream].
 	apiUser := ApiUser forToken: token.
 	apiUser subscribeToCancel: cancel.
-	response := ZnClient new
-			url: 'http://localhost/webservice/rest/server.php';
-			queryAt: 'wsfunction' put: 'core_group_get_group_members';
-			queryAt: 'wstoken' put: token; 
-			queryAt: 'moodlewsrestformat' add: 'json'.
+	response := MConfig clientFor: 'core_group_get_group_members'.
+	
 	ids 
 		withIndexDo: [:x :i | response formAt: 'groupids[', (i - 1) asString ,']' put: x asString].
 	
@@ -60,12 +51,8 @@ ApiGroup >> groupMembers: ids [
 { #category : #'as yet unclassified' }
 ApiGroup >> groupOfCourse: aCourseId ofUser: aUserId [
 | response iterator |
-	response := ZnClient new
-			url: 'http://localhost/webservice/rest/server.php';
-			queryAt: 'wsfunction' put: 'core_group_get_course_user_groups';
+	response := (MConfig clientFor: 'core_group_get_course_user_groups')
 			streaming: true; 
-			queryAt: 'wstoken' put: token;
-			queryAt: 'moodlewsrestformat' add: 'json';
 			queryAt: 'courseid' put: aCourseId;
 			queryAt: 'userid' put: aUserId.
 			
@@ -77,12 +64,8 @@ ApiGroup >> groupOfCourse: aCourseId ofUser: aUserId [
 { #category : #'as yet unclassified' }
 ApiGroup >> groupsOfCourse: anIntegerId [
 | response iterator |
-	response := ZnClient new
-			url: 'http://localhost/webservice/rest/server.php';
-			queryAt: 'wsfunction' put: 'core_group_get_course_groups';
+	response := (MConfig clientFor: 'core_group_get_course_groups')
 			streaming: true; 
-			queryAt: 'wstoken' put: token;
-			queryAt: 'moodlewsrestformat' add: 'json';
 			queryAt: 'courseid' put: anIntegerId.
 			
 	iterator := JSONIterator forStream: response post of: MoodleGroup.

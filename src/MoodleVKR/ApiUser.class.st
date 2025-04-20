@@ -32,12 +32,9 @@ ApiUser >> completeUsers [
 { #category : #'as yet unclassified' }
 ApiUser >> completeUsers: aDictionary [
 	| response |
-	response := ZnClient new
-			url: 'http://localhost/webservice/rest/server.php';
-			queryAt: 'wsfunction' put: 'core_user_get_users';
-			streaming: true;
-			queryAt: 'wstoken' put: token;
-			queryAt: 'moodlewsrestformat' add: 'json'.
+	response := (MConfig clientFor: 'core_user_get_users')
+			streaming: true.
+			
 	aDictionary associations
 		withIndexDo: [ :x :i | 
 			response 
@@ -54,12 +51,8 @@ ApiUser >> completeUsers: aDictionary [
 { #category : #'stream creation' }
 ApiUser >> completeUsersChunk: ids [
 	| response |
-	response := ZnClient new
-			url: 'http://localhost/webservice/rest/server.php';
-			queryAt: 'wsfunction' put: 'core_user_get_users_by_field';
+	response := (MConfig clientFor:  'core_user_get_users_by_field')
 			streaming: true;
-			queryAt: 'wstoken' put: token;
-			queryAt: 'moodlewsrestformat' add: 'json';
 			queryAt: 'field' put: 'id'.
 	ids
 		withIndexDo: [ :x :i | response formAt: 'values[' , (i - 1) asString , ']' put: x asString ].
@@ -70,12 +63,8 @@ ApiUser >> completeUsersChunk: ids [
 { #category : #'stream creation' }
 ApiUser >> completeUsersChunk: aCollection field: aString [
 	| response |
-	response := ZnClient new
-			url: 'http://localhost/webservice/rest/server.php';
-			queryAt: 'wsfunction' put: 'core_user_get_users_by_field';
+	response := (MConfig clientFor: 'core_user_get_users_by_field')
 			streaming: true;
-			queryAt: 'wstoken' put: token;
-			queryAt: 'moodlewsrestformat' add: 'json';
 			queryAt: 'field' put: aString.
 	aCollection
 		withIndexDo: [ :x :i | response formAt: 'values[' , (i - 1) asString , ']' put: x asString ].
