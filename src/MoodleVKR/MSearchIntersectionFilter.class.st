@@ -18,7 +18,7 @@ MSearchIntersectionFilter >> distributeAsync [
 	rightQuery := right distributeAsync.
 	^ leftQuery
 		flatCollect: 
-		[ :aLeft | rightQuery collect: [ :aRight | aLeft & aRight ] ]
+		[ :aLeft | rightQuery asyncSimilarCopy collect: [ :aRight | aLeft & aRight ] ]
 ]
 
 { #category : #testing }

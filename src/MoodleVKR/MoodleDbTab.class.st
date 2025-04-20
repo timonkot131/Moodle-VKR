@@ -15,6 +15,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 MoodleDbTab >> initialize [
+	| moodleAccordion saveButton|
 	super initialize.
 	mainFrame := BlElement new
 			layout: BlLinearLayout vertical;
@@ -29,8 +30,15 @@ MoodleDbTab >> initialize [
 			aptitude: BrGlamorousAccordionAptitude new;
 			header: [ BrLabel new
 					aptitude: BrGlamorousAccordionHeaderAptitude;
-					text: 'Настройка соединения' ].
-
+					text: 'Настройка соединения с базой данных' ].
+					
+	moodleAccordion := BrAccordion new
+ 		  hMatchParent;
+ 		  		
+			aptitude: BrGlamorousAccordionAptitude new;
+			header: [ BrLabel new
+					aptitude: BrGlamorousAccordionHeaderAptitude;
+					text: 'Настройка соединения с Web-сервисом' ].
 
 	editFrame := BlElement new
 			layout: BlFrameLayout new;
@@ -38,16 +46,30 @@ MoodleDbTab >> initialize [
 			constraintsDo: [ :c | 
 				c horizontal fitContent.
 				c vertical fitContent ].
+	
+	saveButton := 
+		BrButton new
+			aptitude: BrGlamorousButtonWithLabelAptitude new;
+			action: [ 
+				3 timesRepeat: [Smalltalk garbageCollect].
+				Smalltalk snapshot: true andQuit: false
+			 ];
+			margin: (BlInsets top: 10);
+			label: 'Сохранить приложение';
+			beLargeSize.
 				
 	mainFrame addChild: accordion.
 	mainFrame addChild: editFrame.
-	mainFrame addChild: MConfig asGtMagritteViewModel asElement.
+	mainFrame addChild: moodleAccordion.
+	mainFrame addChild: (MConfig asGtMagritteViewModel asElement margin: (BlInsets left: 10)).
+	
+	mainFrame addChild: saveButton.
 
 	self
 		aptitude: BrGlamorousTabAptitude;
 		padding: (BlInsets all: 10);
 		label: 'Хранилище';
-		stencil: [ mainFrame ]
+		stencil: [MoodleAppView wrapToScrollable: mainFrame]
 ]
 
 { #category : #'as yet unclassified' }

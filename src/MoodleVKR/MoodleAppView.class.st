@@ -8,6 +8,16 @@ Class {
 	#category : #'MoodleVKR-MoodleApp'
 }
 
+{ #category : #utilities }
+MoodleAppView class >> wrapToScrollable: aBlElement [
+	^ BlScrollableElement new
+		
+		addChild: aBlElement;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ]
+]
+
 { #category : #'as yet unclassified' }
 MoodleAppView >> appViewModel [ 
 ^viewModel
@@ -29,18 +39,23 @@ MoodleAppView >> initialize [
 	| magritteViewModel dbTab queryTab |
 	super initialize.
 
-	magritteViewModel := 
-		GtMagritteViewModel forMyObject: MySQLDriverSpec new.
+	magritteViewModel := GtMagritteViewModel
+			forMyObject: (MySQLDriverSpec new
+					host: 'localhost';
+					db: 'logging';
+					port: 3306;
+					user: 'moodle_user';
+					password: 'moodle_user').
 	self appViewModel: MoodleSourceViewModel new.
 
 	dbTab := MoodleDbTab new
 			magritteViewModel: magritteViewModel;
 			sourceViewModel: self appViewModel.
-			
+
 	queryTab := self newTab.
-	queryTab userData 
-		at: #tabType put: MoodleQueryTab new.
-	queryTab stencil: [queryTab userData at: #tabType].
+	queryTab userData at: #tabType put: MoodleQueryTab new.
+	queryTab
+		stencil: [ MoodleAppView wrapToScrollable: (queryTab userData at: #tabType) ].
 
 	aTabGroup := BrTabGroup new
 			aptitude: BrGlamorousTabGroupAptitude;
@@ -98,7 +113,7 @@ MoodleAppView >> onQueryTabClick: anEvent [
 	newQueryTab := self newTab.
 	newQueryTab userData 
 		at: #tabType put: MoodleQueryTab new.
-	newQueryTab stencil: [newQueryTab userData at: #tabType].
+	newQueryTab stencil: [MoodleAppView wrapToScrollable: (newQueryTab userData at: #tabType)].
 	aTabGroup addTab: newQueryTab.
 ]
 

@@ -39,6 +39,10 @@ MoodleSourceViewModel >> onModelChanged: aMoodleModelChanged [
 ]
 
 { #category : #'as yet unclassified' }
+MoodleSourceViewModel >> setModel: anObject [
+]
+
+{ #category : #'as yet unclassified' }
 MoodleSourceViewModel >> sourceModel: anObject [ 
 	sourceModel := anObject
 ]

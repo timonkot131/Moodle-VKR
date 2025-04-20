@@ -3,12 +3,7 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'queryViewModel',
-		'sourceViewModel',
 		'titleEditor',
-		'titleHandler',
-		'availableFilters',
-		'anItemsModelType',
-		'anItemsModel',
 		'filterView',
 		'phlowLogElement',
 		'phlowView',
@@ -186,6 +181,9 @@ MoodleQueryTab >> initialize [
 	
 	phlowView := self phlowView.
 	phlowLogElement := phlowView asElement height: 340.
+	phlowLogElement childNamed: 'label'
+		ifFound: [:child | child text: 'Результаты запроса' asRopedText ]
+		ifNone: [].
 
 	self addChild: titleEditor.
 	self addChild: controlPanel.
@@ -238,7 +236,7 @@ MoodleQueryTab >> onTitleEditorChanged [
 MoodleQueryTab >> phlowView [
 	| phlow columns |
 	phlow := GtPhlowView empty columnedList
-			title: 'Результаты запросв';
+			title: 'Результаты запросов';
 			priority: 5;
 			contextItemLabel: 'Тепловая карта'
 				action: [ :element :item | 
