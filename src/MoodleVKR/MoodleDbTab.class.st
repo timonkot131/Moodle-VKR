@@ -25,7 +25,7 @@ MoodleDbTab >> initialize [
 				c vertical fitContent ].
 
 	accordion := BrAccordion new
- 		  hMatchParent;
+ 		 width: 400;
  		  		
 			aptitude: BrGlamorousAccordionAptitude new;
 			header: [ BrLabel new
@@ -33,7 +33,7 @@ MoodleDbTab >> initialize [
 					text: 'Настройка соединения с базой данных' ].
 					
 	moodleAccordion := BrAccordion new
- 		  hMatchParent;
+ 		  width: 270;
  		  		
 			aptitude: BrGlamorousAccordionAptitude new;
 			header: [ BrLabel new
@@ -90,7 +90,7 @@ MoodleDbTab >> magritteViewModel: aGtMagritteViewModel [
 			| actions |
 			actions := aMemento magritteActions.
 			actions first "Accept"
-				onSuccessCallback: [  ].
+				onSuccessCallback: [ self tryConnect: aGtMagritteViewModel object ].
 			actions third "Проверка подключения"
 				onSuccessCallback: [ :arg | self tryConnect: arg ].
 			aGtMagritteViewModel initializeForm: theFrame forMemento: aMemento ].
