@@ -1,0 +1,4708 @@
+{
+	"__schema" : "4.1",
+	"__type" : "page",
+	"children" : {
+		"__type" : "snippets",
+		"items" : [
+			{
+				"__type" : "textSnippet",
+				"children" : {
+					"__type" : "snippets",
+					"items" : [
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894043+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894043+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "/oLB0QTwDQCEPnvWBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[-] - Сериализация и Десериализация запросов"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894118+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894118+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "MIPB0QTwDQCEP1AvBHhfLQ=="
+							},
+							"code" : "FLSerializer serialize: (2@2) toFileNamed: 'demo.fuel'."
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894146+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894146+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "SIPB0QTwDQCEQGzUBHhfLQ=="
+							},
+							"code" : "materializedString := FLMaterializer materializeFromFileNamed: 'demo.fuel'.\n"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894159+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894159+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "UoPB0QTwDQCEQj5QBHhfLQ=="
+										},
+										"code" : "stream := (MoodleDBEventLog storedInstances\r\t\tsatisfying: [ :x | \r\t\t\t| u1 u2 |\r\t\t\tu1 := (DateAndTime year: 2025 month: 1) asUnixTime.\r\t\t\tu2 := (DateAndTime year: 2026 month: 1) asUnixTime.\r\t\t\t(x timecreated > u1) & (x timecreated < u2) & (x userid = 4) ]) \r\t\treadStream.\rasyncStream := (IteratorStream forPosStream: stream) asAsyncStream cached\r\t\tcollect: [ :x | MoodleEventLog new timeCreated: x timecreated ]. \rBrSimpleList vertical\r\tstencil: [ :item | \r\t\t(CalendarWidget\r\t\t\tyear: 2025\r\t\t\tmonth: item\r\t\t\tstream: asyncStream) asElement ];\r\titems: (1 to: 4)"
+									}
+								]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894154+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894154+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "ToPB0QTwDQCEQdZrBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[x] - Виджет календаря"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894164+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894164+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "VoPB0QTwDQCEQwsWBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[x] - Тепловая карта активности"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894178+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894178+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "ZYPB0QTwDQCEROOZBHhfLQ=="
+							},
+							"code" : "CalendarPager new "
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894188+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894188+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "b4PB0QTwDQCERkOpBHhfLQ=="
+										},
+										"code" : "DateAndTime now asDate asDateAndTime + (DateAndTime now offset + ( Duration seconds:  (DateAndTime now asUnixTime % (60 * 60 * 24))))"
+									}
+								]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894183+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894183+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "aoPB0QTwDQCERXj9BHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[x] - Сделать запросы на больше, меньше и равно даты. Представление даты в числовом виде."
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894193+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894193+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "dIPB0QTwDQCER0FbBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[x] - Выбор даты у запроса, Можно приделать виджет календаря"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894198+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894198+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "eYPB0QTwDQCESNK9BHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[x] - Поменять запросы пользователя на endpoint get_users, так как там есть встроенные end"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894203+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894203+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "foPB0QTwDQCESa9dBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[x] - Настроить сборку приложения"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894208+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:59:54.346304+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "g4PB0QTwDQCESgqRBHhfLQ=="
+							},
+							"code" : "Metacello new\n\trepository: 'github://timonkot131/Moodle-VKR:master/src';\n\tbaseline: 'MoodleVKR';\n\tload"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894212+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894212+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "h4PB0QTwDQCES+bpBHhfLQ=="
+							},
+							"code" : "GtWorld allInstances do: [ :eachWorld | eachWorld removeShutdownListener ].\nGtWorld allInstances do: [ :eachWorld | eachWorld close ].\n\rMoodleAppView new openInSpace\r when: BlSpaceClosedEvent\n    do: [ Smalltalk snapshot: false andQuit: true. ].\n\nSmalltalk snapshot: true andQuit: false."
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894216+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894216+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "ioPB0QTwDQCETABkBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[x] - Сделать стримы terminatable + Закрывать JSON стримы."
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.89422+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.89422+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "j4PB0QTwDQCETebMBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[+] - Сделать меню по выбору полей."
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894225+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894225+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "k4PB0QTwDQCETpkqBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[+] - Настроить привязку к бд"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894245+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894245+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "qYPB0QTwDQCET7Q1BHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[x] - Добавить обработку ошибок для email"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894251+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894251+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "roPB0QTwDQCEUBPuBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[x] - Добавить обработку ошибок для JSON Iterator"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894255+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894255+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "soPB0QTwDQCEUX3MBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "[x] - Вынести логику формы из BrTab. "
+						}
+					]
+				},
+				"createEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"createTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.893886+04:00"
+					}
+				},
+				"editEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"editTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.893886+04:00"
+					}
+				},
+				"uid" : {
+					"__type" : "uid",
+					"uidString" : "k4LB0QTwDQCEPcYUBHhfLQ=="
+				},
+				"paragraphStyle" : {
+					"__type" : "textStyle"
+				},
+				"string" : "##ToDo"
+			},
+			{
+				"__type" : "textSnippet",
+				"children" : {
+					"__type" : "snippets",
+					"items" : [
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894265+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894265+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "vIPB0QTwDQCEU1VeBHhfLQ=="
+							},
+							"code" : "token := 'f8ae68ba7886638627da9f059ca3555e'. "
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.89427+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.89427+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "wIPB0QTwDQCEVMCJBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Получение иформации о носителе токена"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894275+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894275+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "xYPB0QTwDQCEVXABBHhfLQ=="
+							},
+							"code" : "STON fromString:('http://localhost/webservice/rest/server.php?wsfunction=core_webservice_get_site_info&moodlewsrestformat=json&wstoken=f8ae68ba7886638627da9f059ca3555e' asZnUrl retrieveContents)  "
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894279+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894279+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "yYPB0QTwDQCEVoGlBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Получение всех пользователей"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894283+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894283+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "zoPB0QTwDQCEV7aHBHhfLQ=="
+							},
+							"code" : "anApiUser := ApiUser forToken: token.\r\"result := [:x | (anApiUser completeUsers select: [:x | x id asInteger = x]) toArray wait first.].\"\rl := (CreateBlockBuilder from: [:x :y| y userid = x]).\rl1 := l  cull: 2 cull: nil.\rl2 := l  cull: 3 cull: nil.\rl3 := l  cull: 4 cull: nil.\rr := MoodleDBEventLog storedInstances select: (l1 | (l2 | l3)).\r\"r := MoodleDBEventLog storedInstances.\"\rstream := r readStream. \rasyncStream := ((IteratorStream forPosStream: stream) asAsyncStream \"filter: (l1 | l2)\") map: [:x |\r\t| user | \r\tuser := anApiUser completeUsersChunk: {x userid}.\r\tuser toArray wait first. \r] "
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894288+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894288+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "04PB0QTwDQCEWHgBBHhfLQ=="
+							},
+							"code" : "\t\rresponse := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_user_get_users_by_field';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tqueryAt: 'field' put: 'id'.\r\r(STON fromString: ids) withIndexDo: [:x :i | \r\tresponse formAt: ('values[', (i - 1) asString,']') put: (x at: 'id')  asString\r].\r(STON fromString: response post)"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894293+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894293+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "2IPB0QTwDQCEWZZLBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Получение пользователя с id = 3"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.8943+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.8943+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "3oPB0QTwDQCEWkObBHhfLQ=="
+							},
+							"code" : "\t\rresponse := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_user_get_users_by_field';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tqueryAt: 'field' put: 'email';\r\tformAt: 'values[0]' put: 'timonoid01@gmail.com';\r\tpost.\r\rdict := (STON fromString: response) first .\r\"Time millisecondsSince: t.\"\r\"\rBlElement new layout: BlLinearLayout vertical ; \r\t\tconstraintsDo: [:c | c horizontal fitContent. c vertical fitContent];\r\t\taddChild: (\rdict gtItemsFor: GtPhlowEmptyView new) asElement\""
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894306+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894306+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "5YPB0QTwDQCEW54iBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Получение тестов из курса"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894312+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894312+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "64PB0QTwDQCEXAhHBHhfLQ=="
+							},
+							"code" : "response := ZnClient new  \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'mod_quiz_get_quizzes_by_courses';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tformAt: 'courseids[0]' put: '2';\r\tpost.\r\t\r(STON fromString: response) "
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894316+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894316+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "74PB0QTwDQCEXapTBHhfLQ=="
+							},
+							"code" : "(ApiCourse new token: MConfig token)"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894322+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894322+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "9YPB0QTwDQCEXlb3BHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Получение всех курсов"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894328+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894328+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "+oPB0QTwDQCEX657BHhfLQ=="
+							},
+							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_course_get_courses_by_field';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'. \r\t\r(STON fromString: response post)"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894332+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894332+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "/4PB0QTwDQCEYA5eBHhfLQ=="
+							},
+							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_course_get_courses_by_field';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json';\r\tqueryAt: 'field' add: 'shortname';\r\t\tformAt: 'value' put: 'Testing2'.\r(STON fromString: response post)."
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894349+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894349+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "EITB0QTwDQCEYUUFBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Получение груп"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894355+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894355+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "FoTB0QTwDQCEYnX7BHhfLQ=="
+							},
+							"code" : "\tresponse := ZnClient new\r\t\t\turl: 'http://localhost/webservice/rest/server.php';\r\t\t\tqueryAt: 'wsfunction' put: 'core_group_get_course_groups';\r\t\t\tstreaming: true; \r\t\t\tqueryAt: 'wstoken' put: token;\r\t\t\tqueryAt: 'moodlewsrestformat' add: 'json';\r\t\t\tqueryAt: 'courseid' put: 3.\r\t\t\t(iterator := JSONIterator forStream: response post of: MoodleGroup)."
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894359+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894359+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "GoTB0QTwDQCEY+yIBHhfLQ=="
+							},
+							"code" : "\t\t\t (AsyncIteratorStream forIterator: iterator adjust)   filter: [:x | \r\t\t(x isKindOf: JSONIterator) not\r\t] "
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894365+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894365+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "IITB0QTwDQCEZNcYBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Получение пользователей с полным именем. (Не работает)."
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.89437+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.89437+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "JYTB0QTwDQCEZXpyBHhfLQ=="
+							},
+							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tstreaming: true;\r\tqueryAt: 'wsfunction' put: 'core_user_get_users';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tformAt: 'criteria[0][key]' put: 'id';\r\tformAt: 'criteria[0][value]' put: '3'.\r\riterator := JSONIterator forStream: response post of: MoodleUser.\r\t(AsyncIteratorStream forIterator: iterator adjust).\r"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894375+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894375+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "KoTB0QTwDQCEZvZvBHhfLQ=="
+							},
+							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_user_get_users';\r\tqueryAt: 'wstoken' put: token, 'sdas';\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tformAt: 'criteria[0][key]' put: 'firstname';\r\tformAt: 'criteria[0][value]' put: 'Timofey';\r\tformAt: 'criteria[1][key]' put: 'lastname';\r\tformAt: 'criteria[1][value]' put: 'Lazarev'.\r\rresponse post"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.89438+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.89438+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "LoTB0QTwDQCEZxrmBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Получение всех пользователей"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894385+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894385+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "M4TB0QTwDQCEaCdZBHhfLQ=="
+							},
+							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tstreaming: true;\r\tqueryAt: 'wsfunction' put: 'core_search_get_relevant_users';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tqueryAt: 'query' add: ''; \r\tformAt: 'courseid' put: '0'.\r\t    \rresponse post asAsyncStream .\r\r(STON fromString: response) ."
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894389+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894389+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "N4TB0QTwDQCEaUV/BHhfLQ=="
+							},
+							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_search_get_relevant_users ';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tqueryAt: 'query' add: ''; \r\tformAt: 'courseid' put: '0';\r\tpost.\r\t\r(STON fromString: response) "
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894393+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894393+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "PITB0QTwDQCEas1VBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Получение в виде элемента, это может понадобиться при создании приложения"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894397+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894397+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "QITB0QTwDQCEa4vpBHhfLQ=="
+							},
+							"code" : "(dict gtItemsFor: GtPhlowEmptyView new) asElement"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894402+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894402+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "RITB0QTwDQCEbHegBHhfLQ=="
+							},
+							"code" : "#columnedList gtI"
+						}
+					]
+				},
+				"createEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"createTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.89426+04:00"
+					}
+				},
+				"editEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"editTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.89426+04:00"
+					}
+				},
+				"uid" : {
+					"__type" : "uid",
+					"uidString" : "t4PB0QTwDQCEUuawBHhfLQ=="
+				},
+				"paragraphStyle" : {
+					"__type" : "textStyle"
+				},
+				"string" : "##Запросы"
+			},
+			{
+				"__type" : "textSnippet",
+				"children" : {
+					"__type" : "snippets",
+					"items" : [
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894411+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894411+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "ToTB0QTwDQCEbv6mBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : ""
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894416+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894416+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "UoTB0QTwDQCEb2YqBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : ""
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.89442+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.89442+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "V4TB0QTwDQCEcGCSBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Тесты для для моделей. Модели могут порождать фильтры, по которым мы может осуществлять фильтрацию.кк"
+						},
+						{
+							"__type" : "exampleSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894427+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894427+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "XoTB0QTwDQCEcSgJBHhfLQ=="
+							},
+							"exampleSelector" : "itemsModel",
+							"previewHeight" : 200,
+							"previewShowSelector" : "gtViewsFor:",
+							"exampleBehaviorName" : "GtFilterModelExamples",
+							"codeExpanded" : true,
+							"previewExpanded" : false,
+							"noCode" : false
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894433+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894433+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "ZITB0QTwDQCEcmncBHhfLQ=="
+							},
+							"code" : "\"GtFilterElementByScripterExamples>>#itemsModelWithMethodsCoder Было взято\rот туда. Вернее это разгадка одной тайны очень странного кода. \rИными словам там происходит кэширование или что-то еще\"\rupdater := self userData at: GtFilterMethodCodersAdditionalFiltersUpdater. \rcoder := updater coders.\rfilter := 'GToolkit-Phlow' gtPackageMatches & #BlElement gtReferences.\rfilter := (updater filtersModel items collect: #asSearchFilter) reduce: [:x :y | x & y] . \raStream := filter asAsyncStream \rcached map: [ :eachItem | coder newCoderFor: eachItem ]\r\t\t\tkey: [ :eachItem | coder newCoderCacheKeyFor: eachItem ]\r\t\t\tcache: Dictionary new.\rlister := self userData at: GtFilterMethodsCoderListUpdater.\rlist := lister list.\rcoders :=  aStream \tmap: [ :eachCoder | eachCoder asCoderViewModel expanded: false ]..\rBlTaskAction enqueueElement: list action: [ list stream: coders ]"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894438+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894438+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "aYTB0QTwDQCEcwDcBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Создание фильтра"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894442+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894442+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "bYTB0QTwDQCEdHbXBHhfLQ=="
+							},
+							"code" : "\t| anItemsModel |\r\t\r\tavailableFilters := (MoodleAvailableFiltersBuilder  new sourceQueryBuilder: ApiQueryBuilder).\r\t\r\tanItemsModelType := ConjFilterItemsModel.\r\tanItemsModel := anItemsModelType new items: {}.\r\tanItemsModel availableFiltersBuilder: availableFilters.\r\r\tanItemsModel asFiltersElement"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894447+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894447+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "coTB0QTwDQCEdV4sBHhfLQ=="
+							},
+							"code" : "\tmainFrame := BlElement new\r\t\t\tpadding: (BlInsets all: 10);\r\t\t\tconstraintsDo: [ :c | \r\t\t\t\tc vertical fitContent.\r\t\t\t\tc horizontal matchParent ];\r\t\t\tlayout: BlLinearLayout vertical.\r\r\ttitleEditor := BrEditor new\r\t\t\taptitude: BrGlamorousRegularEditorAptitude new;\r\t\t\tbeEditable;\r\t\t\tvFitContent;\r\t\t\tid: 'Editor';\r\t\t\tgeometry: (BlRoundedRectangleGeometry cornerRadius: 5);\r\t\t\tborder: (BlBorder paint: Color veryLightGray width: 1).\r\t\t\t \r\tavailableFilters := (MoodleAvailableFiltersBuilder  new sourceQueryBuilder: ApiQueryBuilder).\r\tanItemsModelType := ConjFilterItemsModel.\r\tanItemsModel := anItemsModelType new.\r\tanItemsModel availableFiltersBuilder: availableFilters.\r\t\r\tfilterView := anItemsModel asFiltersElement margin: (BlInsets top: 5).\r\r\tlst := GtPhlowView empty columnedList\r\t\ttitle: 'Items';\r\t\tpriority: 5;\r\t\tcolumn: 'Событие' text: [:each | each eventName]; \r\t\tcolumn: 'Пользователь' text: [:each | each user userName] width: 70;\r\t\tcolumn: 'Курс' text: [ :each | each course ifNotNil: [:x | x shortname] ifNil: ['Нет'] ] width: 70;\r\t\tcolumn: 'Время' text: [ :each | each timeCreated];\r\t\tactionUpdateButton.\r\t\r\t\r\tlstElem := lst asElement height: 340.\r\t\r\tanItemsModel weak \r\t\t\twhen: GtFiltersModelUpdated \r\t\t\tdo: [:announcement |\r\t\t\t\t| model |\r\t\t\t\tmodel := announcement model.\r\t\t\t\tmodel items size > 0 ifTrue: [\r\t\t\t\t\tlst items: [ApiQueryBuilder execute: announcement model asSearchFilter token: MConfig token\r\t\t\t\t] .\r\t\t\t\tlstElem phlow update\r\t\t\t\t]\r\t\t\t].\r\t\t\r\tmainFrame addChild: titleEditor.\r\tmainFrame addChild: filterView.\r\tmainFrame addChild: lstElem.\r\tmainFrame.\r\t\"aSpace := BlSpace new\r\t\taddChild: mainFrame;\r\t\textent: 800@600;\r\t\ttitle: 'Moodle app'.\raSpace show\""
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894452+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894452+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "doTB0QTwDQCEdrxpBHhfLQ=="
+							},
+							"code" : "anItemsModel become: DisjFilterItemsModel"
+						}
+					]
+				},
+				"createEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"createTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.894406+04:00"
+					}
+				},
+				"editEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"editTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.894406+04:00"
+					}
+				},
+				"uid" : {
+					"__type" : "uid",
+					"uidString" : "SoTB0QTwDQCEbb5tBHhfLQ=="
+				},
+				"paragraphStyle" : {
+					"__type" : "textStyle"
+				},
+				"string" : "##Фильтры"
+			},
+			{
+				"__type" : "textSnippet",
+				"children" : {
+					"__type" : "snippets",
+					"items" : [
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894462+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894462+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "gYTB0QTwDQCEePhDBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "У меня есть несколько стратегий получения данных"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894471+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894471+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "ioTB0QTwDQCEer8sBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "Фильтрация по бд тоже не сложна, можно ограничиться простыми SQL Запросами. \nНо тут возникает проблема с их джойнами. Что к чему джойнить? Сущности к логам или логи к сущностям? Если у нас есть фильтр по сущностям, то целесообразно выполнить сначала их, так мы получим конкретные id-шники и по ним сможем сделать запрос в базу. Потому, что иначе мы просто теряем время зря с батчами запросов, которые стучаться к случайным сущностям, чтобы узнать, есть ли они.  \n\nС другой стороны, если у нас этот запрос пуст, то мы должны в запрос отправить все id наших основных сущностей, что не нужно.\nНа это в целом ложиться проблема, что мы должны совать много or В запросы. Причем именно в запрос, что немного странно. Да и когда id не так много, это тоже напрягает.  Мы можем не вставлять в запрос и перебрать все итаратор и это медленее."
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894475+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894475+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "joTB0QTwDQCEe+PyBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "Если сущность не угадается, то трафик будет гнаться через батчи, пока сущность все-таки не влезет в запрос. \n\nТо есть такая стратегия. Если есть запрос к логам и только к логам, то джойним сущности к ним\nЕсли запрос идет к сущности или к сущности и к логам. То джойним логи к сущностям.\n\nДалее у нас есть два варианта развития событий. Мы делаем джоинт к сущности после запроса на сущности, мы нарушаем принцип LSP или усложняем иерархию запроса для оптиизации его вызывов. Джоинт после фильтрации доступен только в варианте, \"К логам\". И он будет долгий, но рабочий и простой."
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894485+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894485+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "mYTB0QTwDQCEfXPnBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Решение только алгоритмами, не нужно никаких дополнительный инфрастуктурных сущностей"
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.89449+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.89449+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "nYTB0QTwDQCEfnUQBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Решение на Smalltalk. Достаточно легковесно и не сложно реализовать"
+												}
+											]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.89448+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.89448+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "koTB0QTwDQCEfFwVBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "###Плюсы: "
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.8945+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.8945+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "p4TB0QTwDQCEgDg2BHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Ухудшение производителности/Красоты кода"
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894504+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894504+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "q4TB0QTwDQCEgW7ABHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Уход от композиции фильтров, а именно создание сабклассов GTSearchFilter больше не имеет смысла/Изменение самой структуры запросов"
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894508+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894508+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "r4TB0QTwDQCEgg+HBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Нету уверенности в стойкости стратегий к изменениям."
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894512+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894512+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "s4TB0QTwDQCEg24+BHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Странная эквилибристика со стратегиями"
+												}
+											]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894495+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894495+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "ooTB0QTwDQCEf6E3BHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "###Минусы:"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894517+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894517+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "uITB0QTwDQCEhL4RBHhfLQ=="
+										},
+										"code" : "ReStore\r\tconnection: (SSWMySQLConnection new\r\t\t\tconnectionSpec: (MySQLDriverSpec new\r\t\t\t\t\thost: 'localhost';\r\t\t\t\t\tport: 3306;\r\t\t\t\t\tdb: 'logging';\r\t\t\t\t\tuser: 'moodler';\r\t\t\t\t\tpassword: 'moodler';\r\t\t\t\t\tyourself);\r\t\t\tyourself). \r\t\t\r\rReStore connect"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894522+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894522+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "vITB0QTwDQCEhXEnBHhfLQ=="
+										},
+										"code" : "MSearchUnionFilter"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894535+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894535+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "y4TB0QTwDQCEhuv4BHhfLQ=="
+										},
+										"code" : "ApiQueryBuilder"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.89454+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.89454+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "14TB0QTwDQCEh/FNBHhfLQ=="
+										},
+										"code" : "token := 'f8ae68ba7886638627da9f059ca3555e'. "
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894553+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894553+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "3ITB0QTwDQCEiCf3BHhfLQ=="
+										},
+										"code" : "anApiUser := ApiUser forToken: token."
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894558+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894558+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "4YTB0QTwDQCEiQaBBHhfLQ=="
+										},
+										"code" : "dbq := (CreateMethodBuilder from: ApiQueryBuilder class >>#moodleQueryEventname:applyTo:).\rdbq1 := dbq cull: '\\core\\event\\course_viewed' cull: nil.\rdbq2 := dbq cull: '\\core\\event\\dashboard_viewed' cull: nil.\r\rq := (CreateMethodBuilder from: ApiQueryBuilder class >>#moodleUserEmail:applyTo:).\rq1 := q cull: 'timonoid01@gmail.com' cull: nil.\rq2 := q cull: 'timon01@list.ru' cull: nil.\r\rc := (CreateMethodBuilder from: ApiQueryBuilder class >>#moodleCourseShortname:applyTo:).\rc1 := c cull: 'Testing2'  cull: nil.\rc2 := c cull: 'Курс-1-08' cull: nil.\r\raq := (CreateMethodBuilder from: ApiQueryBuilder class >> #moodleUserAuth:applyTo:).\r\raq1 := aq cull: 'manual' cull: nil.\r\rdq := (CreateMethodBuilder from: ApiQueryBuilder class >>#moodleQueryTimecreated:applyTo:).\r\rdq1 := dq cull: '12:00' cull: nil"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894562+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894562+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "5YTB0QTwDQCEiiIbBHhfLQ=="
+										},
+										"code" : "{q1. #&. dbq1. #|. dbq2} reduce: [:x :y | \r\ty isSymbol ifTrue: [ \r\t\t[:z | x perform: y withArguments: {z} ]\r\t]\r\tifFalse: \r\t[x value: y]\r]."
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894567+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894567+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "6oTB0QTwDQCEiyk1BHhfLQ=="
+										},
+										"code" : "MethodNullSearchFilter new & q1 "
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894572+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894572+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "74TB0QTwDQCEjH6eBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "Запосы с отменой"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894576+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894576+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "9ITB0QTwDQCEjbxbBHhfLQ=="
+										},
+										"code" : "cancellation := QueryCancellation new.\rqb := ApiQueryBuilder token: MConfig token cancellation: cancellation. "
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894581+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894581+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "+YTB0QTwDQCEjjA4BHhfLQ=="
+										},
+										"code" : "stream := MoodleDBEventLog storedInstances readStream.\r(IteratorStream forPosStream: stream) asAsyncStream\r\tcollect: [ :x | \r\t\t0.4 second wait.\r\t\tx ]"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894586+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894586+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "/oTB0QTwDQCEj+Z3BHhfLQ=="
+										},
+										"code" : "cancellation cancel. "
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894591+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894591+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "AoXB0QTwDQCEkMivBHhfLQ=="
+										},
+										"code" : "stream close."
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894595+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894595+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "B4XB0QTwDQCEkXq2BHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "Запрос на дату"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.8946+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.8946+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "C4XB0QTwDQCEkmh8BHhfLQ=="
+										},
+										"code" : "MoodleDBEventLog storedInstances select: ((qb preload: (dq1 & aq1)) toArray wait last )"
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894604+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894604+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "D4XB0QTwDQCEk6XbBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "Соединенные разные запросы:"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894608+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894608+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "E4XB0QTwDQCElArcBHhfLQ=="
+										},
+										"code" : "query := ( ApiQueryBuilder execute: MethodNullSearchFilter new token: MConfig token ) "
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894612+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894612+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "GIXB0QTwDQCElSUlBHhfLQ=="
+										},
+										"code" : "query := ( dbq1 | q2).\res := anApiUser completeUsers toArray wait select: query.   "
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894617+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894617+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "G4XB0QTwDQCElqtvBHhfLQ=="
+										},
+										"code" : "query := ( dbq1 & q1 ) .  \rlogs := MoodleDBEventLog storedInstances satisfying: query. \rlogs asSet   "
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894621+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894621+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "IIXB0QTwDQCElz48BHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "Соответствующие"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894625+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894625+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "JYXB0QTwDQCEmBGeBHhfLQ=="
+										},
+										"code" : "query := (dbq1 ).   \rlogs := MoodleDBEventLog storedInstances satisfying: query. \rlogs asSet   "
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.89463+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.89463+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "KoXB0QTwDQCEma6DBHhfLQ=="
+										},
+										"code" : "query := ( q2).\res := anApiUser completeUsers toArray wait select: query.  "
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894635+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894635+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "L4XB0QTwDQCEmjI5BHhfLQ=="
+										},
+										"code" : "(q2 & dbq1)"
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.89464+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.89464+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "M4XB0QTwDQCEm30SBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "Соответствующие с пропуском"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894644+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894644+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "OIXB0QTwDQCEnDPdBHhfLQ=="
+										},
+										"code" : "query := ( dbq1 | MethodNullSearchFilter new).    \rlogs := MoodleDBEventLog storedInstances satisfying: query.    \rlogs asSet    "
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.89465+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.89465+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "PYXB0QTwDQCEnQz1BHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "Противоположные "
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894655+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894655+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "QoXB0QTwDQCEntg9BHhfLQ=="
+										},
+										"code" : "query := ( dbq2 | dbq1 ). \res := anApiUser completeUsers toArray wait select: query.  "
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894659+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894659+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "RoXB0QTwDQCEn43WBHhfLQ=="
+										},
+										"code" : "query := (q1).  \rlogs := MoodleDBEventLog storedInstances satisfying: query.   \rlogs asSet  "
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894664+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894664+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "TIXB0QTwDQCEoAfaBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "QueryBuilder "
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894669+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894669+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "UIXB0QTwDQCEoZa2BHhfLQ=="
+										},
+										"code" : "builder := ApiQueryBuilder query: ( dbq1 | ((c1)  & (q1 | q2)) | dbq2 )  token: token.=\rbuilder execute "
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894673+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894673+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "VYXB0QTwDQCEoq4bBHhfLQ=="
+										},
+										"code" : "#(1 2 3) asAsyncStream"
+									},
+									{
+										"__type" : "pharoSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894678+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894678+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "WYXB0QTwDQCEo2+LBHhfLQ=="
+										},
+										"code" : "builder := ApiQueryBuilder execute: (MethodNullSearchFilter new)  token: token ."
+									}
+								]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894467+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894467+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "hoTB0QTwDQCEeQLYBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "###1) Делать фильтрацию api сущностей прямо в стримах, не быстро, но адекватно.  "
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894687+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894687+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "YoXB0QTwDQCEpdZDBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : ""
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894692+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894692+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "Z4XB0QTwDQCEpvSUBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "Способ описывает сам себя"
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894702+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894702+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "cYXB0QTwDQCEqMIQBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Запросы выполняются быстро"
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894708+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894708+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "d4XB0QTwDQCEqb0eBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Сабклассы GTSearchFilter хорошо вписываются"
+												}
+											]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894697+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894697+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "bYXB0QTwDQCEp0exBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "###Плюсы "
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894718+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894718+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "goXB0QTwDQCEqy3hBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Сначала данные нужно загрузить(Это может занять некоторое время."
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894724+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894724+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "iIXB0QTwDQCErB9qBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Должна быть возможность обновлять хранилище"
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.89473+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.89473+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "jYXB0QTwDQCErZy2BHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Наличие алгоритмов по докачиванию данных"
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894735+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894735+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "k4XB0QTwDQCErn/ABHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Возможный удар по безопасности, нужна не только авторизация. Возможно нужно будет шифровать данные"
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.89474+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.89474+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "mIXB0QTwDQCErz7UBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : ""
+												}
+											]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894713+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894713+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "fYXB0QTwDQCEqiY/BHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "###Минусы"
+									}
+								]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894683+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894683+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "XoXB0QTwDQCEpCTnBHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "###2) Перенести данные из апи и логи в локальную бд"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894751+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894751+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "o4XB0QTwDQCEsfCSBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "Создания плагина на PHP для обогащения базы нужной информацией. "
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [ ]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894758+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894758+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "qYXB0QTwDQCEsjqeBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "Причем в исходной базе будет уже сджойненная информация. Данные будут получаться из внутренних функций PHP. А не из бд напряммую, так как возможно структура таблиц может меняться по усмотрению мудла."
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894768+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894768+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "tYXB0QTwDQCEtP6NBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Еще одна программа(Больше материала для ВКР)"
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894784+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894784+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "xIXB0QTwDQCEtRtuBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Логистика данных проще, чем во втором варианте"
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.89479+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.89479+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "yYXB0QTwDQCEtuNJBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Все плюсы, что и у второго."
+												}
+											]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894763+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894763+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "roXB0QTwDQCEs4YVBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "###Плюсы"
+									},
+									{
+										"__type" : "textSnippet",
+										"children" : {
+											"__type" : "snippets",
+											"items" : [
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.8948+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.8948+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "1IXB0QTwDQCEuDn5BHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Запросы будут медленнее, чем у второго, если не будут в одной сети с клиентом"
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894807+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894807+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "24XB0QTwDQCEuRxKBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Логи будут больше занимать места на диске сервере."
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894812+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894812+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "4IXB0QTwDQCEump9BHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "На создание логов на сервере будет затрачиваться больше ресурсов."
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894817+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894817+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "5YXB0QTwDQCEu1GxBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Еще одна программа(Возможно все-таки придется подучить PHP, + еще одна сущность для деплоя, хотя он не должн быть сложен.)"
+												},
+												{
+													"__type" : "textSnippet",
+													"children" : {
+														"__type" : "snippets",
+														"items" : [ ]
+													},
+													"createEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"createTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894822+04:00"
+														}
+													},
+													"editEmail" : {
+														"__type" : "email",
+														"emailString" : "<unknown>"
+													},
+													"editTime" : {
+														"__type" : "time",
+														"time" : {
+															"__type" : "dateAndTime",
+															"dateAndTimeString" : "2025-04-26T03:56:26.894822+04:00"
+														}
+													},
+													"uid" : {
+														"__type" : "uid",
+														"uidString" : "64XB0QTwDQCEvDxJBHhfLQ=="
+													},
+													"paragraphStyle" : {
+														"__type" : "textStyle"
+													},
+													"string" : "Возможно данные бедные по своему наполнению совсем не зря. Переполнять логи информацией вероятно могут иметь какие-то негативные последствия. Напимер два минуса, приведенные выше."
+												}
+											]
+										},
+										"createEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"createTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894794+04:00"
+											}
+										},
+										"editEmail" : {
+											"__type" : "email",
+											"emailString" : "<unknown>"
+										},
+										"editTime" : {
+											"__type" : "time",
+											"time" : {
+												"__type" : "dateAndTime",
+												"dateAndTimeString" : "2025-04-26T03:56:26.894794+04:00"
+											}
+										},
+										"uid" : {
+											"__type" : "uid",
+											"uidString" : "zYXB0QTwDQCEt9BMBHhfLQ=="
+										},
+										"paragraphStyle" : {
+											"__type" : "textStyle"
+										},
+										"string" : "###Минусы"
+									}
+								]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894746+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T03:56:26.894746+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "nYXB0QTwDQCEsN13BHhfLQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "###3) Плагин на Php "
+						}
+					]
+				},
+				"createEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"createTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.894456+04:00"
+					}
+				},
+				"editEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"editTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.894456+04:00"
+					}
+				},
+				"uid" : {
+					"__type" : "uid",
+					"uidString" : "e4TB0QTwDQCEd6myBHhfLQ=="
+				},
+				"paragraphStyle" : {
+					"__type" : "textStyle"
+				},
+				"string" : "##Стратегия получения данных"
+			},
+			{
+				"__type" : "textSnippet",
+				"children" : {
+					"__type" : "snippets",
+					"items" : [ ]
+				},
+				"createEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"createTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.894828+04:00"
+					}
+				},
+				"editEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"editTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.894828+04:00"
+					}
+				},
+				"uid" : {
+					"__type" : "uid",
+					"uidString" : "74XB0QTwDQCEvRxBBHhfLQ=="
+				},
+				"paragraphStyle" : {
+					"__type" : "textStyle"
+				},
+				"string" : ""
+			},
+			{
+				"__type" : "textSnippet",
+				"children" : {
+					"__type" : "snippets",
+					"items" : [ ]
+				},
+				"createEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"createTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.894833+04:00"
+					}
+				},
+				"editEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"editTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2025-04-26T03:56:26.894833+04:00"
+					}
+				},
+				"uid" : {
+					"__type" : "uid",
+					"uidString" : "9YXB0QTwDQCEvvaHBHhfLQ=="
+				},
+				"paragraphStyle" : {
+					"__type" : "textStyle"
+				},
+				"string" : "###Плюсы"
+			}
+		]
+	},
+	"createEmail" : {
+		"__type" : "email",
+		"emailString" : "<unknown>"
+	},
+	"createTime" : {
+		"__type" : "time",
+		"time" : {
+			"__type" : "dateAndTime",
+			"dateAndTimeString" : "2025-04-26T03:56:26.893805+04:00"
+		}
+	},
+	"editEmail" : {
+		"__type" : "email",
+		"emailString" : "<unknown>"
+	},
+	"editTime" : {
+		"__type" : "time",
+		"time" : {
+			"__type" : "dateAndTime",
+			"dateAndTimeString" : "2025-04-26T03:56:26.893805+04:00"
+		}
+	},
+	"pageType" : {
+		"__type" : "namedPage",
+		"title" : "Moodle Exploring"
+	},
+	"uid" : {
+		"__type" : "uuid",
+		"uuid" : "cf40c1d1-04f0-0d00-843c-e02504785f2d"
+	}
+}
