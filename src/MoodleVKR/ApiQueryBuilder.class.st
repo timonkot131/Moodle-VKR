@@ -194,15 +194,15 @@ ApiQueryBuilder >> fetchCourses: aGtSearchFilter [
 	byIdQuery isArray
 		ifTrue: [ byIdQuery ifEmpty: [ ^ {} asAsyncStream ].
 			^ apiCourse completeCoursesChunk: byIdQuery ].
-	{'shortname'. 'category'}
+	{'shortname'}
 		do: [ :item | 
 			| byQuery |
 			byQuery := aGtSearchFilter
 				value: ('moodlecourse_' , item) asSymbol.
 			byQuery isArray
 				ifTrue: [ byQuery ifEmpty: [ ^ {} asAsyncStream ].
-					^ apiCourse completeCoursesChunk: byQuery field: item ] ].
-	^ apiCourse completeCourses
+					^ (apiCourse completeCoursesChunk: byQuery field: item) select: aGtSearchFilter ] ].
+	^ apiCourse completeCourses select: aGtSearchFilter
 ]
 
 { #category : #execution }

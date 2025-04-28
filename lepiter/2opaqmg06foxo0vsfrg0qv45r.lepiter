@@ -840,6 +840,40 @@
 							"code" : "token := 'f8ae68ba7886638627da9f059ca3555e'. "
 						},
 						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T15:37:15.389607+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T15:37:20.691164+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "A6EKnA7wDQCpbi5rDPoh8w=="
+							},
+							"code" : "token2 := '16ba5620faca3fd9a448b17a2693218a'"
+						},
+						{
 							"__type" : "textSnippet",
 							"children" : {
 								"__type" : "snippets",
@@ -1077,14 +1111,14 @@
 								"__type" : "time",
 								"time" : {
 									"__type" : "dateAndTime",
-									"dateAndTimeString" : "2025-04-26T03:56:26.8943+04:00"
+									"dateAndTimeString" : "2025-04-26T13:22:17.067676+04:00"
 								}
 							},
 							"uid" : {
 								"__type" : "uid",
 								"uidString" : "3oPB0QTwDQCEWkObBHhfLQ=="
 							},
-							"code" : "\t\rresponse := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_user_get_users_by_field';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tqueryAt: 'field' put: 'email';\r\tformAt: 'values[0]' put: 'timonoid01@gmail.com';\r\tpost.\r\rdict := (STON fromString: response) first .\r\"Time millisecondsSince: t.\"\r\"\rBlElement new layout: BlLinearLayout vertical ; \r\t\tconstraintsDo: [:c | c horizontal fitContent. c vertical fitContent];\r\t\taddChild: (\rdict gtItemsFor: GtPhlowEmptyView new) asElement\""
+							"code" : "\t\rresponse := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_user_get_users_by_field';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tqueryAt: 'field' put: 'id';\r\tformAt: 'values[0]' put: '3';\r\tpost.\r\rdict := (STON fromString: response) first .\r\"Time millisecondsSince: t.\"\r\"\rBlElement new layout: BlLinearLayout vertical ; \r\t\tconstraintsDo: [:c | c horizontal fitContent. c vertical fitContent];\r\t\taddChild: (\rdict gtItemsFor: GtPhlowEmptyView new) asElement\""
 						},
 						{
 							"__type" : "textSnippet",
@@ -1287,14 +1321,14 @@
 								"__type" : "time",
 								"time" : {
 									"__type" : "dateAndTime",
-									"dateAndTimeString" : "2025-04-26T03:56:26.894332+04:00"
+									"dateAndTimeString" : "2025-04-26T15:49:35.080829+04:00"
 								}
 							},
 							"uid" : {
 								"__type" : "uid",
 								"uidString" : "/4PB0QTwDQCEYA5eBHhfLQ=="
 							},
-							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_course_get_courses_by_field';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json';\r\tqueryAt: 'field' add: 'shortname';\r\t\tformAt: 'value' put: 'Testing2'.\r(STON fromString: response post)."
+							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_course_get_courses_by_field';\r\tqueryAt: 'wstoken' put: token2;\r\tqueryAt: 'moodlewsrestformat' add: 'json';\r\tqueryAt: 'field' add: 'category';\r\t\tformAt: 'value' put: '2'.\r(STON fromString: response post)."
 						},
 						{
 							"__type" : "textSnippet",
@@ -1452,6 +1486,40 @@
 								"__type" : "time",
 								"time" : {
 									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T13:53:53.020574+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-26T14:12:43.949777+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "wvpZKg3wDQCaHiQJAeim0g=="
+							},
+							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\t\"streaming: true;\"\r\tqueryAt: 'wsfunction' put: 'core_user_get_users';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tformAt: 'criteria[0][key]' put: 'firstname';\r\tformAt: 'criteria[0][value]' put: 'Timo'.\r\t\rresponse post.\r"
+						},
+						{
+							"__type" : "pharoSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
 									"dateAndTimeString" : "2025-04-26T03:56:26.89437+04:00"
 								}
 							},
@@ -1463,14 +1531,14 @@
 								"__type" : "time",
 								"time" : {
 									"__type" : "dateAndTime",
-									"dateAndTimeString" : "2025-04-26T03:56:26.89437+04:00"
+									"dateAndTimeString" : "2025-04-26T13:53:53.021863+04:00"
 								}
 							},
 							"uid" : {
 								"__type" : "uid",
 								"uidString" : "JYTB0QTwDQCEZXpyBHhfLQ=="
 							},
-							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tstreaming: true;\r\tqueryAt: 'wsfunction' put: 'core_user_get_users';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tformAt: 'criteria[0][key]' put: 'id';\r\tformAt: 'criteria[0][value]' put: '3'.\r\riterator := JSONIterator forStream: response post of: MoodleUser.\r\t(AsyncIteratorStream forIterator: iterator adjust).\r"
+							"code" : "iterator := JSONIterator forStream: response post of: MoodleUser.\r\t(AsyncIteratorStream forIterator: iterator adjust).\r"
 						},
 						{
 							"__type" : "pharoSnippet",

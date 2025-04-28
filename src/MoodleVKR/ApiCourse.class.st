@@ -67,12 +67,9 @@ ApiCourse >> completeCoursesChunk: anArray field: aString [
 { #category : #'as yet unclassified' }
 ApiCourse >> course: anObject by: aString [
 | response |
-	response := ZnClient new 
-		url: 'http://localhost/webservice/rest/server.php';
+	response := 
+		(MConfig clientFor: 'core_course_get_courses_by_field')
 		streaming: true;
-		queryAt: 'wsfunction' put: 'core_course_get_courses_by_field';
-		queryAt: 'wstoken' put: token;
-		queryAt: 'moodlewsrestformat' add: 'json'; 
 		queryAt: 'field' add: aString;
 		formAt: 'value' put: anObject.
 	iterator :=  JSONIterator forStream: response post of: MoodleCourse.
