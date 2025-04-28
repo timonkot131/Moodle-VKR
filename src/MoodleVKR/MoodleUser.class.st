@@ -16,7 +16,7 @@ Class {
 
 { #category : #accessing }
 MoodleUser >> auth [
-	^ auth
+	^ auth ifNil: ['Нет']
 ]
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ MoodleUser >> auth: anObject [
 
 { #category : #accessing }
 MoodleUser >> email [
-	^ email
+	^ email ifNil: ['Нет']
 ]
 
 { #category : #accessing }
@@ -36,7 +36,7 @@ MoodleUser >> email: aString [
 
 { #category : #'as yet unclassified' }
 MoodleUser >> firstName [
-^firstname
+^firstname ifNil: ['Нет']
 ]
 
 { #category : #'as yet unclassified' }
@@ -46,7 +46,7 @@ firstname := aString
 
 { #category : #accessing }
 MoodleUser >> fullName [
-	^ fullname
+	^ fullname ifNil: ['Нет']
 ]
 
 { #category : #accessing }
@@ -66,8 +66,7 @@ MoodleUser >> id: anObject [
 
 { #category : #'as yet unclassified' }
 MoodleUser >> lastName [
-^lastname
-
+^lastname ifNil: ['Нет']
 ]
 
 { #category : #'as yet unclassified' }
@@ -83,7 +82,7 @@ aStream << (' Полное имя: "', fullname, '"').
 
 { #category : #accessing }
 MoodleUser >> userName [
-	^ username
+	^ username ifNil: ['Нет']
 ]
 
 { #category : #accessing }

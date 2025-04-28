@@ -1321,14 +1321,14 @@
 								"__type" : "time",
 								"time" : {
 									"__type" : "dateAndTime",
-									"dateAndTimeString" : "2025-04-26T15:49:30.904899+04:00"
+									"dateAndTimeString" : "2025-04-26T15:49:35.080829+04:00"
 								}
 							},
 							"uid" : {
 								"__type" : "uid",
 								"uidString" : "/4PB0QTwDQCEYA5eBHhfLQ=="
 							},
-							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_course_get_courses_by_field';\r\tqueryAt: 'wstoken' put: token2;\r\tqueryAt: 'moodlewsrestformat' add: 'json';\r\tqueryAt: 'field' add: 'category';\r\t\tformAt: 'value' put: '5'.\r(STON fromString: response post)."
+							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_course_get_courses_by_field';\r\tqueryAt: 'wstoken' put: token2;\r\tqueryAt: 'moodlewsrestformat' add: 'json';\r\tqueryAt: 'field' add: 'category';\r\t\tformAt: 'value' put: '2'.\r(STON fromString: response post)."
 						},
 						{
 							"__type" : "textSnippet",
