@@ -755,7 +755,7 @@
 								"__type" : "time",
 								"time" : {
 									"__type" : "dateAndTime",
-									"dateAndTimeString" : "2025-04-26T10:27:26.5815+04:00"
+									"dateAndTimeString" : "2025-04-30T14:12:51.203296+04:00"
 								}
 							},
 							"uid" : {
@@ -765,7 +765,44 @@
 							"paragraphStyle" : {
 								"__type" : "textStyle"
 							},
-							"string" : "{{gtTodo:label=Добавить логику проверки API|completed=2025-04-26}}"
+							"string" : "{{gtTodo:label=Добавить логику проверки API|completed=}}"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-30T14:04:38.714548+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-04-30T14:11:47.625479+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "+ynjx13wDQC9P9R2COSvuQ=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "{{gtTodo:label= Добавить логику поиска категорий}}"
 						}
 					]
 				},
