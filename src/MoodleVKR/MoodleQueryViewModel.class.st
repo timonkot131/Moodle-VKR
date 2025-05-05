@@ -32,6 +32,11 @@ MoodleQueryViewModel >> addQuery [
 ]
 
 { #category : #announcer }
+MoodleQueryViewModel >> announce: anAnnouncement [
+	^ self announcer announce: anAnnouncement
+]
+
+{ #category : #announcer }
 MoodleQueryViewModel >> announcer [
 	<return: #Announcer>
 	^ announcer 

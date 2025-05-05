@@ -57,6 +57,17 @@ TMFilterExcutor >> execute: aQueryCancellation [
 				]
 ]
 
+{ #category : #'as yet unclassified' }
+TMFilterExcutor >> gtDistributedFor: aView [
+	<gtToolView>
+	<gtView>
+	^ aView forward
+		title: 'Distributed';
+		priority: 7;
+		object: [ self distributeAsync ];
+		view: #gtLiveFor:
+]
+
 { #category : #view }
 TMFilterExcutor >> gtFilterQueryFor: aView [
 <gtToolView>
@@ -76,6 +87,19 @@ TMFilterExcutor >> gtFilterQueryFor: aView [
 		column: 'Время' text: [ :each | MLogTime ofUnixToString: each timeCreated] width: 50;
 			
 		actionUpdateButton
+]
+
+{ #category : #'as yet unclassified' }
+TMFilterExcutor >> gtItemsFor: aView [
+	"this is a view that is polymorphic with the one defined in ${method:Collection>>#gtItemsFor:}$"
+	<gtView>
+	<gtToolView>
+
+	^ aView forward
+		title: 'Results';
+		priority: 10;
+		object: [ self ];
+		view: #gtHierarchyFor:
 ]
 
 { #category : #view }

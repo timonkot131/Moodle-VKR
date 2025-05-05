@@ -755,7 +755,7 @@
 								"__type" : "time",
 								"time" : {
 									"__type" : "dateAndTime",
-									"dateAndTimeString" : "2025-04-30T14:12:51.203296+04:00"
+									"dateAndTimeString" : "2025-05-04T10:46:25.224544+04:00"
 								}
 							},
 							"uid" : {
@@ -766,6 +766,43 @@
 								"__type" : "textStyle"
 							},
 							"string" : "{{gtTodo:label=Добавить логику проверки API|completed=}}"
+						},
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-05-04T10:46:27.937945+04:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2025-05-04T10:47:48.436273+04:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "yneweqvwDQC4ihCLA92Rig=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "{{gtTodo:label=Добавить фильтр на Origin (ws, web, cli)}}"
 						},
 						{
 							"__type" : "textSnippet",
@@ -935,7 +972,7 @@
 								"__type" : "time",
 								"time" : {
 									"__type" : "dateAndTime",
-									"dateAndTimeString" : "2025-04-26T03:56:26.89427+04:00"
+									"dateAndTimeString" : "2025-05-04T11:30:45.899497+04:00"
 								}
 							},
 							"uid" : {
@@ -945,7 +982,7 @@
 							"paragraphStyle" : {
 								"__type" : "textStyle"
 							},
-							"string" : "Получение иформации о носителе токена"
+							"string" : "Получение иформации о носителе токена32"
 						},
 						{
 							"__type" : "pharoSnippet",
@@ -972,14 +1009,14 @@
 								"__type" : "time",
 								"time" : {
 									"__type" : "dateAndTime",
-									"dateAndTimeString" : "2025-04-26T03:56:26.894275+04:00"
+									"dateAndTimeString" : "2025-05-04T11:30:05.751954+04:00"
 								}
 							},
 							"uid" : {
 								"__type" : "uid",
 								"uidString" : "xYPB0QTwDQCEVXABBHhfLQ=="
 							},
-							"code" : "STON fromString:('http://localhost/webservice/rest/server.php?wsfunction=core_webservice_get_site_info&moodlewsrestformat=json&wstoken=f8ae68ba7886638627da9f059ca3555e' asZnUrl retrieveContents)  "
+							"code" : "request := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_webservice_get_site_info';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'.\t\rrequest post."
 						},
 						{
 							"__type" : "textSnippet",
