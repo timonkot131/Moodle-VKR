@@ -1571,14 +1571,14 @@
 								"__type" : "time",
 								"time" : {
 									"__type" : "dateAndTime",
-									"dateAndTimeString" : "2025-04-26T14:12:43.949777+04:00"
+									"dateAndTimeString" : "2025-05-05T20:13:45.320758+04:00"
 								}
 							},
 							"uid" : {
 								"__type" : "uid",
 								"uidString" : "wvpZKg3wDQCaHiQJAeim0g=="
 							},
-							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\t\"streaming: true;\"\r\tqueryAt: 'wsfunction' put: 'core_user_get_users';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tformAt: 'criteria[0][key]' put: 'firstname';\r\tformAt: 'criteria[0][value]' put: 'Timo'.\r\t\rresponse post.\r"
+							"code" : "response := ZnClient new \r\turl: 'http://localhost/webservice/rest/server.php';\r\tqueryAt: 'wsfunction' put: 'core_user_get_users';\r\tqueryAt: 'wstoken' put: token;\r\tqueryAt: 'moodlewsrestformat' add: 'json'; \r\tformAt: 'criteria[0][key]' put: 'firstname';\r\tformAt: 'criteria[0][value]' put: 'Timofey'.\r\t\r(STON fromString: response post)"
 						},
 						{
 							"__type" : "pharoSnippet",

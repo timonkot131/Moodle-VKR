@@ -71,7 +71,7 @@ anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ApiQueryBuilder class >> moodleQueryIp: aSelected applyTo: aMoodleQuery [
 <rule: #(ip)>
 aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
-^aMoodleQuery eventname = aSelected
+^aMoodleQuery ip like: aSelected
 ]
 
 { #category : #query }
