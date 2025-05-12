@@ -224,10 +224,10 @@ ApiQueryBuilder >> fetchUsers: aGtSearchFilter [
 	apiUser := ApiUser forToken: self token.
 	apiUser subscribeToCancel: self cancellation.
 	{'email'. 'id'. 'username'. 'auth'. 'firstname'. 'lastname'}
-		do: [ :item | 
-			| byQuery |
-			byQuery := aGtSearchFilter forEntity: MoodleUser attribute: item .
-			byQuery isArray
+		do: [ :item |  
+			| byQuery | 
+			byQuery := aGtSearchFilter forEntity: MoodleUser attribute: item . 
+			byQuery isArray 
 				ifTrue: [ byQuery ifEmpty: [ ^ {} asAsyncStream ].
 				dict at: item put: byQuery first ]].
 	^dict ifEmpty: [apiUser completeUsers] ifNotEmpty:

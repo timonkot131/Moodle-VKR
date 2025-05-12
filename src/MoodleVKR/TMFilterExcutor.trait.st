@@ -77,14 +77,17 @@ TMFilterExcutor >> forEntity: anEntityClass [
 { #category : #query }
 TMFilterExcutor >> forEntity: anEntityClass attribute: aSymbol [
 | items |
-items := ((self forEntity: anEntityClass) select: [:x | x attribute = aSymbol] thenCollect: #selectedValue) asSet.
+items := ((self forEntity: anEntityClass) select: [:x | x attribute = aSymbol] thenCollect: #selectedValue).
 "Требуется логическое И над элементами множества. Имеется ввиду, что идет сбор"
 "По одному аттрибуту"
 "Если в будет множество с И с разными элементами и уникальными аттрибутам, то запрос никогда не пройдет"
 (items size > 1) ifTrue: [
 	^{}
 ].
-^items.
+items ifEmpty: [
+	^#pass
+].
+^items asArray.
 ]
 
 { #category : #'as yet unclassified' }

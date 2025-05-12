@@ -50,34 +50,6 @@ MethodSearchFilter >> entity [
 ]
 
 { #category : #'as yet unclassified' }
-MethodSearchFilter >> forEntity: anEntityClass collect: aCollectBlock [
-| items |
-items := (self forEntity: anEntityClass) collect: aCollectBlock.
-items := items asSet.
-"Требуется логическое И над элементами множества. Имеется ввиду, что идет сбор"
-"По одному аттрибуту"
-"Если в будет множество с И с разными элементами и уникальными аттрибутам, то запрос никогда не пройдет"
-(items size > 1) ifTrue: [
-	^{}
-].
-^items.
-]
-
-{ #category : #'as yet unclassified' }
-MethodSearchFilter >> forEntity: anEntityClass select: aBlock collect: aCollectBlock [
-| items |
-items := (self forEntity: anEntityClass attribute: aBlock) collect: aCollectBlock.
-items := items asSet.
-"Требуется логическое И над элементами множества. Имеется ввиду, что идет сбор"
-"По одному аттрибуту"
-"Если в будет множество с И с разными элементами и уникальными аттрибутам, то запрос никогда не пройдет"
-(items size > 1) ifTrue: [
-	^{}
-].
-^items.
-]
-
-{ #category : #'as yet unclassified' }
 MethodSearchFilter >> hash [ 
 ^method name hash bitXor: selectedValue hash
 ]
