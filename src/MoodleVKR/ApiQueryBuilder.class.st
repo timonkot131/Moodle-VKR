@@ -25,7 +25,6 @@ ApiQueryBuilder class >> courseFullName: aSelected applyTo: anObject [
 { #category : #query }
 ApiQueryBuilder class >> courseId: aSelected applyTo: anObject [
 <rule: #(courseid)>
-anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ^anObject courseid = aSelected
 ]
 
@@ -56,21 +55,18 @@ ApiQueryBuilder class >> moodleGroupName: aSelected applyTo: aMoodleGroup [
 { #category : #query }
 ApiQueryBuilder class >> moodleQueryContextlevel: aSelected applyTo: aMoodleQuery [
 <rule: #(contextlevel)>
-aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ^aMoodleQuery contextlevel = (MoodleEventQuery contextLevels at: aSelected)
 ]
 
 { #category : #query }
 ApiQueryBuilder class >> moodleQueryEventname: aSelected applyTo: anObject [
 <rule: #(eventname)>
-anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ^anObject eventname = aSelected
 ]
 
 { #category : #query }
 ApiQueryBuilder class >> moodleQueryIp: aSelected applyTo: aMoodleQuery [
 <rule: #(ip)>
-aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ^aMoodleQuery ip like: aSelected
 ]
 
@@ -78,7 +74,7 @@ aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ApiQueryBuilder class >> moodleQueryTimecreated: aSelected applyTo: aMoodleQuery [
 	<rule: #(timecreated)>
 	| strings op valueString isTime timeCreated offset valueInt intervalOffset |
-	[ aMoodleQuery class ~= SSWDBBlockArgument ifTrue: [ ^ #pass ].
+	[
 	offset := DateAndTime now offset asSeconds.
 	aSelected isEmptyOrNil ifTrue: [ ^ false ].
 	strings := ' ' split: aSelected.
@@ -161,7 +157,6 @@ ApiQueryBuilder class >> token: aString cancellation: aQueryCancellation [
 { #category : #query }
 ApiQueryBuilder class >> userId: aSelected applyTo: anObject [
 <rule: #(userid)>
-anObject class ~= SSWDBBlockArgument ifTrue: [^#pass].
 ^anObject userid = aSelected
 ]
 
