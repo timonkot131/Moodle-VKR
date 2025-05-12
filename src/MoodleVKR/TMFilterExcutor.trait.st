@@ -8,13 +8,24 @@ TMFilterExcutor >> asSearchFilter [
 ^self
 ]
 
+{ #category : #'as yet unclassified' }
+TMFilterExcutor >> conjForEntity: anEntityClass [
+| items |
+items := (self forEntity: anEntityClass).
+items ifEmpty: [
+	^#pass
+].
+^items reduce: [:x :y | x & y]
+]
+
 { #category : #execution }
 TMFilterExcutor >> execute: aQueryCancellation [
-| res stream chunks readStream | 
-
+| res stream chunks readStream query | 
+			query := self conjForEntity: QueryRoot.
+			GtJustContextStackSignal new emit.
 			[res := (MoodleDBEventLog storedInstances sortBlock: [:p1 :p2 | 
 				p1 timecreated > p2 timecreated
-			]) satisfying: self] on: Error
+			]) satisfying: query] on: Error
 			 do: [:anError | aQueryCancellation cancel: anError. 
 			 	^ {} asAsyncStream
 			 ].
@@ -55,6 +66,25 @@ TMFilterExcutor >> execute: aQueryCancellation [
 				aQueryCancellation cancel: anError.
 			    nil .
 				]
+]
+
+{ #category : #query }
+TMFilterExcutor >> forEntity: anEntityClass [
+^self withDeep: #children select: 
+	[:x | (x isKindOf: MethodSearchFilter) and: [x entity = anEntityClass] ] collect: #value
+]
+
+{ #category : #query }
+TMFilterExcutor >> forEntity: anEntityClass attribute: aSymbol [
+| items |
+items := ((self forEntity: anEntityClass) select: [:x | x attribute = aSymbol] thenCollect: #selectedValue) asSet.
+"Требуется логическое И над элементами множества. Имеется ввиду, что идет сбор"
+"По одному аттрибуту"
+"Если в будет множество с И с разными элементами и уникальными аттрибутам, то запрос никогда не пройдет"
+(items size > 1) ifTrue: [
+	^{}
+].
+^items.
 ]
 
 { #category : #'as yet unclassified' }

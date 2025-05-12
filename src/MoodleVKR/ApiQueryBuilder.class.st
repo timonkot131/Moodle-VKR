@@ -187,45 +187,46 @@ ApiQueryBuilder >> execute: aGtSearchQuery [
 
 { #category : #utilities }
 ApiQueryBuilder >> fetchCourses: aGtSearchFilter [
-	| apiCourse byIdQuery |
+	| apiCourse byIdQuery searchQuery |
+	searchQuery := aGtSearchFilter conjForEntity: MoodleCourse.
 	apiCourse := ApiCourse forToken: self token.
 	apiCourse subscribeToCancel: self cancellation.
-	byIdQuery := aGtSearchFilter value: 'moodlecourse_id' asSymbol.
+	byIdQuery := aGtSearchFilter forEntity: MoodleCourse attribute: #id.
 	byIdQuery isArray
 		ifTrue: [ byIdQuery ifEmpty: [ ^ {} asAsyncStream ].
 			^ apiCourse completeCoursesChunk: byIdQuery ].
 	{'shortname'}
 		do: [ :item | 
 			| byQuery |
-			byQuery := aGtSearchFilter
-				value: ('moodlecourse_' , item) asSymbol.
+			byQuery := aGtSearchFilter forEntity: MoodleCourse attribute: item.
 			byQuery isArray
 				ifTrue: [ byQuery ifEmpty: [ ^ {} asAsyncStream ].
-					^ (apiCourse completeCoursesChunk: byQuery field: item) select: aGtSearchFilter ] ].
-	^ apiCourse completeCourses select: aGtSearchFilter
+					^ (apiCourse completeCoursesChunk: byQuery field: item) select: searchQuery ] ].
+	^ apiCourse completeCourses select: searchQuery
 ]
 
 { #category : #execution }
 ApiQueryBuilder >> fetchGroups: aGtSearchFilter ofCourse: anInteger [ 
 	| apiGroup groups |
 	apiGroup := ApiGroup forToken: self token.
+	GtJustContextStackSignal new emit.
 	apiGroup subscribeToCancel: self cancellation.
 	groups := (apiGroup groupsOfCourse: anInteger) toArray wait
-				select: aGtSearchFilter
-				thenCollect: #id.
+				select: (aGtSearchFilter conjForEntity: MoodleGroup)
+				thenCollect: #id. 
 	^apiGroup groupMembers: groups.
 ]
 
 { #category : #utilities }
 ApiQueryBuilder >> fetchUsers: aGtSearchFilter [ 
-	| apiUser dict  |
+	| apiUser dict |
 	dict := Dictionary new.
 	apiUser := ApiUser forToken: self token.
 	apiUser subscribeToCancel: self cancellation.
 	{'email'. 'id'. 'username'. 'auth'. 'firstname'. 'lastname'}
 		do: [ :item | 
 			| byQuery |
-			byQuery := aGtSearchFilter value: ('moodleuser_' , item) asSymbol.
+			byQuery := aGtSearchFilter forEntity: MoodleUser attribute: item .
 			byQuery isArray
 				ifTrue: [ byQuery ifEmpty: [ ^ {} asAsyncStream ].
 				dict at: item put: byQuery first ]].
@@ -239,25 +240,23 @@ ApiQueryBuilder >> preload: aGtSearchFilter [
 	| userQuery courseQuery filters res groupQuery courses |
 	
 	filters := { {aGtSearchFilter} asAsyncStream } asOrderedCollection.
-	courseQuery := aGtSearchFilter value: MoodleCourse new.
-	userQuery := aGtSearchFilter value: MoodleUser new.
-	groupQuery := aGtSearchFilter value: MoodleGroup new.
+	courseQuery := aGtSearchFilter forEntity: MoodleCourse.
+	userQuery := aGtSearchFilter forEntity: MoodleUser.
+	groupQuery := aGtSearchFilter forEntity: MoodleGroup.
 	
-
-
-	GtJustContextStackSignal emit.
-
+	GtJustContextStackSignal new emit.
+	
 	[
 	courses := (self fetchCourses: aGtSearchFilter) cached.
-	courseQuery ~= #pass
-		ifTrue: [ 
+	courseQuery 
+		ifNotEmpty: [ 
 			filters add: 
 			(courses
 					collect: [ :anItem | 
 						self class fetchRule: {#courseid} select: anItem id ] )].
 						
-	groupQuery ~= #pass 
-		ifTrue: [
+	groupQuery
+		ifNotEmpty: [
 			| groups |
 			groups :=
 				courses flatCollect: [:each |
@@ -269,8 +268,8 @@ ApiQueryBuilder >> preload: aGtSearchFilter [
 				])
 		].
 						
-	userQuery ~= #pass
-		ifTrue: [
+	userQuery
+		ifNotEmpty: [
 			filters add: 
 			((self fetchUsers: aGtSearchFilter) cached
 					collect: [ :anItem |
@@ -285,8 +284,8 @@ ApiQueryBuilder >> preload: aGtSearchFilter [
 					ys asyncSimilarCopy map: [ :y | x & y ]]
 	].
 	
-	GtJustContextStackSignal emit.
-
+	GtJustContextStackSignal new emit.
+	
 	^ res asAsyncStream
 ]
 
