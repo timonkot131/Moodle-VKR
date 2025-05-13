@@ -6,12 +6,12 @@ Class {
 	#category : #'MoodleVKR-Filters - Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'logical operations' }
 MSearchIntersectionFilter >> & aFilter [
 	^ MSearchIntersectionFilter forFilter: self filter: aFilter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'logical operations' }
 MSearchIntersectionFilter >> distributeAsync [
 	| leftQuery rightQuery |
 	leftQuery := left distributeAsync.
@@ -34,7 +34,7 @@ MSearchIntersectionFilter >> matches: anObject [
 	^ resLeft & resRight
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'logical operations' }
 MSearchIntersectionFilter >> | aFilter [
 	^ MSearchUnionFilter forFilter: self filter: aFilter
 ]

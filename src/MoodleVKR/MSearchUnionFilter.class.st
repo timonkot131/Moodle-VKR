@@ -11,7 +11,7 @@ MSearchUnionFilter >> & aFilter [
 	^ MSearchIntersectionFilter forFilter: self filter: aFilter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'logical operations' }
 MSearchUnionFilter >> distributeAsync [
 	|leftQuery rightQuery|
 	leftQuery := left distributeAsync. 

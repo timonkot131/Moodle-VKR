@@ -11,17 +11,12 @@ Class {
 	#category : #'MoodleVKR-Filters - Model'
 }
 
-{ #category : #factory }
-MethodSearchFilter class >> null [
-	^MethodNullSearchFilter new
-]
-
 { #category : #'logical operations' }
 MethodSearchFilter >> & aFilter [
 	^ MSearchIntersectionFilter forFilter: self filter: aFilter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #comparing }
 MethodSearchFilter >> = anObject [
 	^ self class = anObject class and: [self hash = anObject hash]
 ]
@@ -36,7 +31,7 @@ MethodSearchFilter >> attribute [
 ^self pragmaArgs last
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'logical operations' }
 MethodSearchFilter >> distributeAsync [
 ^{self} asAsyncStream
 ]
