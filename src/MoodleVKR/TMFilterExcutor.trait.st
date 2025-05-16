@@ -1,6 +1,6 @@
 Trait {
 	#name : #TMFilterExcutor,
-	#category : #'MoodleVKR-Database'
+	#category : #'MoodleVKR-Model'
 }
 
 { #category : #converting }
@@ -8,64 +8,12 @@ TMFilterExcutor >> asSearchFilter [
 ^self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 TMFilterExcutor >> conjForEntity: anEntityClass [
 | items |
 items := (self forEntity: anEntityClass).
-items ifEmpty: [
-	^#pass
-].
+items ifEmpty: [ ^#pass ].
 ^items reduce: [:x :y | x & y]
-]
-
-{ #category : #execution }
-TMFilterExcutor >> execute: aQueryCancellation [
-| res stream chunks readStream query | 
-			query := self conjForEntity: QueryRoot.
-			GtJustContextStackSignal new emit.
-			[res := (MoodleDBEventLog storedInstances sortBlock: [:p1 :p2 | 
-				p1 timecreated > p2 timecreated
-			]) satisfying: query] on: Error
-			 do: [:anError | aQueryCancellation cancel: anError. 
-			 	^ {} asAsyncStream
-			 ].
-			readStream := res readStream.
-			aQueryCancellation weak 
-				when: MoodleCancelEvent
-				send: #close
-				to: readStream.
-			stream := IteratorStream forPosStream: readStream.
-			chunks := (stream asAsyncStream chunks: 5) cached  collect: [:logs | 
-				|userids courseids courseJob userJob users courses apiUser apiCourse|
-				apiUser := ApiUser forToken: MConfig token.
-				apiCourse := ApiCourse forToken:  MConfig token.
-				userids := (logs collect: #userid) asSet. 
-				courseids := (logs collect: #courseid) asSet reject: #isZero.
-				userJob := (apiUser completeUsersChunk: userids) 
-					inject: Dictionary new into: [:dic :user | dic at: user id put: user; yourself].
-				courseJob := (apiCourse completeCoursesChunk: courseids) 
-					inject: Dictionary new into: [:dic :course | dic at: course id put: course; yourself]. .
-				courses := courseJob wait.
-				courses ifNil: [courses := Dictionary new].
-				users := userJob wait.
-				apiUser close.
-				apiCourse close.
-				logs asAsyncStream collect: [:log  |
-					MoodleEventLog new
-						ip: log ip;
-						contextLevel: log contextlevel;
-						timeCreated: log timecreated;
-						user: (users at: log userid ifAbsent: 
-							[MoodleUser new fullName: 'nilUser'; email: 'nomail@example.com']);
-						course: (courses at: log courseid ifAbsent: [nil]);
-						eventName: log eventname;
-						id: log id
-				] 
-			].
-			^chunks flatten on: Error do: [:anError | 
-				aQueryCancellation cancel: anError.
-			    nil .
-				]
 ]
 
 { #category : #query }
@@ -77,20 +25,16 @@ TMFilterExcutor >> forEntity: anEntityClass [
 { #category : #query }
 TMFilterExcutor >> forEntity: anEntityClass attribute: aSymbol [
 | items |
-items := ((self forEntity: anEntityClass) select: [:x | x attribute = aSymbol] thenCollect: #selectedValue).
+items := ((self forEntity: anEntityClass) select: [:x | x attribute = aSymbol] thenCollect: #selectedValue) asSet.
 "Требуется логическое И над элементами множества. Имеется ввиду, что идет сбор"
 "По одному аттрибуту"
 "Если в будет множество с И с разными элементами и уникальными аттрибутам, то запрос никогда не пройдет"
-(items size > 1) ifTrue: [
-	^{}
-].
-items ifEmpty: [
-	^#pass
-].
+(items size > 1) ifTrue: [ ^{} ].
+items ifEmpty: [ ^#pass ].
 ^items asArray.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #view }
 TMFilterExcutor >> gtDistributedFor: aView [
 	<gtToolView>
 	<gtView>
@@ -122,7 +66,7 @@ TMFilterExcutor >> gtFilterQueryFor: aView [
 		actionUpdateButton
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #view }
 TMFilterExcutor >> gtItemsFor: aView [
 	"this is a view that is polymorphic with the one defined in ${method:Collection>>#gtItemsFor:}$"
 	<gtView>

@@ -14,13 +14,13 @@ Class {
 	#category : #'MoodleVKR-ViewModels'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #acccessing }
 MoodleQueryViewModel >> addColumns: aSet [
 	columnSet addAll: aSet.
 	self announce: (MoodleQueryColumnChanged new columns: columnSet)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #acccessing }
 MoodleQueryViewModel >> addQuery [
 	| availableFilters itemsModel |
 	availableFilters := MoodleAvailableFiltersBuilder new
@@ -42,12 +42,12 @@ MoodleQueryViewModel >> announcer [
 	^ announcer 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #acccessing }
 MoodleQueryViewModel >> at: anInteger [
 ^itemsModels at: anInteger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #acccessing }
 MoodleQueryViewModel >> at: index put: value [
 itemsModels at: index put: value.
 self announce: MoodleQueryModelChanged new; getItems.
@@ -72,7 +72,7 @@ MoodleQueryViewModel >> columnSet [
 ^ columnSet
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MoodleQueryViewModel >> getItems [
 	| count searchFilter result |
 	count := (itemsModels
@@ -89,12 +89,12 @@ MoodleQueryViewModel >> getItems [
 	self announce: (MoodleQueryValueChanged new items: result).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MoodleQueryViewModel >> ids [ 
 ^1 to: itemsModels size.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initalization }
 MoodleQueryViewModel >> initialize [
 	| availableFilters itemsModel |
 	super initialize.
@@ -111,18 +111,18 @@ MoodleQueryViewModel >> initialize [
 	itemsModels := {itemsModel}.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 MoodleQueryViewModel >> isSingle [ 
 ^ itemsModels size ~= 1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accesing }
 MoodleQueryViewModel >> itemsModels: anArray [ 
 	itemsModels := anArray.
 	self announce: MoodleQueryModelChanged new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 MoodleQueryViewModel >> makeFiler: aReceiverObject message: aSymbol argument: anObject [
 	(aReceiverObject isEmpty and: [anObject isEmpty]) 
 		ifTrue: [  ^ConjFilterItemsModel new].
@@ -147,7 +147,7 @@ MoodleQueryViewModel >> queryBuilder: anObject [
 	queryBuilder := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 MoodleQueryViewModel >> reducedItems [
 	^itemsModels
 		reduce: [ :x :y | 

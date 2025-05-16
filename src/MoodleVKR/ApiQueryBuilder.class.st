@@ -177,7 +177,56 @@ cancellation := aQueryCancellation.
 ApiQueryBuilder >> execute: aGtSearchQuery [
 	| preloaded |
 	preloaded := self preloaded: aGtSearchQuery.
-	^ (preloaded flatCollect: [:item | item execute: self cancellation]) withoutDuplicates.
+	^ (preloaded flatCollect: [:item | self executePreloaded: item ]) withoutDuplicates.
+]
+
+{ #category : #'as yet unclassified' }
+ApiQueryBuilder >> executePreloaded: aGtSearchFilter [
+| res stream chunks readStream aQuery | 
+			aQuery := aGtSearchFilter conjForEntity: QueryRoot.
+			[res := (MoodleDBEventLog storedInstances sortBlock: [:p1 :p2 | 
+				p1 timecreated > p2 timecreated
+			]) satisfying: aQuery] on: Error
+			 do: [:anError | self cancellation cancel: anError. 
+			 	^ {} asAsyncStream
+			 ].
+			readStream := res readStream.
+			self cancellation weak 
+				when: MoodleCancelEvent
+				send: #close
+				to: readStream.
+			stream := IteratorStream forPosStream: readStream.
+			chunks := (stream asAsyncStream chunks: 5) cached  collect: [:logs | 
+				|userids courseids courseJob userJob users courses apiUser apiCourse|
+				apiUser := ApiUser forToken: MConfig token.
+				apiCourse := ApiCourse forToken:  MConfig token.
+				userids := (logs collect: #userid) asSet. 
+				courseids := (logs collect: #courseid) asSet reject: #isZero.
+				userJob := (apiUser completeUsersChunk: userids) 
+					inject: Dictionary new into: [:dic :user | dic at: user id put: user; yourself].
+				courseJob := (apiCourse completeCoursesChunk: courseids) 
+					inject: Dictionary new into: [:dic :course | dic at: course id put: course; yourself]. .
+				courses := courseJob wait.
+				courses ifNil: [courses := Dictionary new].
+				users := userJob wait.
+				apiUser close.
+				apiCourse close.
+				logs asAsyncStream collect: [:log  |
+					MoodleEventLog new
+						ip: log ip;
+						contextLevel: log contextlevel;
+						timeCreated: log timecreated;
+						user: (users at: log userid ifAbsent: 
+							[MoodleUser new fullName: 'nilUser'; email: 'nomail@example.com']);
+						course: (courses at: log courseid ifAbsent: [nil]);
+						eventName: log eventname;
+						id: log id
+				] 
+			].
+			^chunks flatten on: Error do: [:anError | 
+				self cancellation cancel: anError.
+			    nil .
+				]
 ]
 
 { #category : #utilities }
