@@ -6,7 +6,7 @@ Class {
 		'rightList',
 		'queryViewModel'
 	],
-	#category : #MoodleVKR
+	#category : #'MoodleVKR-MoodleApp'
 }
 
 { #category : #accessing }

@@ -64,47 +64,80 @@ MoodleQueryTab class >> fieldColumns [
 					#calc -> [ :each | each user userName ]}.
 		'Авторизация'
 			-> {#name -> 'Авторизация'.
-					#priority -> 29.
+					#priority -> 31.
 					#width -> 60.
 					#calc -> [ :each | each user auth ]}.
 		'Имя'
 			-> {#name -> 'Имя'.
-					#priority -> 31.
+					#priority -> 32.
 					#width -> 90.
 					#calc -> [ :each | each user firstName ]}.
 		'Фамилия'
 			-> {#name -> 'Фамилия'.
-					#priority -> 32.
+					#priority -> 33.
 					#width -> 90.
 					#calc -> [ :each | each user lastName ]}.
 		'Полное имя'
 			-> {#name -> 'Полное имя'.
-					#priority -> 33.
+					#priority -> 34.
 					#width -> 130.
 					#calc -> [ :each | each user fullName ]}.
 		'Почта'
 			-> {#name -> 'Почта'.
-					#priority -> 30.
+					#priority -> 35.
 					#width -> 80.
 					#calc -> [ :each | each user email ]}.
-		'Полное название курса'
-			-> {#name -> 'Полное название курса'.
+		'Связанный пользователь'
+			-> {#name -> 'Связанный Пользователь'.
+					#priority -> 36.
+					#width -> 80.
+					#calc -> [ :each | each relatedUser ifNotNil: #userName ifNil: [ 'Нет' ] ]}.
+		'Связанная авторизация'
+			-> {#name -> 'Связанная Авторизация'.
+					#priority -> 37.
+					#width -> 60.
+					#calc -> [ :each | each relatedUser ifNotNil: #auth ifNil: 'Нет' ]}.
+		'Связанное имя'
+			-> {#name -> 'Связанное Имя'.
+					#priority -> 38.
+					#width -> 90.
+					#calc
+						-> [ :each | each relatedUser ifNotNil: #firstName ifNil: [ 'Нет' ] ]}.
+		'Связанная фамилия'
+			-> {#name -> 'Связанная Фамилия'.
+					#priority -> 39.
+					#width -> 90.
+					#calc
+						-> [ :each | each relatedUser ifNotNil: #lastName ifNil: [ 'Нет' ] ]}.
+		'Связанное полное имя'
+			-> {#name -> 'Связанное Полное имя'.
 					#priority -> 40.
 					#width -> 130.
 					#calc
-						-> [ :each | each course ifNotNil: [ :x | x fullName ] ifNil: [ 'Нет' ] ]}.
+						-> [ :each | each relatedUser ifNotNil: #fullName ifNil: [ 'Нет' ] ]}.
+		'Связанная почта'
+			-> {#name -> 'Связанная Почта'.
+					#priority -> 41.
+					#width -> 80.
+					#calc -> [ :each | each relatedUser ifNotNil: #email ifNil: [ 'Нет' ] ]}.
+		'Полное название курса'
+			-> {#name -> 'Полное название курса'.
+					#priority -> 50.
+					#width -> 130.
+					#calc -> [ :each | each course ifNotNil: #fullName ifNil: [ 'Нет' ] ]}.
 		'Курс'
 			-> {#name -> 'Курс'.
-					#priority -> 39.
+					#priority -> 51.
 					#width -> 90.
 					#calc
 						-> [ :each | each course ifNotNil: [ :x | x shortname ] ifNil: [ 'Нет' ] ]}.
 		'Категория курса'
 			-> {#name -> 'Категория курса'.
-					#priority -> 38.
+					#priority -> 52.
 					#width -> 100.
 					#calc
-						-> [ :each | each course ifNotNil: [ :x | x category ] ifNil: [ 'Нет' ] ]}} asDictionary
+						-> [ :each | each course ifNotNil: [ :x | x category ] ifNil: [ 'Нет' ] ]}}
+		asDictionary
 ]
 
 { #category : #'as yet unclassified' }

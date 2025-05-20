@@ -11,6 +11,14 @@ MSearchIntersectionFilter >> & aFilter [
 	^ MSearchIntersectionFilter forFilter: self filter: aFilter
 ]
 
+{ #category : #query }
+MSearchIntersectionFilter >> conjForEntity: anEntityClass [
+| items |
+items := (self forEntity: anEntityClass).
+items ifEmpty: [ ^#pass ].
+^items reduce: [:x :y | x & y]
+]
+
 { #category : #'logical operations' }
 MSearchIntersectionFilter >> distributeAsync [
 	| leftQuery rightQuery |

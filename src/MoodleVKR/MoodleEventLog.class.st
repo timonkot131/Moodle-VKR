@@ -11,7 +11,8 @@ Class {
 		'user',
 		'course',
 		'id',
-		'contextLevel'
+		'contextLevel',
+		'relatedUser'
 	],
 	#category : #'MoodleVKR-Model'
 }
@@ -25,11 +26,16 @@ MoodleEventLog class >> fieldSet [
 'Время'
 'Уровень'
 'Авторизация'
+'Связанная авторизация'
 'Имя'
+'Связанное имя'
 'Пользователь'
+'Связанный Пользователь'
 'Фамилия'
+'Связанная фамилия'
 'Полное имя'
-'Почта'
+'Связанное полное имя'
+'Связанная почта'
 'Полное название курса'
 'Курс'
 'Категория курса'
@@ -103,6 +109,16 @@ MoodleEventLog >> printOn: aStream [
 	aStream << eventName.
 	aStream << ('; user: ', user email).
 	^aStream. 
+]
+
+{ #category : #accessing }
+MoodleEventLog >> relatedUser [
+	^ relatedUser
+]
+
+{ #category : #accessing }
+MoodleEventLog >> relatedUser: anObject [
+	relatedUser := anObject
 ]
 
 { #category : #'as yet unclassified' }

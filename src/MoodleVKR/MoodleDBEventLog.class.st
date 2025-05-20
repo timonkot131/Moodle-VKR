@@ -38,10 +38,11 @@ MoodleDBEventLog class >> reStoreDefinition [
 	^ super reStoreDefinition
 		defineAsID: #id;
 		tableName: 'logs';
-				define: #contextlevel as: Integer;
+		define: #contextlevel as: Integer;
 		define: #eventname as: (String maxSize: 255);
 		define: #courseid as: Integer;
 		define: #userid as: Integer;
+		define: #relateduserid as: Integer;
 		define: #timecreated as: Integer;
 		define: #ip as: (String maxSize: 45)
 ]
@@ -107,6 +108,16 @@ MoodleDBEventLog >> printOn: aStream [
 	aStream << ('; userid: ', userid asString).
 	aStream << ('; courseid: ', courseid asString).
 	^aStream.
+]
+
+{ #category : #accessing }
+MoodleDBEventLog >> relateduserid [
+	^ relateduserid
+]
+
+{ #category : #accessing }
+MoodleDBEventLog >> relateduserid: anObject [
+	relateduserid := anObject
 ]
 
 { #category : #utilities }

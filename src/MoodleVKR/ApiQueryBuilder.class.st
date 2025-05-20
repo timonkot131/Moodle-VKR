@@ -157,7 +157,7 @@ ApiQueryBuilder class >> token: aString cancellation: aQueryCancellation [
 { #category : #query }
 ApiQueryBuilder class >> userId: aSelected applyTo: anObject [
 <rule: #(userid)>
-^anObject userid = aSelected
+^anObject userid = aSelected || anObject relateduserid = aSelected
 ]
 
 { #category : #accessing }
@@ -197,10 +197,13 @@ ApiQueryBuilder >> executePreloaded: aGtSearchFilter [
 				to: readStream.
 			stream := IteratorStream forPosStream: readStream.
 			chunks := (stream asAsyncStream chunks: 5) cached  collect: [:logs | 
-				|userids courseids courseJob userJob users courses apiUser apiCourse|
+				| userids courseids courseJob userJob users courses apiUser apiCourse relatedUserIds |
 				apiUser := ApiUser forToken: MConfig token.
 				apiCourse := ApiCourse forToken:  MConfig token.
-				userids := (logs collect: #userid) asSet. 
+				relatedUserIds := (logs collect: #relateduserid) reject: #isNil.
+				userids := 
+					((logs collect: #userid), relatedUserIds)
+					 asSet. 
 				courseids := (logs collect: #courseid) asSet reject: #isZero.
 				userJob := (apiUser completeUsersChunk: userids) 
 					inject: Dictionary new into: [:dic :user | dic at: user id put: user; yourself].
@@ -218,6 +221,7 @@ ApiQueryBuilder >> executePreloaded: aGtSearchFilter [
 						timeCreated: log timecreated;
 						user: (users at: log userid ifAbsent: 
 							[MoodleUser new fullName: 'nilUser'; email: 'nomail@example.com']);
+						relatedUser: (users at: log relateduserid ifAbsent: nil);
 						course: (courses at: log courseid ifAbsent: [nil]);
 						eventName: log eventname;
 						id: log id
