@@ -157,7 +157,7 @@ ApiQueryBuilder class >> token: aString cancellation: aQueryCancellation [
 { #category : #query }
 ApiQueryBuilder class >> userId: aSelected applyTo: anObject [
 <rule: #(userid)>
-^anObject userid = aSelected || anObject relateduserid = aSelected
+^(anObject userid = aSelected) | (anObject relateduserid = aSelected)
 ]
 
 { #category : #accessing }
