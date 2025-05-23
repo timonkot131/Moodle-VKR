@@ -75,27 +75,23 @@ MoodleDbTab >> initialize [
 { #category : #'as yet unclassified' }
 MoodleDbTab >> magritteViewModel: aGtMagritteViewModel [
 	"Магритовая вьюмодель, Сделана не очень, так как приходится самому возиться с моделью внутри него, внутри клиента. Я думаю нужно создать обертку для этой вьюмодели"
-	| element memento |
+
 	magritteViewModel == aGtMagritteViewModel ifTrue: [ ^ self ].	"Удаление колбэков на на проверку соединения"
 	self unsubscribeFromMagritte. 
-	
-	"Инициация формы с её Мементо, временным объектом для записи"
-	element := aGtMagritteViewModel asElement.
-	memento := aGtMagritteViewModel mementoFuture.
 
-	"Переопределяем whenSuccess у элемента"
-	element asyncFuture
-		future: memento;
-		whenSuccess: [ :theFrame :aMemento | 
-			| actions |
+	aGtMagritteViewModel onElementCreated: [:aFrame |
+			| actions aMemento |
+			aMemento := aFrame userData at: #gtmemento.
 			actions := aMemento magritteActions.
 			actions first "Accept"
-				onSuccessCallback: [ self tryConnect: aGtMagritteViewModel object ].
+				onSuccessCallback: [ self tryConnect: aGtMagritteViewModel object ]. 
 			actions third "Проверка подключения"
 				onSuccessCallback: [ :arg | self tryConnect: arg ].
-			aGtMagritteViewModel initializeForm: theFrame forMemento: aMemento ].
-	magritteElement := element.
-	editFrame addChild: element.
+	].
+	
+	magritteElement := aGtMagritteViewModel asElement.
+	editFrame addChild: magritteElement.
+
 	magritteViewModel := aGtMagritteViewModel	
 		
 ]
