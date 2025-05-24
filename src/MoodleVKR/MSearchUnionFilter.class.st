@@ -11,12 +11,22 @@ MSearchUnionFilter >> & aFilter [
 	^ MSearchIntersectionFilter forFilter: self filter: aFilter
 ]
 
+{ #category : #testing }
+MSearchUnionFilter >> = anObject [
+	^ self class = anObject class and: [self hash = anObject hash]
+]
+
 { #category : #'logical operations' }
 MSearchUnionFilter >> distributeAsync [
 	|leftQuery rightQuery|
 	leftQuery := left distributeAsync. 
 	rightQuery := right distributeAsync.
 	^leftQuery merge: rightQuery.
+]
+
+{ #category : #'as yet unclassified' }
+MSearchUnionFilter >> hash [ 
+^self leftFilter hash bitXor: self rightFilter hash
 ]
 
 { #category : #testing }

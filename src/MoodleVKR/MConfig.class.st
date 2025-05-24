@@ -26,7 +26,7 @@ MConfig class >> clientFor: aString [
 	^ request
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #magritte }
 MConfig class >> httpsDescription [
 <magritteDescription>
 ^ MABooleanDescription new 
@@ -54,7 +54,7 @@ MConfig class >> isHttps: anObject [
 	isHttps := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #magritte }
 MConfig class >> serverDescription [
 <magritteDescription>
 ^ MAStringDescription new 
@@ -85,7 +85,7 @@ MConfig class >> token: anObject [
 	token := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #magritte }
 MConfig class >> tokenDescription [
 <magritteDescription>
 	^ MAPasswordDescription new

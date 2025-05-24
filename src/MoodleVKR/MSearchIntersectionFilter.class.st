@@ -11,6 +11,11 @@ MSearchIntersectionFilter >> & aFilter [
 	^ MSearchIntersectionFilter forFilter: self filter: aFilter
 ]
 
+{ #category : #'as yet unclassified' }
+MSearchIntersectionFilter >> = anObject [
+	^ self class = anObject class and: [self hash = anObject hash]
+]
+
 { #category : #query }
 MSearchIntersectionFilter >> conjForEntity: anEntityClass [
 | items |
@@ -27,6 +32,11 @@ MSearchIntersectionFilter >> distributeAsync [
 	^ leftQuery
 		flatCollect: 
 		[ :aLeft | rightQuery asyncSimilarCopy collect: [ :aRight | aLeft & aRight ] ]
+]
+
+{ #category : #'as yet unclassified' }
+MSearchIntersectionFilter >> hash [ 
+^self leftFilter hash bitXor: self rightFilter hash
 ]
 
 { #category : #testing }

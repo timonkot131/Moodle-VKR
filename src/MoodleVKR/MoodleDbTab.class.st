@@ -68,7 +68,7 @@ MoodleDbTab >> initialize [
 	self
 		aptitude: BrGlamorousTabAptitude;
 		padding: (BlInsets all: 10);
-		label: 'Хранилище';
+		label: 'Соединение';
 		stencil: [MoodleAppView wrapToScrollable: mainFrame]
 ]
 
